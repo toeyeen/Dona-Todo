@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "module": "es2022",
+    "moduleResolution": "Node"
+  },
+  "exclude": [
+    "**/dist/**"
+  ]
+}
