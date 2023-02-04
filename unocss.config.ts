@@ -8,9 +8,9 @@ export default defineConfig({
     presetIcons(),
     presetAttributify(),
     presetWebFonts({
-      provider: 'fontshare',
+      provider: 'google',
       fonts: {
-        'clash-display': 'Clash display',
+        rubik: 'Rubik',
       },
     }),
   ],
