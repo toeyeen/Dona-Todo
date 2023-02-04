@@ -2,8 +2,19 @@
 </script>
 
 <template>
-  <div bg="~ gray/50" my-auto of-hidden h-screen grid class="grid-cols-[320px_1fr] border border-red px-5 py-4 text-rubik">
+  <!-- <p>
+    <router-link to="/">
+      Home
+    </router-link>
+  </p>
+  <p>
+    <router-link to="/">
+      About
+    </router-link>
+  </p> -->
+  <div bg="~ gray/50" my-auto of-hidden h-screen grid class="grid-cols-[320px_1fr] border gap-8 border-red px-5 py-4 text-rubik">
     <LeftPanel />
+    <router-view />
   </div>
 </template>
 
