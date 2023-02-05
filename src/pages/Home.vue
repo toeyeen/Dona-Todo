@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { v4 as uuidv4 } from 'uuid'
+
 const todo = ref('')
 const taskRef = ref<HTMLDivElement>()
 
@@ -17,7 +19,6 @@ interface Todo {
 }
 
 const todos = ref([])
-const todoId = ref(0)
 
 const addTodo = (value: Todo) => {
   todos.value.unshift(value)
@@ -35,22 +36,22 @@ const addTodo = (value: Todo) => {
       <input
         id=""
         ref="taskRef" v-model="todo" placeholder="Write a new task" type="text" name="todo" px-2 text-black border border-blue @keyup.enter="addTodo({
-          id: todoId++,
+          id: uuidv4,
           title: todo,
           isCompleted: false,
           group: [{
-            id: todoId++,
+            id: uuidv4,
             name: 'Personal',
           }],
         })"
       >
       <button
         @click="addTodo({
-          id: todoId++,
+          id: uuidv4,
           title: todo,
           isCompleted: false,
           group: [{
-            id: todoId++,
+            id: uuidv4,
             name: 'Personal',
           }],
         })"
