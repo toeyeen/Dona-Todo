@@ -2,19 +2,11 @@
 </script>
 
 <template>
-  <!-- <p>
-    <router-link to="/">
-      Home
-    </router-link>
-  </p>
-  <p>
-    <router-link to="/">
-      About
-    </router-link>
-  </p> -->
-  <div bg="~ gray/50" my-auto of-hidden h-screen grid class="grid-cols-[320px_1fr] border gap-8 border-red px-5 py-4 text-rubik">
-    <LeftPanel />
-    <router-view />
+  <div my-auto of-hidden h-screen grid class="md:grid-cols-[320px_1fr] border gap-8 border-red px-5 py-4 text-rubik bg-gray-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
+    <LeftPanel class="md:block hidden" />
+    <div px-8 py-2 border border-blue>
+      <router-view />
+    </div>
   </div>
 </template>
 
