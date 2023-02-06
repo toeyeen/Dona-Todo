@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    LayoutBlur: typeof import('./src/components/LayoutBlur.vue')['default']
     LeftPanel: typeof import('./src/components/LeftPanel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
