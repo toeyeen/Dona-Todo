@@ -2,7 +2,8 @@
 </script>
 
 <template>
-  <div my-auto of-hidden h-screen grid class="md:grid-cols-[320px_1fr] border gap-8 border-red px-5 py-4 text-rubik bg-gray-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
+  <div my-auto of-hidden h-screen grid class="md:grid-cols-[320px_1fr] border gap-8 px-5 py-4 text-rubik  rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border bg-[#EEEFF2]">
+    <LayoutBlur />
     <LeftPanel class="md:block hidden" />
     <div px-8 py-2 border border-blue>
       <router-view />

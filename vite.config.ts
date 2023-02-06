@@ -9,6 +9,9 @@ import Unocss from 'unocss/vite'
 export default defineConfig({
   plugins: [Vue(), Components(), AutoImport({
     imports: ['vue', 'vue/macros'],
+    dirs: [
+      './src/composables',
+    ],
   }), Unocss()],
   resolve: {
     alias: {

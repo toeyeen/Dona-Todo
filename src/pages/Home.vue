@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 const todo = ref('')
 const taskRef = ref<HTMLDivElement>()
 
-interface Group {
+interface Category {
   id: number | string
   name: string
   emoji?: string
@@ -15,7 +15,7 @@ interface Todo {
   title: string
   isCompleted: false
   dueDate?: Date
-  group?: Group[]
+  category?: Category[]
 }
 
 const todos = ref([])
@@ -36,21 +36,21 @@ const addTodo = (value: Todo) => {
       <input
         id=""
         ref="taskRef" v-model="todo" placeholder="Write a new task" type="text" name="todo" px-2 text-black border border-blue @keyup.enter="addTodo({
-          id: uuidv4,
+          id: uuidv4(),
           title: todo,
           isCompleted: false,
-          group: [{
-            id: uuidv4,
+          category: [{
+            id: uuidv4(),
             name: 'Personal',
           }],
         })"
       >
       <button
         @click="addTodo({
-          id: uuidv4,
+          id: uuidv4(),
           title: todo,
           isCompleted: false,
-          group: [{
+          category: [{
             id: uuidv4,
             name: 'Personal',
           }],
