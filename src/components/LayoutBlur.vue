@@ -7,7 +7,9 @@ const props = withDefaults(defineProps<Props>(), {
   background: '#008ffd',
 })
 
-const boxShadow = computed(() => `${props.background} 20px 250px 300px`)
+const { background } = toRefs(props)
+
+const boxShadow = computed(() => `${(background.value)} 20px 250px 300px`)
 
 // const bg = computed(() => {})
 </script>
