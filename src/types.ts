@@ -8,7 +8,7 @@ export interface Todo {
   id: number | string
   title: string
   status: status
-  dueDate?: Date
+  dueDate?: string
   category?: Category[]
 }
 

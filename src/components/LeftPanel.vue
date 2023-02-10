@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import type { Category } from '../types'
 
 const category = ref('')
-const { addCategories, state, getCategoryLength, totalTodos, completed } = useState()
+const { addCategories, state, getCategoryLength, totalTodos, completed, todosDueToday } = useState()
 
 const route = useRoute()
 
@@ -15,17 +15,12 @@ const addCat = (c: Category) => {
   category.value = ''
 }
 
-// function getCategoryLength(title: string) {
-//   return state.todos.value.filter(todo => todo.category[0].title === title).length
-// }
-
 const counts = computed(() => {
   // return 3
   return state.todos.value.filter(todo => todo.category[0].title == route.params.id).length
 })
 
 watch(state.todos, () => {
-  console.log(state.todos.value.length)
 }, { immediate: true })
 
 onMounted(() => {
@@ -50,6 +45,24 @@ const catColor = (id) => {
       </router-link>
     </ul>
 
+    <router-link to="/Today" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+      <span class="flex items-center gap-2">
+        <li class="i-carbon-checkmark w-5 h-5" />
+        <span>Today</span>
+      </span>
+
+      <span class="text-xs "> {{ todosDueToday.length }} </span>
+    </router-link>
+
+    <router-link to="/Completed" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+      <span class="flex items-center gap-2">
+        <li class="i-carbon-checkmark w-5 h-5" />
+        <span>Completed</span>
+      </span>
+
+      <span class="text-xs "> {{ completed.length }} </span>
+    </router-link>
+
     <router-link v-for="cat, idx in state.categories.value" :key="idx" :to="{ path: `/groups/${cat.title}` }" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
       <span class="flex items-center gap-2">
         <li
@@ -60,15 +73,6 @@ const catColor = (id) => {
 
       <span class="text-xs bg-gray-200 text-gray-500 rounded px-1 "> {{ getCategoryLength(cat.title) }} </span>
     </router-link>
-
-    <div class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
-      <span class="flex items-center gap-2">
-        <li class="i-carbon-checkmark w-5 h-5" />
-        <span>Completed</span>
-      </span>
-
-      <span class="text-xs "> {{ completed }} </span>
-    </div>
 
     <div class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
       <span class="flex items-center gap-2">

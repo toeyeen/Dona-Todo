@@ -1,6 +1,6 @@
 import type { Category, Todo } from '../types'
 
-const defaultcategory = {
+export const defaultcategory = {
   id: '1',
   title: 'Personal',
   color: '#f34123',
@@ -38,11 +38,25 @@ export const useState = () => {
     state.todos.unshift(value)
   }
   function markTodo(value: Todo) {
-    value.status = 'completed'
+    if (value.status === 'due' || value.status === 'inProgress') {
+      value.status = 'completed'
+    }
+    else {
+      console.log(value.dueDate, 'Date')
+
+      if (value.dueDate) {
+        Date.parse(value.dueDate) > Date.now()
+          ? value.status = 'inProgress'
+          : value.status = 'due'
+      }
+      else {
+        value.status = 'inProgress'
+      }
+    }
   }
 
   function getCategoryLength(title: string) {
-    return state.todos.filter(todo => todo.category[0].title === title).length
+    return state.todos.filter(todo => todo.category[0].title === title && todo.status !== 'completed').length
   }
 
   const totalTodos = computed(() => {
@@ -50,7 +64,12 @@ export const useState = () => {
   })
 
   const completed = computed(() => {
-    return state.todos.filter(todo => todo.status === 'completed').length
+    return state.todos.filter(todo => todo.status === 'completed')
+  })
+
+  const todosDueToday = computed(() => {
+    return state.todos.filter(todo => todo.dueDate == new Date().toISOString().split('T')[0],
+    )
   })
 
   const user = computed(() => {
@@ -66,7 +85,9 @@ export const useState = () => {
     getCategoryLength,
     totalTodos,
     completed,
+    todosDueToday,
     user,
     markTodo,
+
   }
 }
