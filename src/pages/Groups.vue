@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const { setCurrentCategory, state } = useState()
+const { setCurrentCategory, state, markTodo } = useState()
 
 let currentCategory = ref(null)
 // let todos = ref(null)
@@ -12,10 +12,8 @@ let currentCategory = ref(null)
 //   // return categories.value.find(cat => cat.title)
 // })
 const todos = computed(() => {
-  return state.todos.value.filter(todo => todo.category[0].title === route.params.id)
+  return state.todos.value.filter(todo => todo.category[0].title === route.params.id && todo.status !== 'completed')
 })
-
-const paramsId = route.params.id
 
 watch(route, () => {
   currentCategory = state.categories.value.filter(cat => cat.title === route.params.id)
@@ -23,17 +21,26 @@ watch(route, () => {
   setCurrentCategory(currentCategory[0])
 }, { immediate: true })
 
-onMounted(() => {})
+onMounted(() => {
+  currentCategory = state.categories.value.filter(cat => cat.title === route.params.id)
+  setCurrentCategory(currentCategory[0])
+})
 </script>
 
 <template>
-  <p text-2xl font-bold mb-2>
-    {{ route.params.id }}
-  </p>
+  <TodoInput />
+
+  {{ currentCategory[0] }}
 
   <ul>
-    <li v-for="todo, idx in todos" :key="idx">
-      {{ todo.title }}
+    <li v-for="todo, idx in todos" :key="idx" :class="[todo.status == 'completed' ? 'line-through' : '']" @click="markTodo(todo)">
+      <span>
+        {{ todo.title }}
+      </span>
+
+      <span v-if="todo?.dueDate">
+        it is Due on  {{ todo?.dueDate }}
+      </span>
     </li>
   </ul>
 </template>

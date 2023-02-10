@@ -11,5 +11,6 @@ declare module '@vue/runtime-core' {
     LeftPanel: typeof import('./src/components/LeftPanel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TodoInput: typeof import('./src/components/TodoInput.vue')['default']
   }
 }
