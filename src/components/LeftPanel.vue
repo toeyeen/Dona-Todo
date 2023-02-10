@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from 'uuid'
+import { useRoute } from 'vue-router'
 import type { Category } from '../types'
-import { categories } from '../composables/state'
 
 const category = ref('')
+const { addCategories, state, getCategoryLength, totalTodos, completed } = useState()
+
+const route = useRoute()
 
 const addCat = (c: Category) => {
   const { color } = useColors()
@@ -12,8 +15,25 @@ const addCat = (c: Category) => {
   category.value = ''
 }
 
+// function getCategoryLength(title: string) {
+//   return state.todos.value.filter(todo => todo.category[0].title === title).length
+// }
+
+const counts = computed(() => {
+  // return 3
+  return state.todos.value.filter(todo => todo.category[0].title == route.params.id).length
+})
+
+watch(state.todos, () => {
+  console.log(state.todos.value.length)
+}, { immediate: true })
+
+onMounted(() => {
+  console.log(route)
+})
+
 const catColor = (id) => {
-  categories.value.filter(cat => cat.id === id)
+  state.categories.value.filter(cat => cat.id === id)
 }
 </script>
 
@@ -26,26 +46,19 @@ const catColor = (id) => {
           <span>Home</span>
         </div>
 
-        <span class="text-xs "> 10 </span>
-      </router-link>
-      <router-link to="/about" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
-        <span class="flex items-center gap-2">
-          <li class="i-carbon-home w-5 h-5" />
-          <span>About</span>
-        </span>
-
-        <span class="text-xs "> 10 </span>
+        <span class="text-xs "> {{ totalTodos }} </span>
       </router-link>
     </ul>
 
-    <router-link v-for="cat, idx in categories" :key="idx" :to="{ path: `/groups/${cat.title}` }" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+    <router-link v-for="cat, idx in state.categories.value" :key="idx" :to="{ path: `/groups/${cat.title}` }" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
       <span class="flex items-center gap-2">
-        <li class="i-carbon-checkbox w-5 h-5 text-#af0613" :class="`text-${cat.color}`" />
+        <li
+          class="i-carbon-checkbox w-5 h-5"
+        />
         <span>{{ cat.title }} </span>
-        <span>{{ cat.color }} </span>
       </span>
 
-      <span class="text-xs bg-gray-200 text-gray-500 rounded px-1 "> 0 </span>
+      <span class="text-xs bg-gray-200 text-gray-500 rounded px-1 "> {{ getCategoryLength(cat.title) }} </span>
     </router-link>
 
     <div class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
@@ -54,7 +67,7 @@ const catColor = (id) => {
         <span>Completed</span>
       </span>
 
-      <span class="text-xs "> 10 </span>
+      <span class="text-xs "> {{ completed }} </span>
     </div>
 
     <div class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
@@ -68,7 +81,7 @@ const catColor = (id) => {
         >
       </span>
 
-      <span class="text-xs "> 10 </span>
+      <span class="text-xs " />
     </div>
   </div>
 </template>

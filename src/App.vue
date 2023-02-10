@@ -1,9 +1,10 @@
 <script setup lang="ts">
+const { state } = useState()
 </script>
 
 <template>
   <div my-auto of-hidden h-screen grid class="md:grid-cols-[320px_1fr] border gap-8 px-5 py-4 text-rubik  rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border bg-[#EEEFF2]">
-    <LayoutBlur />
+    <LayoutBlur :background="state.category.value.color" />
     <LeftPanel class="md:block hidden" />
     <div px-8 py-2 border border-blue>
       <router-view />

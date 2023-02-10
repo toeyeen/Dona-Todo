@@ -11,7 +11,10 @@ export default defineConfig({
     imports: ['vue', 'vue/macros'],
     dirs: [
       './src/composables',
+      './src/utils',
     ],
+    vueTemplate: true,
+
   }), Unocss()],
   resolve: {
     alias: {

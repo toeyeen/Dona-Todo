@@ -1,59 +1,48 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from 'uuid'
+import type { Todo } from '../types'
+const { addTodo, state, user, markTodo } = useState()
 
 const todo = ref('')
+const category = state.categories.value[0]
 const taskRef = ref<HTMLDivElement>()
 
-interface Category {
-  id: number | string
-  name: string
-  emoji?: string
-}
-
-interface Todo {
-  id: number | string
-  title: string
-  isCompleted: false
-  dueDate?: Date
-  category?: Category[]
-}
-
-const todos = ref([])
-
-const addTodo = (value: Todo) => {
-  todos.value.unshift(value)
-  todo.value = ''
-
-  // todoRef.value.focus()
+const submit = (value: Todo) => {
+  if (todo.value) {
+    addTodo(value)
+    todo.value = ''
+  }
 }
 </script>
 
 <template>
   <div>
-    <p>Home Page</p>
+    <p text-3xl font-bold mb-4>
+      {{ timeOfTheDay }} {{ user.username }}
+    </p>
 
     <div>
       <input
         id=""
-        ref="taskRef" v-model="todo" placeholder="Write a new task" type="text" name="todo" px-2 text-black border border-blue @keyup.enter="addTodo({
+        ref="taskRef" v-model="todo" placeholder="Write a new task" type="text" name="todo" px-2 text-black border border-blue @keyup.enter="submit({
           id: uuidv4(),
           title: todo,
-          isCompleted: false,
-          category: [{
-            id: uuidv4(),
-            name: 'Personal',
-          }],
+          status: 'inProgress',
+          category: [category],
         })"
       >
+
+      <select id="category" v-model="category" name="category">
+        <option v-for="cat, idx in state.categories.value" :key="idx" selected :value="cat">
+          {{ cat.title }}
+        </option>
+      </select>
       <button
-        @click="addTodo({
+        @click="submit({
           id: uuidv4(),
           title: todo,
-          isCompleted: false,
-          category: [{
-            id: uuidv4,
-            name: 'Personal',
-          }],
+          status: 'inProgress',
+          category: [category],
         })"
       >
         Add
@@ -62,13 +51,11 @@ const addTodo = (value: Todo) => {
 
     <ul>
       <li
-        v-for="todo, idx in todos" :key="idx" :class="[todo.isCompleted ? 'line-through' : '',
-        ]"
-        @click="todo.isCompleted
-          = !todo.isCompleted
-        "
+        v-for="todo, idx in state.todos.value" :key="idx"
+        :class="[todo.status == 'completed' ? 'line-through' : '']"
+        @click="markTodo(todo)"
       >
-        {{ todo }}
+        {{ todo }}  {{ todo.category[0].title }}
       </li>
     </ul>
   </div>
