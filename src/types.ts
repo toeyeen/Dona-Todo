@@ -13,3 +13,12 @@ export interface Todo {
 }
 
 type status = 'completed' | 'inProgress' | 'due'
+
+export interface HyphenOptions {
+  /**
+   * Observe `document.title` changes using MutationObserve
+   *
+   * @default add
+   */
+  type?: 'add' | 'remove'
+}

@@ -6,15 +6,13 @@ import type { Todo } from '../types'
 const { addTodo, state } = useState()
 const route = useRoute()
 
-// const category = state.categories.value[0]
-
 const category = computed(() => {
-  console.log(state.categories.value.filter(todo => todo))
-
   return (route.path !== '/')
     ? state.categories.value.filter(cat => cat.title === route.params.id)[0]
-    : state.categories.value[0]
+    : state.categories.value
 })
+
+const unComputedCategory = ref(category)
 
 onMounted(() => {
 
@@ -48,7 +46,7 @@ function selectDueDate(e: Event) {
         title: todo,
         status: 'inProgress',
         dueDate,
-        category: [category],
+        category: [unComputedCategory],
       })"
     >
 
@@ -56,7 +54,7 @@ function selectDueDate(e: Event) {
       <input id="" type="date" name="" :min="now" @change="selectDueDate">
     </span>
 
-    <select v-if="route.path == '/'" id="category" v-model="category" name="category">
+    <select v-if="route.path == '/'" id="category" v-model="unComputedCategory" name="category">
       <option v-for="cat, idx in state.categories.value" :key="idx" selected :value="cat">
         {{ cat.title }}
       </option>
@@ -68,11 +66,13 @@ function selectDueDate(e: Event) {
         title: todo,
         status: 'inProgress',
         dueDate,
-        category: [category],
+        category: [unComputedCategory],
       })"
     >
       Add
     </button>
+
+    {{ unComputedCategory }}
   </div>
 </template>
 
