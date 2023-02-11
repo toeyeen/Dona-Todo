@@ -1,3 +1,4 @@
+import type { HyphenOptions } from '~/types'
 export const timeOfTheDay = computed(() => {
   const date = new Date()
 
@@ -19,3 +20,15 @@ export const timeOfTheDay = computed(() => {
 
     return 'Good Evening'
 })
+
+export const hyphen = (string, options: HyphenOptions = {}) => {
+  const { type = 'add' } = options
+
+  console.log(string, 'String')
+
+  if (type === 'add')
+    return string.split(' ').join('-')
+
+  if (type === 'remove')
+    return string.split('-').join(' ')
+}

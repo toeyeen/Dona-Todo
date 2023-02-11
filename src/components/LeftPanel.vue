@@ -2,6 +2,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useRoute } from 'vue-router'
 import type { Category } from '../types'
+import { hyphen } from '../utils/index'
 
 const category = ref('')
 const { addCategories, state, getCategoryLength, totalTodos, completed, todosDueToday } = useState()
@@ -68,7 +69,9 @@ const catColor = (id) => {
         <li
           class="i-carbon-checkbox w-5 h-5"
         />
-        <span>{{ cat.title }} </span>
+        <span>{{ hyphen(cat.title, {
+          type: 'remove',
+        }) }} </span>
       </span>
 
       <span class="text-xs bg-gray-200 text-gray-500 rounded px-1 "> {{ getCategoryLength(cat.title) }} </span>

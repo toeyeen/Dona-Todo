@@ -31,7 +31,12 @@ export const useState = () => {
   }
 
   function addCategories(value) {
-    state.categories.push(value)
+    const { title, ...rest } = value
+
+    const formatedValue = hyphen(title, { type: 'add' })
+
+    if (value)
+      state.categories.push({ title: formatedValue, ...rest })
   }
 
   function addTodo(value: Todo) {
@@ -42,8 +47,6 @@ export const useState = () => {
       value.status = 'completed'
     }
     else {
-      console.log(value.dueDate, 'Date')
-
       if (value.dueDate) {
         Date.parse(value.dueDate) > Date.now()
           ? value.status = 'inProgress'
