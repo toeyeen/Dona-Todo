@@ -48,3 +48,14 @@ export const hyphen = (string, options: HyphenOptions = {}) => {
   if (type === 'remove')
     return string.trim().split('-').join(' ')
 }
+
+export function removeDuplicates(array: [], identifier: string) {
+  const uniqueTitles = new Set()
+  return array.filter((obj) => {
+    if (uniqueTitles.has(obj[identifier]))
+      return false // remove object from array
+
+    uniqueTitles.add(obj[identifier])
+    return true // keep object in array
+  })
+}

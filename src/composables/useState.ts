@@ -35,8 +35,15 @@ export const useState = () => {
 
     const formatedValue = hyphen(title)
 
-    if (value)
-      state.categories.push({ title: formatedValue, ...rest })
+    const set = new Set(state.categories)
+
+    const uniqueCategory = set.add({ title: formatedValue, ...rest })
+
+    const filteredCategory = removeDuplicates(Array.from(uniqueCategory), 'title')
+
+    console.log(filteredCategory)
+
+    state.categories = filteredCategory
   }
 
   function addTodo(value: Todo) {
