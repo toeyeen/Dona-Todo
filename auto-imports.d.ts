@@ -45,6 +45,7 @@ declare global {
   const reactive: typeof import('vue')['reactive']
   const readonly: typeof import('vue')['readonly']
   const ref: typeof import('vue')['ref']
+  const removeDuplicates: typeof import('./src/utils/index')['removeDuplicates']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveDirective: typeof import('vue')['resolveDirective']
   const shallowReactive: typeof import('vue')['shallowReactive']
@@ -116,6 +117,7 @@ declare module 'vue' {
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
     readonly ref: UnwrapRef<typeof import('vue')['ref']>
+    readonly removeDuplicates: UnwrapRef<typeof import('./src/utils/index')['removeDuplicates']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveDirective: UnwrapRef<typeof import('vue')['resolveDirective']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
