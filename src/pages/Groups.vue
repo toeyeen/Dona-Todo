@@ -30,8 +30,6 @@ onMounted(() => {
 <template>
   <TodoInput />
 
-  {{ currentCategory[0] }}
-
   <ul>
     <li v-for="todo, idx in todos" :key="idx" :class="[todo.status == 'completed' ? 'line-through' : '']" @click="markTodo(todo)">
       <span>

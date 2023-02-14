@@ -5,7 +5,7 @@ import type { Category } from '../types'
 import { hyphen } from '../utils/index'
 
 const category = ref('')
-const { addCategories, state, getCategoryLength, totalTodos, completed, todosDueToday } = useState()
+const { addCategories, state, getCategoryLength, totalTodos, completed, todosDueToday, totalDueTodayTodos } = useState()
 
 const route = useRoute()
 
@@ -52,7 +52,7 @@ const catColor = (id) => {
         <span>Today</span>
       </span>
 
-      <span class="text-xs "> {{ todosDueToday.length }} </span>
+      <span class="text-xs "> {{ totalDueTodayTodos }} </span>
     </router-link>
 
     <router-link to="/Completed" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">

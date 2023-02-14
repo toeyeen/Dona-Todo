@@ -20,7 +20,7 @@ const activeTodos = computed(() => {
         @click="markTodo(todo)"
       >
         <span>
-          {{ todo.title }}
+          {{ todo }}
         </span>
 
         <span v-if="todo?.dueDate">
