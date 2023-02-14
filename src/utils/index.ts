@@ -1,5 +1,23 @@
 import type { HyphenOptions } from '~/types'
+export const todaysDate = () => {
+  const date = new Date()
+
+  return date.toLocaleString('en-GB', {
+    hour12: false,
+
+  })
+}
+
+export const formatInputDate = (date: string | Date) => {
+  if (typeof date == 'string')
+
+    return date.split('-').reverse().join('/')
+}
+
 export const timeOfTheDay = computed(() => {
+  const today = todaysDate()
+
+  today.split(',')[1].split(':')[0].trim()
   const date = new Date()
 
   const time = date.toLocaleString([], {
@@ -24,11 +42,9 @@ export const timeOfTheDay = computed(() => {
 export const hyphen = (string, options: HyphenOptions = {}) => {
   const { type = 'add' } = options
 
-  console.log(string, 'String')
-
   if (type === 'add')
-    return string.split(' ').join('-')
+    return string.trim().split(' ').join('-')
 
   if (type === 'remove')
-    return string.split('-').join(' ')
+    return string.trim().split('-').join(' ')
 }

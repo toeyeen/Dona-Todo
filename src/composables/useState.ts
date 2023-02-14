@@ -33,7 +33,7 @@ export const useState = () => {
   function addCategories(value) {
     const { title, ...rest } = value
 
-    const formatedValue = hyphen(title, { type: 'add' })
+    const formatedValue = hyphen(title)
 
     if (value)
       state.categories.push({ title: formatedValue, ...rest })
@@ -48,9 +48,13 @@ export const useState = () => {
     }
     else {
       if (value.dueDate) {
-        Date.parse(value.dueDate) > Date.now()
-          ? value.status = 'inProgress'
-          : value.status = 'due'
+        const dueDate = Date.parse(value.dueDate.split('/').reverse().join('/'))
+
+        const endofDueDate = new Date(dueDate).setUTCHours(23, 59, 59, 999)
+
+        endofDueDate < Date.now()
+          ? value.status = 'due'
+          : value.status = 'inProgress'
       }
       else {
         value.status = 'inProgress'
@@ -71,8 +75,17 @@ export const useState = () => {
   })
 
   const todosDueToday = computed(() => {
-    return state.todos.filter(todo => todo.dueDate == new Date().toISOString().split('T')[0],
+    return state.todos.filter((todo) => {
+      return todo.dueDate === formatInputDate(new Date().toISOString().split('T')[0])
+    },
     )
+  })
+
+  const totalDueTodayTodos = computed(() => {
+    return state.todos.filter((todo) => {
+      return todo.dueDate === formatInputDate(new Date().toISOString().split('T')[0]) && todo.status !== 'completed'
+    },
+    ).length
   })
 
   const user = computed(() => {
@@ -91,6 +104,6 @@ export const useState = () => {
     todosDueToday,
     user,
     markTodo,
-
+    totalDueTodayTodos,
   }
 }

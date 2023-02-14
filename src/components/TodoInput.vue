@@ -2,39 +2,66 @@
 import { useRoute } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
 import type { Todo } from '../types'
+import { formatInputDate } from '../utils/index'
+
+const dueDateRef = ref<HTMLInputElement>(null)
 
 const { addTodo, state } = useState()
 const route = useRoute()
 
+const vCat = ref(null)
+
 const category = computed(() => {
   return (route.path !== '/')
-    ? state.categories.value.filter(cat => cat.title === route.params.id)[0]
+    ? state.categories.value.filter(cat => cat.title === route.params.id)
     : state.categories.value
+})
+
+const showDate = computed(() => {
+  if (!route.path.includes('Today'))
+    return true
 })
 
 const unComputedCategory = ref(category)
 
+function resetGroup() {
+  vCat.value = (route.path !== '/')
+    ? state.categories.value.filter(cat => cat.title === route.params.id)[0]
+    : state.categories.value[0]
+}
 onMounted(() => {
+  watch(route, () => {
+    resetGroup()
+  })
 
+  resetGroup()
+
+  if (route.path.includes('Today'))
+    dueDate.value = todaysDate().split(',')[0].trim()
 })
 // const taskRef = ref<HTMLDivElement>()
 
 const todo = ref('')
-let dueDate = ref(null)
+const dueDate = ref(null)
 const submit = (value: Todo) => {
-  if (todo.value) {
+  if (todo.value && vCat.value) {
     addTodo(value)
     todo.value = ''
+
+    // dueDateRef.value = null
   }
+
+  if (!route.path.includes('/Today'))
+    dueDate.value = null
 }
 
 const now = computed (() => {
-  return new Date().toISOString()
+  return todaysDate().split(',')[0].trim()
 })
 
-function selectDueDate(e: Event) {
-  dueDate = e.target.value
-}
+// function selectDueDate(e: Event) {
+//   dueDate = e.target.value
+// }
 </script>
 
 <template>
@@ -45,16 +72,16 @@ function selectDueDate(e: Event) {
         id: uuidv4(),
         title: todo,
         status: 'inProgress',
-        dueDate,
-        category: [unComputedCategory],
+        dueDate: formatInputDate(dueDate),
+        category: vCat ? [vCat] : unComputedCategory,
       })"
     >
 
     <span class="mx-2 ">
-      <input id="" type="date" name="" :min="now" @change="selectDueDate">
+      <input v-if="showDate" id="" ref="dueDateRef" v-model="dueDate" type="date">
     </span>
 
-    <select v-if="route.path == '/'" id="category" v-model="unComputedCategory" name="category">
+    <select v-if="!route.path.includes('groups')" id="category" v-model="vCat" name="category">
       <option v-for="cat, idx in state.categories.value" :key="idx" selected :value="cat">
         {{ cat.title }}
       </option>
@@ -65,14 +92,14 @@ function selectDueDate(e: Event) {
         id: uuidv4(),
         title: todo,
         status: 'inProgress',
-        dueDate,
-        category: [unComputedCategory],
+        dueDate: formatInputDate(dueDate),
+        category: vCat ? [vCat] : unComputedCategory,
       })"
     >
       Add
     </button>
 
-    {{ unComputedCategory }}
+    {{ vCat }}
   </div>
 </template>
 
