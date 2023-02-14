@@ -49,7 +49,7 @@ export const hyphen = (string, options: HyphenOptions = {}) => {
     return string.trim().split('-').join(' ')
 }
 
-export function removeDuplicates(array: [], identifier: string) {
+export const removeDuplicates = <T>(array: T[], identifier: string) => {
   const uniqueTitles = new Set()
   return array.filter((obj) => {
     if (uniqueTitles.has(obj[identifier]))

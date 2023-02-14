@@ -41,8 +41,6 @@ export const useState = () => {
 
     const filteredCategory = removeDuplicates(Array.from(uniqueCategory), 'title')
 
-    console.log(filteredCategory)
-
     state.categories = filteredCategory
   }
 
