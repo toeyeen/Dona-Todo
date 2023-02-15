@@ -7,6 +7,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    CheckBox: typeof import('./src/components/DCheckBox.vue')['default']
+    DCheckBox: typeof import('./src/components/DCheckBox.vue')['default']
     LayoutBlur: typeof import('./src/components/LayoutBlur.vue')['default']
     LeftPanel: typeof import('./src/components/LeftPanel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
