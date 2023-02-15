@@ -10,6 +10,7 @@ const { addTodo, state } = useState()
 const route = useRoute()
 
 const vCat = ref(null)
+const dueDate = ref(null)
 
 const category = computed(() => {
   return (route.path !== '/')
@@ -42,7 +43,6 @@ onMounted(() => {
 // const taskRef = ref<HTMLDivElement>()
 
 const todo = ref('')
-const dueDate = ref(null)
 const submit = (value: Todo) => {
   if (todo.value && vCat.value) {
     addTodo(value)
@@ -55,7 +55,7 @@ const submit = (value: Todo) => {
     dueDate.value = null
 }
 
-const now = computed (() => {
+const now = computed(() => {
   return todaysDate().split(',')[0].trim()
 })
 
@@ -66,40 +66,40 @@ const now = computed (() => {
 
 <template>
   <div>
-    <input
-      id=""
-      ref="taskRef" v-model="todo" placeholder="Write a new task" type="text" name="todo" px-2 text-black border border-blue @keyup.enter="submit({
-        id: uuidv4(),
-        title: todo,
-        status: 'inProgress',
-        dueDate: formatInputDate(dueDate),
-        category: vCat ? [vCat] : unComputedCategory,
-      })"
-    >
+    <div class="bg-white rounded-lg drop-shadow w-full flex items-center py-2">
+      <DCheckBox />
+      <input id="" ref="taskRef" v-model="todo" placeholder="Write a new task" type="text" name="todo" px-2 text-black
+        border border-blue @keyup.enter="submit({
+          id: uuidv4(),
+          title: todo,
+          status: 'inProgress',
+          dueDate: formatInputDate(dueDate),
+          category: vCat ? [vCat] : unComputedCategory,
+        })">
+      <li class="i-carbon-home w-5 h-5" />
+
+      <select v-if="!route.path.includes('groups')" id="category" v-model="vCat" name="category">
+        <option v-for="cat, idx in state.categories.value" :key="idx" selected :value="cat">
+          {{ cat.title }}
+        </option>
+      </select>
+
+      <!-- <li class="carbon:calendar w-10 h-10" /> -->
+    </div>
 
     <span class="mx-2 ">
       <input v-if="showDate" id="" ref="dueDateRef" v-model="dueDate" type="date">
     </span>
 
-    <select v-if="!route.path.includes('groups')" id="category" v-model="vCat" name="category">
-      <option v-for="cat, idx in state.categories.value" :key="idx" selected :value="cat">
-        {{ cat.title }}
-      </option>
-    </select>
-    <button
-      class="bg-green text-white px-2 mx-1"
-      @click="submit({
-        id: uuidv4(),
-        title: todo,
-        status: 'inProgress',
-        dueDate: formatInputDate(dueDate),
-        category: vCat ? [vCat] : unComputedCategory,
-      })"
-    >
+    <button class="bg-green text-white px-2 mx-1" @click="submit({
+      id: uuidv4(),
+      title: todo,
+      status: 'inProgress',
+      dueDate: formatInputDate(dueDate),
+      category: vCat ? [vCat] : unComputedCategory,
+    })">
       Add
     </button>
-
-    {{ vCat }}
   </div>
 </template>
 

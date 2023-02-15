@@ -8,8 +8,8 @@ const { state, completed } = useState()
   </div>
 
   <ul>
-    <li v-for=" todo, idx in completed" :key="idx" :class="[todo.status == 'completed' ? 'line-through' : '']">
-      {{ todo }}
+    <li v-for=" todo, idx in completed" :key="idx" :class="[todo.status === 'completed' ? 'line-through' : '']">
+      {{ todo.title }}
     </li>
   </ul>
 </template>
