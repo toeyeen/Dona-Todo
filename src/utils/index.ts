@@ -75,3 +75,9 @@ export const getPlatform = () => {
   else
     return 'Unknown'
 }
+
+export const validHex = (value: string) => {
+  const hexColorRegex = /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/
+
+  return hexColorRegex.test(value)
+}

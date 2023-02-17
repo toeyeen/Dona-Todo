@@ -18,9 +18,8 @@ const CtrlE = keys['Ctrl+E']
 const MetaE = keys['Meta+E']
 
 watch(MetaE, (v) => {
-  console.log(newCategory, '124')
-  console.log(v)
-  v ? newCategory.value.focus() : null
+  //  Add Category shortkey
+  // v ?  Input.focus() : null
 })
 
 const route = useRoute()
@@ -87,7 +86,7 @@ const catColor = (id) => {
     <router-link v-for="cat, idx in state.categories.value" :key="idx" :to="{ path: `/groups/${cat.title}` }"
       class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
       <span class="flex items-center gap-2">
-        <li class="i-carbon-checkbox w-5 h-5" />
+        <li class="i-carbon-checkbox w-5 h-5" :style="{ background: cat.color }" />
         <span>{{ hyphen(cat.title, {
           type: 'remove',
         }) }} </span>
@@ -96,24 +95,23 @@ const catColor = (id) => {
       <span class="text-xs bg-gray-200 text-gray-500 rounded px-1 "> {{ getCategoryLength(cat.title) }} </span>
     </router-link>
 
-    <div
-      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
-      <span class="flex items-center gap-2">
-        <li class="i-carbon-add w-5 h-5" />
+    <div>
+      <div
+        class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+        <span class="flex items-center gap-2">
+          <li class="i-carbon-add w-5 h-5" />
 
-        <GhostInput ref="newCategory" v-model="category" placeholder="Create New list" @keyup.enter="addCat({
-          id: uuidv4(),
-          title: category,
-        })" />
-        <!-- <input id="newCategory" ref="newCategory" v-model="category" placeholder="Create New list" type="text"
-              name="New Category" @keyup.enter="addCat({
-                id: uuidv4(),
-                title: category,
-              })"> -->
-      </span>
+          <GhostInput ref="newCategory" v-model="category" placeholder="Create New list" @keyup.enter="addCat({
+            id: uuidv4(),
+            title: category,
+          })" />
 
-      <span class="text-xs "> <span>&#8984;</span> </span>
-      <span class="text-xs "> E </span>
+        </span>
+
+        <span class="text-xs "> <span>&#8984;</span> </span>
+        <span class="text-xs "> E </span>
+      </div>
+      <EmojiCard />
     </div>
   </div>
 </template>
