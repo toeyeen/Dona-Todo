@@ -59,3 +59,19 @@ export const removeDuplicates = <T>(array: T[], identifier: string) => {
     return true // keep object in array
   })
 }
+
+export const getPlatform = () => {
+  const platform = navigator.platform.toLowerCase()
+
+  if (platform.includes('mac'))
+    return 'Mac'
+
+  else if (platform.includes('linux'))
+    return 'Linux'
+
+  else if (platform.includes('win'))
+    return 'Windows'
+
+  else
+    return 'Unknown'
+}
