@@ -19,6 +19,7 @@ declare global {
   const formatInputDate: typeof import('./src/utils/index')['formatInputDate']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getPlatform: typeof import('./src/utils/index')['getPlatform']
   const h: typeof import('vue')['h']
   const hyphen: typeof import('./src/utils/index')['hyphen']
   const inject: typeof import('vue')['inject']
@@ -91,6 +92,7 @@ declare module 'vue' {
     readonly formatInputDate: UnwrapRef<typeof import('./src/utils/index')['formatInputDate']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getPlatform: UnwrapRef<typeof import('./src/utils/index')['getPlatform']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hyphen: UnwrapRef<typeof import('./src/utils/index')['hyphen']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>

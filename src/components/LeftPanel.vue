@@ -1,11 +1,27 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from 'uuid'
 import { useRoute } from 'vue-router'
+import { useMagicKeys } from '@vueuse/core'
 import type { Category } from '../types'
-import { hyphen } from '../utils/index'
+import { getPlatform, hyphen } from '../utils/index'
 
 const category = ref('')
 const { addCategories, state, getCategoryLength, totalTodos, completed, todosDueToday, totalDueTodayTodos } = useState()
+
+const keys = useMagicKeys({
+  passive: false,
+})
+
+const newCategory = ref<HTMLInputElement>(null)
+
+const CtrlE = keys['Ctrl+E']
+const MetaE = keys['Meta+E']
+
+watch(MetaE, (v) => {
+  console.log(newCategory, '124')
+  console.log(v)
+  v ? newCategory.value.focus() : null
+})
 
 const route = useRoute()
 
@@ -26,6 +42,7 @@ watch(state.todos, () => {
 
 onMounted(() => {
   console.log(route)
+  console.log(getPlatform())
 })
 
 const catColor = (id) => {
@@ -36,7 +53,8 @@ const catColor = (id) => {
 <template>
   <div bg="~ white" my-auto rounded-lg p-8 h-full font-rubik>
     <ul>
-      <router-link to="/" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+      <router-link to="/"
+        class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
         <div class="flex items-center gap-2">
           <li class="i-carbon-home w-5 h-5" />
           <span>Home</span>
@@ -46,7 +64,8 @@ const catColor = (id) => {
       </router-link>
     </ul>
 
-    <router-link to="/Today" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+    <router-link to="/Today"
+      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
       <span class="flex items-center gap-2">
         <li class="i-carbon-checkmark w-5 h-5" />
         <span>Today</span>
@@ -55,7 +74,8 @@ const catColor = (id) => {
       <span class="text-xs "> {{ totalDueTodayTodos }} </span>
     </router-link>
 
-    <router-link to="/Completed" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+    <router-link to="/Completed"
+      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
       <span class="flex items-center gap-2">
         <li class="i-carbon-checkmark w-5 h-5" />
         <span>Completed</span>
@@ -64,11 +84,10 @@ const catColor = (id) => {
       <span class="text-xs "> {{ completed.length }} </span>
     </router-link>
 
-    <router-link v-for="cat, idx in state.categories.value" :key="idx" :to="{ path: `/groups/${cat.title}` }" class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+    <router-link v-for="cat, idx in state.categories.value" :key="idx" :to="{ path: `/groups/${cat.title}` }"
+      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
       <span class="flex items-center gap-2">
-        <li
-          class="i-carbon-checkbox w-5 h-5"
-        />
+        <li class="i-carbon-checkbox w-5 h-5" />
         <span>{{ hyphen(cat.title, {
           type: 'remove',
         }) }} </span>
@@ -77,22 +96,27 @@ const catColor = (id) => {
       <span class="text-xs bg-gray-200 text-gray-500 rounded px-1 "> {{ getCategoryLength(cat.title) }} </span>
     </router-link>
 
-    <div class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+    <div
+      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
       <span class="flex items-center gap-2">
         <li class="i-carbon-add w-5 h-5" />
-        <input
-          id="newCaregory" v-model="category" placeholder="Create New list" type="text" name="New Category" @keyup.enter="addCat({
-            id: uuidv4(),
-            title: category,
-          })"
-        >
+
+        <GhostInput ref="newCategory" v-model="category" placeholder="Create New list" @keyup.enter="addCat({
+          id: uuidv4(),
+          title: category,
+        })" />
+        <!-- <input id="newCategory" ref="newCategory" v-model="category" placeholder="Create New list" type="text"
+              name="New Category" @keyup.enter="addCat({
+                id: uuidv4(),
+                title: category,
+              })"> -->
       </span>
 
-      <span class="text-xs " />
+      <span class="text-xs "> <span>&#8984;</span> </span>
+      <span class="text-xs "> E </span>
     </div>
   </div>
 </template>
 
 <style scoped>
-
 </style>

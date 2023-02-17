@@ -60,7 +60,8 @@ const now = computed(() => {
 })
 
 // function selectDueDate(e: Event) {
-//   dueDate = e.target.value
+// const target = e.target as HTMLInputElement
+//   dueDate = target.value
 // }
 </script>
 
@@ -104,5 +105,4 @@ const now = computed(() => {
 </template>
 
 <style scoped>
-
 </style>
