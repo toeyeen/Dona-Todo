@@ -1,62 +1,67 @@
 export const colors = [
   {
-    id: 1,
-    name: '#c026d3',
-    category: 'fuschia',
+    name: 'Acid Green',
+    hex: '#B0BF1A',
   },
   {
-    id: 2,
-    name: '#db2777',
-    category: 'pink',
+    name: 'Aero',
+    hex: '#7CB9E8',
   },
   {
-    id: 3,
-    name: '#e11d48',
-    category: 'rose',
+    name: 'African Violet',
+    hex: '#B284BE',
   },
   {
-    id: 4,
-    name: '#d97706',
-    category: 'amber',
+    name: 'Air Force Blue (USAF)',
+    hex: '#00308F',
   },
   {
-    id: 5,
-    name: '#2563eb',
-    category: 'blue',
+    name: 'Air Superiority Blue',
+    hex: '#72A0C1',
   },
   {
-    id: 6,
-    name: '#ea580c',
-    category: 'orange',
+    name: 'Alabama Crimson',
+    hex: '#AF002A',
   },
   {
-    id: 7,
-    name: '#0891b2',
-    category: 'cyan',
+    name: 'Alien Armpit',
+    hex: '#84DE02',
   },
   {
-    id: 8,
-    name: '#0d9488',
-    category: 'teal',
+    name: 'Alloy Orange',
+    hex: '#C46210',
   },
   {
-    id: 9,
-    name: '#65a30d',
-    category: 'lime',
+    name: 'Amaranth Deep Purple',
+    hex: '#9F2B68',
   },
   {
-    id: 10,
-    name: '#16a34a',
-    category: 'green',
+    name: 'Amaranth Pink',
+    hex: '#F19CBB',
   },
   {
-    id: 11,
-    name: '#dc2626',
-    category: 'red',
+    name: 'Amazon Store',
+    hex: '#3B7A57',
   },
   {
-    id: 12,
-    name: '#7c3aed',
-    category: 'violet',
+    name: 'Amazonite',
+    hex: '#00C4B0',
   },
+  {
+    name: 'Amber',
+    hex: '#FFBF00',
+  },
+  {
+    name: 'Amber (SAE/ECE)',
+    hex: '#FF7E00',
+  },
+  {
+    name: 'American Rose',
+    hex: '#FF033E',
+  },
+  {
+    name: 'Amethyst',
+    hex: '#9966CC',
+  },
+
 ]

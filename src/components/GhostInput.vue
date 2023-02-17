@@ -12,15 +12,37 @@ const props = defineProps({
   },
   addonBefore: String,
   addonAfter: String,
+  autoFocus: {
+    type: Boolean,
+    default: false,
+  },
+  size: {
+    type: String,
+    default: 'normal',
+  },
 })
 
-const emit = defineEmits(['update:modelValue', 'delete'])
+const emit = defineEmits(['update:model-value', 'focus', 'blur', 'keyup'])
+const focused = ref(false)
 
 const updateValue = (e: Event) => {
   const target = e.target as HTMLInputElement
-
-  emit('update:modelValue', target.value)
+  emit('update:model-value', target.value)
 }
+
+function onFocus(e) {
+  const target = e.target as HTMLInputElement
+  focused.value = true
+  emit('focus', target)
+}
+function onBlur() {
+  focused.value = false
+  emit('blur')
+}
+
+onMounted(() => {
+  focused.value = props.autoFocus
+})
 </script>
 
 <template>
@@ -29,12 +51,31 @@ const updateValue = (e: Event) => {
   " :value="modelValue" v-bind="{
   ...$attrs,
   onInput: updateValue,
+  onFocus,
+  onBlur,
 }">
 </template>
 
 <style lang="scss" scoped>
 .ghost {
+  display: inline-flex;
+  width: 100%;
+  min-width: 0px;
   outline: none;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 0px;
+  padding: 4px 11px;
+  color: #000000d9;
+  font-size: 14px;
+  line-height: 1.5715;
+  background-image: none;
+  border-radius: 2px;
+  transition: all .3s;
 
   &:focus,
   &:active {
