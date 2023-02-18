@@ -81,3 +81,8 @@ export const validHex = (value: string) => {
 
   return hexColorRegex.test(value)
 }
+
+// Emoji Utils
+export const parseNativeEmoji = (unified: string) => {
+  return unified.split('-').map(hex => String.fromCodePoint(parseInt(hex, 16))).join(' ')
+}

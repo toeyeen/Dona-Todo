@@ -1,43 +1,83 @@
 <script lang="ts" setup>
-import { colors } from '../data/data'
+import { colors, emojis } from '../data/data'
+import { parseNativeEmoji } from '../utils'
+import { cdnUrl } from '../config/cdnUrls'
+import type { EmojiStyle } from '../types'
 
-const selectedColor = ref(colors[0].hex)
-// const selectedColor = ref(null)
+const selectedColor = ref(removeHash(colors[0].hex))
+const typeToShow = ref('colors')
 
 const selectColor = (color: string) => {
-  selectedColor.value = color
+  selectedColor.value = removeHash(color)
+}
+const switchTab = (tab: string) => {
+  typeToShow.value = tab
+}
+
+function removeHash(value: string) {
+  return value.split('#')[1]
+}
+
+function formatEmojiLabel(value: string) {
+  return value.split('_').map(key => key.charAt(0).toUpperCase() + key.slice(1)).join(' & ')
+}
+
+function emojiURLByUnified(unified: string, emojiStyle: EmojiStyle) {
+  return `${cdnUrl(emojiStyle)}${unified}.png`
 }
 </script>
 
 <template>
   <div class="utils-card">
     <div class="utils-card__headers">
-      <span class="active">Colors</span>
-      <span>Emoji</span>
+      <span :class="typeToShow == 'colors' ? 'active' : ''" @click="switchTab('colors')">Colors</span>
+      <span :class="typeToShow == 'emojis' ? 'active' : ''" @click="switchTab('emojis')">Emoji</span>
     </div>
 
-    <div class=" grid check grid-cols-8">
-      <div v-for="item in colors" :key="item.name" class="inline-block color-container" @click="selectColor(item.hex)">
-        <span class="color-box" :style="{ background: item.hex }" />
+    <div v-if="typeToShow === 'colors'" class="colors">
+      <div class=" grid check grid-cols-8">
+        <div v-for="item in colors" :key="item.name" class="inline-block color-container"
+          :class="removeHash(item.hex) === selectedColor ? 'active' : ''" @click="selectColor(item.hex)">
+          <span class="color-box" :style="{ background: `${item.hex}` }" />
+        </div>
+      </div>
+
+      <div class="divider my-4 " />
+
+      <div class="mb-3">
+        <div class="flex items-center justify-center">
+          <div class="text-sm flex-auto ">
+            <span>
+              Custom Color
+            </span>
+          </div>
+
+          <div class="inline-flex items-center px-2 bg-[#eeeef2] rounded-md w-[120px]">
+            <span class="color-box" :style="{ background: `#${selectedColor}` }" />
+            <!-- <span class="text-sm py-1 px-2 text-gray-400">
+                                                                                                                                                                                                    {{ selectedColor }}
+                                                                                                                                                                                                  </span> -->
+            <GhostInput v-model="selectedColor" maxlength="6" placeholder="af0613" class="max-w-[100px] bg-[#eeeef2]" />
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="divider my-4 " />
+    <div v-else class="emojis">
+      <div>
+        <input id="" type="text" name="" placeholder="Search">
+      </div>
 
-    <div class="mb-3">
-      <div class="flex items-center justify-center">
-        <div class="text-sm flex-auto ">
-          <span>
-            Custom Color
+      <div class="emoji_category">
+        <div v-for="key, value, idx in emojis " :key="idx" class="">
+          <div>
+            {{ formatEmojiLabel(value) }}
+          </div>
+          <span class="grid grid-cols-8">
+            <span v-for="key1, value2, idx2 in key" :key="idx2" :data-unified="parseNativeEmoji(key1.u)">
+              <img :src="emojiURLByUnified(key1.u, 'apple')" alt="">
+            </span>
           </span>
-        </div>
-
-        <div class="inline-flex items-center px-2 bg-[#eeeef2] rounded-md w-[120px]">
-          <span class="color-box" :style="{ background: selectedColor }" />
-          <!-- <span class="text-sm py-1 px-2 text-gray-400">
-                                                          {{ selectedColor }}
-                                                        </span> -->
-          <GhostInput v-model="selectedColor" maxlength="7" placeholder="af0613" class="max-w-[100px] bg-[#eeeef2]" />
         </div>
       </div>
     </div>
@@ -48,16 +88,18 @@ const selectColor = (color: string) => {
 .utils-card {
   padding: .5rem 1rem;
   cursor: pointer;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   position: relative;
   background-color: #fff;
+  opacity: .8;
   width: 300px;
-  max-height: 200px;
+  max-height: 300px;
   border-radius: 12px;
+  overflow-y: scroll;
 
   &__headers {
 
-    @apply text-sm mb-2 mt-4;
+    @apply text-sm mb-4 mt-4;
 
     &>span {
       border-radius: 6px;
@@ -78,9 +120,11 @@ const selectColor = (color: string) => {
   border-radius: 8px;
   border: 2px solid transparent;
 
-  &:hover {
+  &:hover,
+  &.active {
     @apply border-gray-300;
   }
+
 }
 
 .color-box {
