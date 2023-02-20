@@ -34,7 +34,7 @@ function emojiURLByUnified(unified: string, emojiStyle: EmojiStyle) {
   return `${cdnUrl(emojiStyle)}${unified}.png`
 }
 
-function showEmojiDetails(image: object, settings: 'reset') {
+function showEmojiDetails(image: object, settings?: 'reset') {
   if (settings == 'reset') {
     return renderImage.value = {
       n: [
