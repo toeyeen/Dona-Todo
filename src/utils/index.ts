@@ -86,3 +86,7 @@ export const validHex = (value: string) => {
 export const parseNativeEmoji = (unified: string) => {
   return unified.split('-').map(hex => String.fromCodePoint(parseInt(hex, 16))).join(' ')
 }
+
+export const capitalize = (value: string) => {
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}
