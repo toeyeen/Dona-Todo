@@ -1,38 +1,8 @@
 <script lang="ts" setup>
-import Fuse from 'fuse.js'
 import { colors, emojis } from '../data/data'
 import { cdnUrl } from '../config/cdnUrls'
 import type { EmojiStyle } from '../types'
 import { formatArray, removeHash } from '../utils/index'
-
-const fuse = new Fuse(emojis, {
-  keys: ['names'],
-})
-
-// function searchNames(searchTerm, data) {
-//   const searchResults = []
-
-//   function searchChildren(children) {
-//     for (const child of children) {
-//       const isAvailable = child.names.some((value) => {
-//         return value.toLowerCase().includes(searchTerm.toLowerCase())
-//       })
-
-//       if (isAvailable)
-//         searchResults.push(child)
-
-//       if (child.children)
-//         searchChildren(child.children)
-//     }
-//   }
-
-//   for (const item of data) {
-//     if (item.children)
-//       searchChildren(item.children)
-//   }
-
-//   return searchResults
-// }
 
 function searchNestedArray(arr, term) {
   const searchedData = arr.reduce((acc, curr) => {
@@ -40,14 +10,12 @@ function searchNestedArray(arr, term) {
       return value.toLowerCase().includes(term.toLowerCase())
     })
 
-    console.log(isAvailable)
     if (isAvailable)
       acc.push(curr)
 
     return acc
   }, [])
 
-  console.log(searchedData)
   return searchedData
 }
 
@@ -55,7 +23,6 @@ const searchInput = ref('')
 
 const searchedResult = computed(() => {
   return searchNestedArray(emojis, searchInput.value)
-  return fuse.search(searchInput.value)
 })
 
 const selectedColor = ref(removeHash(colors[0].hex))
@@ -80,13 +47,16 @@ function emojiURLByUnified(unified: string, emojiStyle: EmojiStyle) {
 function showEmojiDetails(image: object, settings?: 'reset') {
   // if (settings === 'reset')
   //   return renderImage.value = emojis[0].children
-
   renderImage.value = image
+}
+
+function clearSearchInput() {
+  searchInput.value = ''
 }
 </script>
 
 <template>
-  <div class="utils-card">
+  <div class="utils-card" :style="[searchedResult.length < 1 ? 'height: 380px' : '']">
     <div class="utils-card__headers">
       <div class="utils-card__headers-title">
         <span :class="typeToShow === 'colors' ? 'active' : ''" @click="switchTab('colors')">Colors</span>
@@ -97,6 +67,7 @@ function showEmojiDetails(image: object, settings?: 'reset') {
         <div>
           <li class="i-carbon:search w-4 h-4 fill-current text-black" />
           <input v-model="searchInput" type="text" name="" placeholder="Search">
+          <li v-if="searchInput.length > 0" class="i-carbon:close" @click="clearSearchInput" />
         </div>
       </div>
     </div>
@@ -150,12 +121,16 @@ function showEmojiDetails(image: object, settings?: 'reset') {
           {{ item.name }}
         </div>
       </ul>
+
+      <div v-if="searchedResult.length == 0" class="empty">
+        Empty State
+      </div>
     </div>
 
     <!-- <div class="utils-card__details">
-                                                                                    <img :src="emojiURLByUnified(renderImage.unified, 'apple')" alt="">
-                                                                                    <p> {{ renderImage[0].unified ? 'What is on your mind?' : capitalize(renderImage[0].names) }} </p>
-                                                                                  </div> -->
+                                                                                                                    <img :src="emojiURLByUnified(renderImage.unified, 'apple')" alt="">
+                                                                                                                    <p> {{ renderImage[0].unified ? 'What is on your mind?' : capitalize(renderImage[0].names) }} </p>
+                                                                                                                  </div> -->
   </div>
 </template>
 
@@ -196,7 +171,14 @@ function showEmojiDetails(image: object, settings?: 'reset') {
         position: absolute;
         transform: translateY(-50%);
         top: 50%;
-        left: 4px;
+
+        &:first-child {
+          left: 4px;
+        }
+
+        &:last-child {
+          right: 4px;
+        }
       }
 
       & input {
@@ -231,10 +213,17 @@ function showEmojiDetails(image: object, settings?: 'reset') {
 
   &__categories {
     padding: .25rem .5rem;
+    height: 100%;
 
     &>ul {
       display: grid;
       grid-template-columns: repeat(9, (minmax(0, 1fr)));
+    }
+
+    & .empty {
+      display: flex;
+      align-items: center;
+      justify-items: center;
     }
   }
 
