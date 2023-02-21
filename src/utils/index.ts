@@ -90,3 +90,36 @@ export const parseNativeEmoji = (unified: string) => {
 export const capitalize = (value: string) => {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
+
+export const removeHash = (value: string) => {
+  return value.split('#')[1]
+}
+
+export const formatArray = (arr) => {
+  const categories = {}
+
+  for (const obj of arr) {
+    const category = obj.category.toLowerCase()
+    if (categories[category]) {
+      categories[category].children.push({
+        names: obj.names,
+        unified: obj.unified,
+        accuracy: obj.accuracy,
+      })
+    }
+    else {
+      categories[category] = {
+        name: category,
+        children: [
+          {
+            names: obj.names,
+            unified: obj.unified,
+            accuracy: obj.accuracy,
+          },
+        ],
+      }
+    }
+  }
+
+  return Object.values(categories)
+}

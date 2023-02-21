@@ -16382,13 +16382,8 @@ export const groups = [
   'smileys_people', 'animals_nature', 'food_drink', 'travel_places', 'activities', 'objects', 'symbols', 'flags',
 ]
 
-export const emojis = Object.entries(emojiRaw).map(([key, value]) => {
-  return {
-    name: key,
-    children: value.map(item => ({
-      names: item.n,
-      unified: item.u,
-      accuracy: item.a,
-    })),
-  }
+export const emojis = Object.entries(emojiRaw).flatMap(([key, value]) => {
+  return value.map((item) => {
+    return { category: key, names: item.n, unified: item.u, accuracy: item.a }
+  })
 })
