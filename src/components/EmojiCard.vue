@@ -1,43 +1,72 @@
 <script lang="ts" setup>
 import Fuse from 'fuse.js'
 import { colors, emojis } from '../data/data'
-import { capitalize } from '../utils'
 import { cdnUrl } from '../config/cdnUrls'
 import type { EmojiStyle } from '../types'
+import { formatArray, removeHash } from '../utils/index'
 
 const fuse = new Fuse(emojis, {
-  keys: ['children.names'],
+  keys: ['names'],
 })
+
+// function searchNames(searchTerm, data) {
+//   const searchResults = []
+
+//   function searchChildren(children) {
+//     for (const child of children) {
+//       const isAvailable = child.names.some((value) => {
+//         return value.toLowerCase().includes(searchTerm.toLowerCase())
+//       })
+
+//       if (isAvailable)
+//         searchResults.push(child)
+
+//       if (child.children)
+//         searchChildren(child.children)
+//     }
+//   }
+
+//   for (const item of data) {
+//     if (item.children)
+//       searchChildren(item.children)
+//   }
+
+//   return searchResults
+// }
+
+function searchNestedArray(arr, term) {
+  const searchedData = arr.reduce((acc, curr) => {
+    const isAvailable = curr.names.some((value) => {
+      return value.toLowerCase().includes(term.toLowerCase())
+    })
+
+    console.log(isAvailable)
+    if (isAvailable)
+      acc.push(curr)
+
+    return acc
+  }, [])
+
+  console.log(searchedData)
+  return searchedData
+}
 
 const searchInput = ref('')
 
-const searchResult = computed(() => {
-  console.log(1234)
+const searchedResult = computed(() => {
+  return searchNestedArray(emojis, searchInput.value)
   return fuse.search(searchInput.value)
 })
 
-console.log(searchResult.value, '12344')
-
 const selectedColor = ref(removeHash(colors[0].hex))
 const typeToShow = ref('colors')
-const renderImage = ref({
-  n: [
-    'blush',
-    'smiling face with smiling eyes',
-  ],
-  u: '1f60a',
-  a: '0.6',
-})
+const renderImage = ref(emojis[0].children)
 
 const selectColor = (color: string) => {
   selectedColor.value = removeHash(color)
 }
 const switchTab = (tab: string) => {
   typeToShow.value = tab
-}
-
-function removeHash(value: string) {
-  return value.split('#')[1]
 }
 
 function formatEmojiLabel(value: string) {
@@ -49,16 +78,9 @@ function emojiURLByUnified(unified: string, emojiStyle: EmojiStyle) {
 }
 
 function showEmojiDetails(image: object, settings?: 'reset') {
-  if (settings == 'reset') {
-    return renderImage.value = {
-      n: [
-        'blush',
-        'smiling face with smiling eyes',
-      ],
-      u: '1f60a',
-      a: '0.6',
-    }
-  }
+  // if (settings === 'reset')
+  //   return renderImage.value = emojis[0].children
+
   renderImage.value = image
 }
 </script>
@@ -107,7 +129,7 @@ function showEmojiDetails(image: object, settings?: 'reset') {
 
     <div v-else class="utils-card__emoji">
       <div class="emoji-category">
-        <div v-for="category, idx in emojis " :key="idx" class="">
+        <div v-for="category, idx in formatArray(searchedResult) " :key="idx" class="">
           <div class="emoji-category__title" :data-id="category">
             {{ formatEmojiLabel(category.name) }}
           </div>
@@ -122,10 +144,18 @@ function showEmojiDetails(image: object, settings?: 'reset') {
       </div>
     </div>
 
-    <div class="utils-card__details">
-      <img :src="emojiURLByUnified(renderImage.u, 'apple')" alt="">
-      <p> {{ renderImage.n[0] ? 'What is on your mind?' : capitalize(renderImage.n[0]) }} </p>
+    <div class="utils-card__categories">
+      <ul>
+        <div v-for="item, idx in emojis" :key="idx">
+          {{ item.name }}
+        </div>
+      </ul>
     </div>
+
+    <!-- <div class="utils-card__details">
+                                                                                    <img :src="emojiURLByUnified(renderImage.unified, 'apple')" alt="">
+                                                                                    <p> {{ renderImage[0].unified ? 'What is on your mind?' : capitalize(renderImage[0].names) }} </p>
+                                                                                  </div> -->
   </div>
 </template>
 
@@ -197,6 +227,15 @@ function showEmojiDetails(image: object, settings?: 'reset') {
     display: flex;
     align-items: center;
     column-gap: .65rem;
+  }
+
+  &__categories {
+    padding: .25rem .5rem;
+
+    &>ul {
+      display: grid;
+      grid-template-columns: repeat(9, (minmax(0, 1fr)));
+    }
   }
 
 }

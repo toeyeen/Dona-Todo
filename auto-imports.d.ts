@@ -17,6 +17,7 @@ declare global {
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const effectScope: typeof import('vue')['effectScope']
+  const formatArray: typeof import('./src/utils/index')['formatArray']
   const formatInputDate: typeof import('./src/utils/index')['formatInputDate']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
@@ -49,6 +50,7 @@ declare global {
   const readonly: typeof import('vue')['readonly']
   const ref: typeof import('vue')['ref']
   const removeDuplicates: typeof import('./src/utils/index')['removeDuplicates']
+  const removeHash: typeof import('./src/utils/index')['removeHash']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveDirective: typeof import('vue')['resolveDirective']
   const shallowReactive: typeof import('vue')['shallowReactive']
@@ -93,6 +95,7 @@ declare module 'vue' {
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly formatArray: UnwrapRef<typeof import('./src/utils/index')['formatArray']>
     readonly formatInputDate: UnwrapRef<typeof import('./src/utils/index')['formatInputDate']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
@@ -125,6 +128,7 @@ declare module 'vue' {
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
     readonly ref: UnwrapRef<typeof import('vue')['ref']>
     readonly removeDuplicates: UnwrapRef<typeof import('./src/utils/index')['removeDuplicates']>
+    readonly removeHash: UnwrapRef<typeof import('./src/utils/index')['removeHash']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveDirective: UnwrapRef<typeof import('vue')['resolveDirective']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
