@@ -1,8 +1,22 @@
 <script lang="ts" setup>
+import Fuse from 'fuse.js'
 import { colors, emojis } from '../data/data'
-import { capitalize, parseNativeEmoji } from '../utils'
+import { capitalize } from '../utils'
 import { cdnUrl } from '../config/cdnUrls'
 import type { EmojiStyle } from '../types'
+
+const fuse = new Fuse(emojis, {
+  keys: ['children.names'],
+})
+
+const searchInput = ref('')
+
+const searchResult = computed(() => {
+  console.log(1234)
+  return fuse.search(searchInput.value)
+})
+
+console.log(searchResult.value, '12344')
 
 const selectedColor = ref(removeHash(colors[0].hex))
 const typeToShow = ref('colors')
@@ -58,7 +72,10 @@ function showEmojiDetails(image: object, settings?: 'reset') {
       </div>
 
       <div class="utils-card__headers-search">
-        <input id="" type="text" name="" placeholder="Search">
+        <div>
+          <li class="i-carbon:search w-4 h-4 fill-current text-black" />
+          <input v-model="searchInput" type="text" name="" placeholder="Search">
+        </div>
       </div>
     </div>
 
@@ -90,15 +107,15 @@ function showEmojiDetails(image: object, settings?: 'reset') {
 
     <div v-else class="utils-card__emoji">
       <div class="emoji-category">
-        <div v-for="key, value, idx in emojis " :key="idx" class="">
-          <div class="emoji-category__title" :data-id="value">
-            {{ formatEmojiLabel(value) }}
+        <div v-for="category, idx in emojis " :key="idx" class="">
+          <div class="emoji-category__title" :data-id="category">
+            {{ formatEmojiLabel(category.name) }}
           </div>
           <div class=" emoji-category__content">
-            <button v-for="key1, value2, idx2 in key" :key="idx2" class="emoji-category__button"
-              :data-unified="parseNativeEmoji(key1.u)" @mouseover="showEmojiDetails(key1)"
-              @mouseout="showEmojiDetails(key1, 'reset')">
-              <img style="width: 30px;" :src="emojiURLByUnified(key1.u, 'apple')" alt="">
+            <button v-for="emoji, idx2 in category.children" :key="idx2" class="emoji-category__button"
+              :data-unified="parseNativeEmoji(emoji.unified)" @mouseover="showEmojiDetails(emoji)"
+              @mouseout="showEmojiDetails(emoji, 'reset')">
+              <img style="width: 30px;" :src="emojiURLByUnified(emoji.unified, 'apple')" alt="">
             </button>
           </div>
         </div>
@@ -112,7 +129,7 @@ function showEmojiDetails(image: object, settings?: 'reset') {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .utils-card {
   padding: .5rem;
   cursor: pointer;
@@ -140,9 +157,39 @@ function showEmojiDetails(image: object, settings?: 'reset') {
       color: #000;
       @apply bg-[#f8f5f9];
     }
+
+    &-search {
+
+      position: relative;
+
+      & li {
+        position: absolute;
+        transform: translateY(-50%);
+        top: 50%;
+        left: 4px;
+      }
+
+      & input {
+        width: 100%;
+        padding-left: 1.5rem;
+        background: #e8e8e8;
+        border-radius: 6px;
+        transition: background .3s;
+
+        &:focus {
+          border-color: #80bdff;
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+          outline: 0 none;
+          background-color: #fff;
+          // outline: 3px solid #86A9EF;
+          // border-radius: 3px;
+        }
+      }
+    }
   }
 
   &__emoji {
+    margin-top: .5rem;
     overflow-y: scroll;
   }
 

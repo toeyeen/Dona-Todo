@@ -66,7 +66,7 @@ export const colors = [
 
 ]
 
-export const emojis = {
+export const emojiRaw = {
   smileys_people: [
     {
       n: [
@@ -16381,3 +16381,14 @@ export const emojis = {
 export const groups = [
   'smileys_people', 'animals_nature', 'food_drink', 'travel_places', 'activities', 'objects', 'symbols', 'flags',
 ]
+
+export const emojis = Object.entries(emojiRaw).map(([key, value]) => {
+  return {
+    name: key,
+    children: value.map(item => ({
+      names: item.n,
+      unified: item.u,
+      accuracy: item.a,
+    })),
+  }
+})
