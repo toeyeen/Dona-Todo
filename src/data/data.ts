@@ -16384,6 +16384,6 @@ export const groups = [
 
 export const emojis = Object.entries(emojiRaw).flatMap(([key, value]) => {
   return value.map((item) => {
-    return { category: key, names: item.n, unified: item.u, accuracy: item.a }
+    return { category: key, names: item.n, unified: item.u, added_in: item.a }
   })
 })

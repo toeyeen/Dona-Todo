@@ -104,7 +104,7 @@ export const formatArray = (arr) => {
       categories[category].children.push({
         names: obj.names,
         unified: obj.unified,
-        accuracy: obj.accuracy,
+        added_in: obj.added_in,
       })
     }
     else {
@@ -114,7 +114,7 @@ export const formatArray = (arr) => {
           {
             names: obj.names,
             unified: obj.unified,
-            accuracy: obj.accuracy,
+            added_in: obj.added_in,
           },
         ],
       }
