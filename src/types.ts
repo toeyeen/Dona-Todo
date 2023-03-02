@@ -2,6 +2,7 @@ export interface Category {
   id: string
   title: string
   color?: string
+  icon?: Emoji
 }
 
 export interface Todo {
@@ -21,6 +22,11 @@ export interface HyphenOptions {
    * @default add
    */
   type?: 'add' | 'remove'
+}
+export interface Emoji {
+  names: string[]
+  unified: string
+  added_in: string
 }
 
 export type Theme = 'dark' | 'light' | 'auto'

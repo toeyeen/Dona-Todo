@@ -22,7 +22,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:model-value', 'focus', 'blur', 'keyup'])
+const emit = defineEmits(['update:model-value', 'focus', 'blur'])
 const focused = ref(false)
 
 const updateValue = (e: Event) => {

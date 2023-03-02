@@ -4,7 +4,6 @@ export const defaultcategory = {
   id: '1',
   title: 'Personal',
   color: '#f34123',
-
 }
 
 const state = reactive({
@@ -18,6 +17,7 @@ const state = reactive({
       username: 'toeyeen',
     },
   },
+  categorySymbol: { hex: defaultcategory.color },
 })
 
 export const useState = () => {
@@ -28,6 +28,14 @@ export const useState = () => {
 
   function setCurrentCategory(payload: Category) {
     state.category = (payload)
+  }
+
+  function setCategorySymbol(payload: Category | { hex: string }) {
+    state.categorySymbol = (payload)
+  }
+
+  function getCategorySymbol() {
+    return state.categorySymbol.hex
   }
 
   function addCategories(value) {
@@ -110,5 +118,7 @@ export const useState = () => {
     user,
     markTodo,
     totalDueTodayTodos,
+    setCategorySymbol,
+    getCategorySymbol,
   }
 }

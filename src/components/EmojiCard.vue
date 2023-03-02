@@ -4,6 +4,8 @@ import { cdnUrl } from '../config/cdnUrls'
 import type { EmojiStyle } from '../types'
 import { formatArray, removeHash } from '../utils/index'
 
+const { setCategorySymbol } = useState()
+
 function searchNestedArray(arr, term) {
   const searchedData = arr.reduce((acc, curr) => {
     const isAvailable = curr.names.some((value) => {
@@ -20,6 +22,7 @@ function searchNestedArray(arr, term) {
 }
 
 const searchInput = ref('')
+const selectedType = ref('')
 
 const searchedResult = computed(() => {
   return searchNestedArray(emojis, searchInput.value)
@@ -27,10 +30,15 @@ const searchedResult = computed(() => {
 
 const selectedColor = ref(removeHash(colors[0].hex))
 const typeToShow = ref('colors')
-const renderImage = ref(emojis[0].children)
+const renderImage = ref(emojis[0])
 
 const selectColor = (color: string) => {
   selectedColor.value = removeHash(color)
+  selectedType.value = selectedColor.value
+  setCategorySymbol({ hex: color })
+}
+const selectEmoji = (emoji: string) => {
+  selectedType.value = emoji
 }
 const switchTab = (tab: string) => {
   typeToShow.value = tab
@@ -47,12 +55,17 @@ function emojiURLByUnified(unified: string, emojiStyle: EmojiStyle) {
 function showEmojiDetails(image: object, settings?: 'reset') {
   // if (settings === 'reset')
   //   return renderImage.value = emojis[0].children
-  renderImage.value = image
+  // renderImage.value = image
 }
 
 function clearSearchInput() {
   searchInput.value = ''
 }
+
+onMounted(() => {
+  if (typeToShow.value === 'colors')
+    selectedType.value = selectedColor.value
+})
 </script>
 
 <template>
@@ -64,7 +77,7 @@ function clearSearchInput() {
       </div>
 
       <div class="utils-card__headers-search">
-        <div>
+        <div v-if="typeToShow === 'emojis'">
           <li class="i-carbon:search w-4 h-4 fill-current text-black" />
           <input v-model="searchInput" type="text" name="" placeholder="Search">
           <li v-if="searchInput.length > 0" class="i-carbon:close" @click="clearSearchInput" />
@@ -107,8 +120,8 @@ function clearSearchInput() {
           <div class=" emoji-category__content">
             <button v-for="emoji, idx2 in category.children" :key="idx2" class="emoji-category__button"
               :data-unified="parseNativeEmoji(emoji.unified)" @mouseover="showEmojiDetails(emoji)"
-              @mouseout="showEmojiDetails(emoji, 'reset')">
-              <img style="width: 30px;" :src="emojiURLByUnified(emoji.unified, 'apple')" alt="">
+              @mouseout="showEmojiDetails(emoji, 'reset')" @click="selectEmoji(emoji)">
+              <img style="width: 30px;" :src="emojiURLByUnified(emoji.unified, 'apple')" alt="" loading="lazy">
             </button>
           </div>
         </div>
@@ -116,21 +129,20 @@ function clearSearchInput() {
     </div>
 
     <div class="utils-card__categories">
+      <!-- <pre>
+                                    {{ selectedType }}
+                            </pre> -->
+
       <ul>
-        <div v-for="item, idx in emojis" :key="idx">
+        <div v-for="item, idx in emojis" :key="idx" class="here">
           {{ item.name }}
         </div>
       </ul>
 
-      <div v-if="searchedResult.length == 0" class="empty">
+      <div v-if="searchedResult.length === 0" class="empty">
         Empty State
       </div>
     </div>
-
-    <!-- <div class="utils-card__details">
-                                                                                                                    <img :src="emojiURLByUnified(renderImage.unified, 'apple')" alt="">
-                                                                                                                    <p> {{ renderImage[0].unified ? 'What is on your mind?' : capitalize(renderImage[0].names) }} </p>
-                                                                                                                  </div> -->
   </div>
 </template>
 
@@ -156,11 +168,11 @@ function clearSearchInput() {
         border-radius: 6px;
         padding: .4rem .5rem;
       }
-    }
 
-    &>.active {
-      color: #000;
-      @apply bg-[#f8f5f9];
+      &>.active {
+        color: #000;
+        @apply bg-[#f8f5f9];
+      }
     }
 
     &-search {
