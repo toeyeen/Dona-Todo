@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { colors, emojis } from '../data/data'
-import { cdnUrl } from '../config/cdnUrls'
 import type { EmojiStyle } from '../types'
 import { formatArray, removeHash } from '../utils/index'
 
@@ -37,8 +36,9 @@ const selectColor = (color: string) => {
   selectedType.value = selectedColor.value
   setCategorySymbol({ hex: color })
 }
-const selectEmoji = (emoji: string) => {
+const selectEmoji = (emoji: EmojiStyle) => {
   selectedType.value = emoji
+  setCategorySymbol(emoji)
 }
 const switchTab = (tab: string) => {
   typeToShow.value = tab
@@ -46,10 +46,6 @@ const switchTab = (tab: string) => {
 
 function formatEmojiLabel(value: string) {
   return value.split('_').map(key => key.charAt(0).toUpperCase() + key.slice(1)).join(' & ')
-}
-
-function emojiURLByUnified(unified: string, emojiStyle: EmojiStyle) {
-  return `${cdnUrl(emojiStyle)}${unified}.png`
 }
 
 function showEmojiDetails(image: object, settings?: 'reset') {
@@ -130,8 +126,8 @@ onMounted(() => {
 
     <div class="utils-card__categories">
       <!-- <pre>
-                                    {{ selectedType }}
-                            </pre> -->
+                                                    {{ selectedType }}
+                                            </pre> -->
 
       <ul>
         <div v-for="item, idx in emojis" :key="idx" class="here">
@@ -303,6 +299,10 @@ onMounted(() => {
     &:hover {
       background-color: #e9f5fe;
       border-radius: 6px;
+    }
+
+    &.panel {
+      padding: 0;
     }
   }
 

@@ -1,4 +1,5 @@
-import type { HyphenOptions } from '~/types'
+import { cdnUrl } from '../config/cdnUrls'
+import type { EmojiStyle, HyphenOptions } from '~/types'
 export const todaysDate = () => {
   const date = new Date()
 
@@ -122,4 +123,8 @@ export const formatArray = (arr) => {
   }
 
   return Object.values(categories)
+}
+
+export const emojiURLByUnified = (unified: string, emojiStyle: EmojiStyle) => {
+  return `${cdnUrl(emojiStyle)}${unified}.png`
 }

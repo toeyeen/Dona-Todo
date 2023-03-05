@@ -1,9 +1,11 @@
-import type { Category, Todo } from '../types'
+import type { Category, EmojiStyle, Todo } from '../types'
 
 export const defaultcategory = {
   id: '1',
   title: 'Personal',
-  color: '#f34123',
+  color: {
+    hex: '#f34123',
+  },
 }
 
 const state = reactive({
@@ -17,7 +19,7 @@ const state = reactive({
       username: 'toeyeen',
     },
   },
-  categorySymbol: { hex: defaultcategory.color },
+  categorySymbol: { hex: defaultcategory.color.hex },
 })
 
 export const useState = () => {
@@ -30,12 +32,12 @@ export const useState = () => {
     state.category = (payload)
   }
 
-  function setCategorySymbol(payload: Category | { hex: string }) {
+  function setCategorySymbol(payload: { hex: string } | EmojiStyle) {
     state.categorySymbol = (payload)
   }
 
   function getCategorySymbol() {
-    return state.categorySymbol.hex
+    return state.categorySymbol
   }
 
   function addCategories(value) {

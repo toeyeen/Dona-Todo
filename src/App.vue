@@ -3,9 +3,10 @@ const { state } = useState()
 </script>
 
 <template>
-  <div my-auto of-hidden h-screen grid class="md:grid-cols-[320px_1fr] border gap-8 px-5 py-4 text-rubik  rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border bg-[#EEEFF2]">
-    <LayoutBlur :background="state.category.value.color" />
-    <LeftPanel class="md:block hidden" />
+  <div my-auto of-hidden h-screen grid
+    class="md:grid-cols-[320px_1fr] border gap-8 px-5 py-4 text-rubik  rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border bg-[#EEEFF2]">
+    <LayoutBlur :background="state.category.value.color.hex" />
+    <LeftPanel class="md:block hidden overflow-y-scroll" />
     <div py-2 border border-blue class="max-w-xl">
       <router-view />
     </div>
