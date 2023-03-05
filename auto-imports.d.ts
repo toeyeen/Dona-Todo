@@ -17,6 +17,7 @@ declare global {
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const effectScope: typeof import('vue')['effectScope']
+  const emojiURLByUnified: typeof import('./src/utils/index')['emojiURLByUnified']
   const formatArray: typeof import('./src/utils/index')['formatArray']
   const formatInputDate: typeof import('./src/utils/index')['formatInputDate']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -95,6 +96,7 @@ declare module 'vue' {
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
+    readonly emojiURLByUnified: UnwrapRef<typeof import('./src/utils/index')['emojiURLByUnified']>
     readonly formatArray: UnwrapRef<typeof import('./src/utils/index')['formatArray']>
     readonly formatInputDate: UnwrapRef<typeof import('./src/utils/index')['formatInputDate']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>

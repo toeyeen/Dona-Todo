@@ -14,17 +14,14 @@ const activeTodos = computed(() => {
 
     <TodoInput />
     <ul>
-      <li
-        v-for="todo, idx in activeTodos" :key="idx"
-        :class="[todo.status == 'completed' ? 'line-through' : '']"
-        @click="markTodo(todo)"
-      >
+      <li v-for="todo, idx in activeTodos" :key="idx" :class="[todo.status == 'completed' ? 'line-through' : '']"
+        @click="markTodo(todo)">
         <span>
           {{ todo.title }}
         </span>
 
         <span v-if="todo?.dueDate">
-          it is Due on  {{ todo?.dueDate }}
+          it is Due on {{ todo?.dueDate }}
         </span>
       </li>
     </ul>
@@ -32,5 +29,4 @@ const activeTodos = computed(() => {
 </template>
 
 <style scoped>
-
 </style>

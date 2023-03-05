@@ -46,7 +46,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <div />
   <input type="text" class="ghost" :placeholder="placeholder
   " :value="modelValue" v-bind="{
   ...$attrs,
