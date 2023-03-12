@@ -63,29 +63,42 @@ const now = computed(() => {
 // const target = e.target as HTMLInputElement
 //   dueDate = target.value
 // }
+
+function checker() {
+  return !route.path.includes('groups')
+}
 </script>
 
 <template>
   <div>
-    <div class="bg-white rounded-lg drop-shadow w-full flex items-center py-2">
-      <DCheckBox />
-      <input id="" ref="taskRef" v-model="todo" placeholder="Write a new task" type="text" name="todo" px-2 text-black
-        border border-blue @keyup.enter="submit({
-          id: uuidv4(),
-          title: todo,
-          status: 'inProgress',
-          dueDate: formatInputDate(dueDate),
-          category: vCat ? [vCat] : unComputedCategory,
-        })">
-      <li class="i-carbon-home w-5 h-5" />
+    <div class="bg-white rounded-lg drop-shadow w-full flex items-center justify-between px-2  py-2">
+      <div class="left-input flex flex-[1_1_70%]">
+        <DCheckBox />
+        <input ref="taskRef" v-model="todo" placeholder="Write a new task" type="text" name="todo"
+          class="px-2 text-black w-full focus:outline-none " @keyup.enter="submit({
+            id: uuidv4(),
+            title: todo,
+            status: 'inProgress',
+            dueDate: formatInputDate(dueDate),
+            category: vCat ? [vCat] : unComputedCategory,
+          })">
+      </div>
 
-      <select v-if="!route.path.includes('groups')" id="category" v-model="vCat" name="category">
-        <option v-for="cat, idx in state.categories.value" :key="idx" selected :value="cat">
-          {{ cat.title }}
-        </option>
-      </select>
+      <div class="right-input flex justify-end flex-auto ">
+        <div>
+          <li class="i-carbon-calendar w-5 h-5" />
+        </div>
 
-      <!-- <li class="carbon:calendar w-10 h-10" /> -->
+        <span class="flex">
+          <li class="i-carbon-home w-5 h-5" />
+          <DSelect :options="['Jolaoso', 'toyun', 'joseph', 'danmilare']" style="width: 200px" />
+          <!-- <select v-if="checker" id="category" v-model="vCat" name="category">
+                                        <option v-for="cat, idx in state.categories.value" :key="idx" selected :value="cat">
+                                          {{ cat.title }}
+                                        </option>
+                                      </select> -->
+        </span>
+      </div>
     </div>
 
     <span class="mx-2 ">

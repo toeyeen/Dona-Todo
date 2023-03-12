@@ -12,8 +12,9 @@ const { state, completed } = useState()
       {{ todo.title }}
     </li>
   </ul>
+
+  <EmptyTodo v-if="completed.length < 1" message="Empty todo" />
 </template>
 
 <style scoped>
-
 </style>

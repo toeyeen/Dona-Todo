@@ -15,7 +15,8 @@ const route = useRoute()
     <TodoInput />
 
     <ul>
-      <li v-for=" todo, idx in todosDueToday" :key="idx" :class="[todo.status === 'completed' ? 'line-through' : '']" @click="markTodo(todo)">
+      <li v-for=" todo, idx in todosDueToday" :key="idx" :class="[todo.status === 'completed' ? 'line-through' : '']"
+        @click="markTodo(todo)">
         <span>
           {{ todo.title }}
         </span>
@@ -25,9 +26,10 @@ const route = useRoute()
         </span>
       </li>
     </ul>
+
+    <EmptyTodo v-if="todosDueToday.length < 1" message="Empty todo" />
   </div>
 </template>
 
 <style scoped>
-
 </style>

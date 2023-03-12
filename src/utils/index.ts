@@ -128,3 +128,7 @@ export const formatArray = (arr) => {
 export const emojiURLByUnified = (unified: string, emojiStyle: EmojiStyle) => {
   return `${cdnUrl(emojiStyle)}${unified}.png`
 }
+
+export const objectToStyle = (obj: object) => {
+  return Object.keys(obj).map(key => `${key}:${obj[key]};`).join(' ')
+}

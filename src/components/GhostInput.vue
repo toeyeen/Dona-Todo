@@ -75,10 +75,15 @@ onMounted(() => {
   background-image: none;
   border-radius: 2px;
   transition: all .3s;
+  // background-color: red;
 
   &:focus,
   &:active {
     outline: none;
+  }
+
+  &:hover {
+    @apply hover: bg-gray-100;
   }
 
 }
