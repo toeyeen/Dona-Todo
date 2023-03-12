@@ -25,6 +25,8 @@ const activeTodos = computed(() => {
         </span>
       </li>
     </ul>
+
+    <EmptyTodo v-if="activeTodos.length < 1" message="Empty todo" />
   </div>
 </template>
 
