@@ -18,14 +18,17 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const effectScope: typeof import('vue')['effectScope']
   const emojiURLByUnified: typeof import('./src/utils/index')['emojiURLByUnified']
+  const filterOptions: typeof import('./src/utils/index')['filterOptions']
   const formatArray: typeof import('./src/utils/index')['formatArray']
   const formatInputDate: typeof import('./src/utils/index')['formatInputDate']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getLabel: typeof import('./src/utils/index')['getLabel']
   const getPlatform: typeof import('./src/utils/index')['getPlatform']
   const h: typeof import('vue')['h']
   const hyphen: typeof import('./src/utils/index')['hyphen']
   const inject: typeof import('vue')['inject']
+  const isEmpty: typeof import('./src/utils/index')['isEmpty']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
@@ -98,14 +101,17 @@ declare module 'vue' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly emojiURLByUnified: UnwrapRef<typeof import('./src/utils/index')['emojiURLByUnified']>
+    readonly filterOptions: UnwrapRef<typeof import('./src/utils/index')['filterOptions']>
     readonly formatArray: UnwrapRef<typeof import('./src/utils/index')['formatArray']>
     readonly formatInputDate: UnwrapRef<typeof import('./src/utils/index')['formatInputDate']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getLabel: UnwrapRef<typeof import('./src/utils/index')['getLabel']>
     readonly getPlatform: UnwrapRef<typeof import('./src/utils/index')['getPlatform']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hyphen: UnwrapRef<typeof import('./src/utils/index')['hyphen']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly isEmpty: UnwrapRef<typeof import('./src/utils/index')['isEmpty']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>

@@ -132,3 +132,35 @@ export const emojiURLByUnified = (unified: string, emojiStyle: EmojiStyle) => {
 export const objectToStyle = (obj: object) => {
   return Object.keys(obj).map(key => `${key}:${obj[key]};`).join(' ')
 }
+
+export function isEmpty(opt) {
+  if (opt === 0)
+    return false
+  if (Array.isArray(opt) && opt.length === 0)
+    return true
+  return !opt
+}
+
+// export function includes(str, query) {
+//   if (str === undefined)
+//     str = 'undefined'
+//   if (str === null)
+//     str = 'null'
+//   if (str === false)
+//     str = 'false'
+//   const text = str.toString().toLowerCase()
+
+//   return text.includes(query.trim()) !== -1
+// }
+
+export function getLabel(option, label) {
+  console.log(isEmpty(option, 'basecase'))
+  if (isEmpty(option))
+    return ''
+  return label ? option[label].toLowerCase() : option.toLowerCase()
+}
+
+export function filterOptions(options, search, label, getLabel) {
+  return options.filter(option => getLabel(option, label).includes(search),
+  )
+}

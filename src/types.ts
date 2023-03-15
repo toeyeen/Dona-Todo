@@ -65,3 +65,9 @@ export const skinTonesNamed = Object.entries(SkinTones).reduce(
   },
   {} as Record<string, string>,
 )
+
+// Select Options
+
+export type SelectOption<T = {}> = {
+  id?: string | number
+} & T

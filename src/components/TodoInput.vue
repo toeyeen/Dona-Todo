@@ -5,11 +5,21 @@ import type { Todo } from '../types'
 import { formatInputDate } from '../utils/index'
 
 const dueDateRef = ref<HTMLInputElement>(null)
+const taskRef = ref<HTMLInputElement>(null)
 
 const { addTodo, state } = useState()
 const route = useRoute()
 
 const vCat = ref(null)
+const value = ref({ name: 'No List', language: 'JavaScript' })
+const options = ref(
+  [
+    { id: 1, name: 'No List', language: 'JavaScript' },
+    { id: 2, name: 'Rails', language: 'Ruby' },
+    { id: 3, name: 'Sinatra', language: 'Ruby' },
+    { id: 4, name: 'Laravel', language: 'PHP' },
+    { id: 5, name: 'Phoenix', language: 'Elixir' },
+  ])
 const dueDate = ref(null)
 
 const category = computed(() => {
@@ -40,7 +50,6 @@ onMounted(() => {
   if (route.path.includes('Today'))
     dueDate.value = todaysDate().split(',')[0].trim()
 })
-// const taskRef = ref<HTMLDivElement>()
 
 const todo = ref('')
 const submit = (value: Todo) => {
@@ -64,8 +73,22 @@ const now = computed(() => {
 //   dueDate = target.value
 // }
 
+const adjustTextAreaHeight = () => {
+  // console.log(taskRef.value.scrollHeight), 'scroll'
+
+  // taskRef.value.style.height = '0px'
+  // taskRef.value.style.height = `${25 + taskRef.value.scrollHeight}px`
+
+  taskRef.value.style.height = 'auto' // reset height
+  taskRef.value.style.height = `${taskRef.value.scrollHeight}px` // adjust heigh
+}
+
 function checker() {
   return !route.path.includes('groups')
+}
+
+function nameWithNum({ name, language }) {
+  return `${name}`
 }
 </script>
 
@@ -74,29 +97,27 @@ function checker() {
     <div class="bg-white rounded-lg drop-shadow w-full flex items-center justify-between px-2  py-2">
       <div class="left-input flex flex-[1_1_70%]">
         <DCheckBox />
-        <input ref="taskRef" v-model="todo" placeholder="Write a new task" type="text" name="todo"
-          class="px-2 text-black w-full focus:outline-none " @keyup.enter="submit({
+        <textarea ref="taskRef" v-model="todo" rows="1" placeholder="Write a new task" type="text" name="todo"
+          class="px-2 text-black w-full focus:outline-none " @input="adjustTextAreaHeight" @keyup.enter="submit({
             id: uuidv4(),
             title: todo,
             status: 'inProgress',
             dueDate: formatInputDate(dueDate),
             category: vCat ? [vCat] : unComputedCategory,
-          })">
+          })" />
       </div>
 
-      <div class="right-input flex justify-end flex-auto ">
+      <div class="right-input items-center flex justify-end flex-auto ">
         <div>
           <li class="i-carbon-calendar w-5 h-5" />
         </div>
-
         <span class="flex">
-          <li class="i-carbon-home w-5 h-5" />
-          <DSelect :options="['Jolaoso', 'toyun', 'joseph', 'danmilare']" style="width: 200px" />
-          <!-- <select v-if="checker" id="category" v-model="vCat" name="category">
-                                        <option v-for="cat, idx in state.categories.value" :key="idx" selected :value="cat">
-                                          {{ cat.title }}
-                                        </option>
-                                      </select> -->
+          <DSelect v-model="value" track-by="name" label="name" :custom-label="nameWithNum" :options="options"
+            :max-height="200" style="width: 100px" :dropdown-style="{ width: '140px' }">
+            <template #icon="{ toggle }">
+              <span class=" betaselect__caret i-ph:caret-down text-lg text-black" @click="toggle" />
+            </template>
+          </DSelect>
         </span>
       </div>
     </div>
@@ -117,5 +138,11 @@ function checker() {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+textarea {
+  max-height: 120px;
+  overflow-y: scroll;
+  word-wrap: break-word;
+  resize: none
+}
 </style>
