@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
+import { onClickOutside, useMagicKeys, whenever } from '@vueuse/core'
 import type { Todo } from '../types'
 import { formatInputDate } from '../utils/index'
 
+const keys = useMagicKeys()
+const shiftCtrlA = keys['Meta+e']
+
 const dueDateRef = ref<HTMLInputElement>(null)
 const taskRef = ref<HTMLInputElement>(null)
-
+const inputArea = ref<HTMLInputElement>(null)
+const taskFocused = ref(false)
 const { addTodo, state } = useState()
 const route = useRoute()
 
@@ -22,10 +27,34 @@ const options = ref(
   ])
 const dueDate = ref(null)
 
+// Watcher
+whenever(shiftCtrlA, () => {
+  if (!taskFocused.value) {
+    taskFocused.value = true
+    taskRef.value.focus()
+  }
+  else {
+    removeFocus()
+  }
+})
+
+function removeFocus() {
+  taskRef.value.blur()
+  taskFocused.value = false
+}
+
+watch(taskRef, (old) => {
+  document.activeElement !== taskRef.value ? taskFocused.value = false : taskFocused.value = true
+})
+
 const category = computed(() => {
   return (route.path !== '/')
     ? state.categories.value.filter(cat => cat.title === route.params.id)
     : state.categories.value
+})
+
+onClickOutside(inputArea, (event) => {
+  taskFocused.value = false
 })
 
 const showDate = computed(() => {
@@ -52,11 +81,12 @@ onMounted(() => {
 })
 
 const todo = ref('')
-const submit = (value: Todo) => {
+const submit = (value: Todo, evt?: KeyboardEvent) => {
+  evt.preventDefault()
+
   if (todo.value && vCat.value) {
     addTodo(value)
     todo.value = ''
-
     // dueDateRef.value = null
   }
 
@@ -66,6 +96,12 @@ const submit = (value: Todo) => {
 
 const now = computed(() => {
   return todaysDate().split(',')[0].trim()
+})
+const textAreaBg = computed(() => {
+  return {
+    'bg-white': taskFocused.value,
+    'bg-gray-300': !taskFocused.value,
+  }
 })
 
 // function selectDueDate(e: Event) {
@@ -93,48 +129,58 @@ function nameWithNum({ name, language }) {
 </script>
 
 <template>
-  <div>
-    <div class="bg-white rounded-lg drop-shadow w-full flex items-center justify-between px-2  py-2">
+  <div ref="inputArea">
+    <div :class="textAreaBg" class="rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2">
       <div class="left-input flex flex-[1_1_70%]">
-        <DCheckBox />
+        <DCheckBox v-if="taskFocused === true" />
         <textarea ref="taskRef" v-model="todo" rows="1" placeholder="Write a new task" type="text" name="todo"
-          class="px-2 text-black w-full focus:outline-none " @input="adjustTextAreaHeight" @keyup.enter="submit({
+          :class="textAreaBg" class="px-2 text-black w-full focus:outline-none " @input="adjustTextAreaHeight"
+          @keydown.enter="submit({
             id: uuidv4(),
             title: todo,
             status: 'inProgress',
             dueDate: formatInputDate(dueDate),
             category: vCat ? [vCat] : unComputedCategory,
-          })" />
+          }, $event)" @focus="taskFocused = true" />
       </div>
 
-      <div class="right-input items-center flex justify-end flex-auto ">
+      <div v-if="taskFocused === true" class="right-input items-center flex justify-end flex-auto ">
         <div>
           <li class="i-carbon-calendar w-5 h-5" />
         </div>
         <span class="flex">
-          <DSelect v-model="value" track-by="name" label="name" :custom-label="nameWithNum" :options="options"
-            :max-height="200" style="width: 100px" :dropdown-style="{ width: '140px' }">
+          <DSelect v-model="value" track-by="name" label="name" :custom-label="nameWithNum" :close-on-select="false"
+            :options="options" :max-height="200" style="width: 100px" :dropdown-style="{ width: '140px' }">
             <template #icon="{ toggle }">
               <span class=" betaselect__caret i-ph:caret-down text-lg text-black" @click="toggle" />
             </template>
           </DSelect>
         </span>
       </div>
+
+      <div v-else class="flex gap-x-1">
+        <SubtleBg>
+          <span class="text-base">⌘</span>
+        </SubtleBg>
+        <SubtleBg>
+          <span class="text-base">E</span>
+        </SubtleBg>
+      </div>
     </div>
 
-    <span class="mx-2 ">
-      <input v-if="showDate" id="" ref="dueDateRef" v-model="dueDate" type="date">
-    </span>
+    <!-- <span class="mx-2 ">
+                                                                                                        <input v-if="showDate" id="" ref="dueDateRef" v-model="dueDate" type="date">
+                                                                                                      </span>
 
-    <button class="bg-green text-white px-2 mx-1" @click="submit({
-      id: uuidv4(),
-      title: todo,
-      status: 'inProgress',
-      dueDate: formatInputDate(dueDate),
-      category: vCat ? [vCat] : unComputedCategory,
-    })">
-      Add
-    </button>
+                                                                                                      <button class="bg-green text-white px-2 mx-1" @click="submit({
+                                                                                                        id: uuidv4(),
+                                                                                                        title: todo,
+                                                                                                        status: 'inProgress',
+                                                                                                        dueDate: formatInputDate(dueDate),
+                                                                                                        category: vCat ? [vCat] : unComputedCategory,
+                                                                                                      })">
+                                                                                                        Add
+                                                                                                      </button> -->
   </div>
 </template>
 

@@ -1,11 +1,13 @@
 import { cdnUrl } from '../config/cdnUrls'
 import type { EmojiStyle, HyphenOptions } from '~/types'
-export const todaysDate = () => {
+export const todaysDate = (options?) => {
   const date = new Date()
+
+  if (options)
+    return date.toLocaleString(undefined, options)
 
   return date.toLocaleString('en-GB', {
     hour12: false,
-
   })
 }
 
@@ -154,7 +156,7 @@ export function isEmpty(opt) {
 // }
 
 export function getLabel(option, label) {
-  console.log(isEmpty(option, 'basecase'))
+  // console.log(isEmpty(option, 'basecase'))
   if (isEmpty(option))
     return ''
   return label ? option[label].toLowerCase() : option.toLowerCase()
@@ -164,3 +166,9 @@ export function filterOptions(options, search, label, getLabel) {
   return options.filter(option => getLabel(option, label).includes(search),
   )
 }
+
+// export function todaysDate(date: Date, options = {
+//   weekday: 'long', year: 'numeric', month: 'short', day: 'numeric',
+// }) {
+//   const event = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+// }

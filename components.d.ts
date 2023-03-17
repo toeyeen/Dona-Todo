@@ -18,6 +18,8 @@ declare module '@vue/runtime-core' {
     Lottie: typeof import('./src/components/Lottie.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SubtleBg: typeof import('./src/components/SubtleBg.vue')['default']
     TodoInput: typeof import('./src/components/TodoInput.vue')['default']
+    TodoItem: typeof import('./src/components/TodoItem.vue')['default']
   }
 }

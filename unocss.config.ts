@@ -10,7 +10,13 @@ export default defineConfig({
     presetWebFonts({
       provider: 'google',
       fonts: {
-        rubik: 'Rubik',
+        rubik: [
+          {
+            name: 'Rubik',
+            weights: ['100', '200', '300', '400', '500', '600', '700', '800'],
+            italic: true,
+          },
+        ],
       },
     }),
   ],
