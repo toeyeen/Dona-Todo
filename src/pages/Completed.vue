@@ -7,10 +7,8 @@ const { state, completed } = useState()
     Completed Page
   </div>
 
-  <ul>
-    <li v-for=" todo, idx in completed" :key="idx" :class="[todo.status === 'completed' ? 'line-through' : '']">
-      {{ todo.title }}
-    </li>
+  <ul class="flex flex-col gap-y-1">
+    <TodoItem v-for="todo, idx in completed" :id="todo.id" :key="idx" :value="todo.title" :completed="true" />
   </ul>
 
   <EmptyTodo v-if="completed.length < 1" message="Empty todo" />

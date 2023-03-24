@@ -33,23 +33,23 @@ const formattedTodaysDate = computed(() => {
 
     <TodoInput />
     <!-- <ul>
-                                                    <li v-for="todo, idx in activeTodos" :key="idx" :class="[todo.status == 'completed' ? 'line-through' : '']"
-                                                      @click="markTodo(todo)">
-                                                      <span>
-                                                                        {{ todo.title }}
-                                                                      </span>
+                                                              <li v-for="todo, idx in activeTodos" :key="idx" :class="[todo.status == 'completed' ? 'line-through' : '']"
+                                                                @click="markTodo(todo)">
+                                                                <span>
+                                                                                  {{ todo.title }}
+                                                                                </span>
 
-                                                                      <span v-if="todo?.dueDate">
-                                                                        it is Due on {{ todo?.dueDate }}
-                                                                      </span>
-                                                                    </li>
-                                                                  </ul> -->
+                                                                                <span v-if="todo?.dueDate">
+                                                                                  it is Due on {{ todo?.dueDate }}
+                                                                                </span>
+                                                                              </li>
+                                                                            </ul> -->
 
     <div class="py-2" />
 
     <EmptyTodo v-if="activeTodos.length < 1" message="Empty todo" />
     <ul class="flex flex-col gap-y-1">
-      <TodoItem v-for="todo, idx in activeTodos" :key="idx" :value="todo.title" />
+      <TodoItem v-for="todo, idx in activeTodos" :id="todo.id" :key="idx" :value="todo.title" />
     </ul>
   </div>
 </template>

@@ -9,6 +9,9 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CheckBox: typeof import('./src/components/DCheckBox.vue')['default']
     DCheckBox: typeof import('./src/components/DCheckBox.vue')['default']
+    DDrawer: typeof import('./src/components/DDrawer.vue')['default']
+    DDropDown: typeof import('./src/components/DDropDown.vue')['default']
+    DLottie: typeof import('./src/components/DLottie.vue')['default']
     DSelect: typeof import('./src/components/DSelect.vue')['default']
     EmojiCard: typeof import('./src/components/EmojiCard.vue')['default']
     EmptyTodo: typeof import('./src/components/EmptyTodo.vue')['default']

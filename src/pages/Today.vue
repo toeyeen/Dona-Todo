@@ -9,22 +9,23 @@ const route = useRoute()
 <template>
   <div>
     <p text-2xl font-bold mb-2>
-      {{ route.name }}
-    </p>
+    {{ route.name }}
+  </p>
 
-    <TodoInput />
+  <TodoInput />
 
-    <ul>
-      <li v-for=" todo, idx in todosDueToday" :key="idx" :class="[todo.status === 'completed' ? 'line-through' : '']"
+  <ul class="flex flex-col gap-y-1">
+    <TodoItem v-for="todo, idx in todosDueToday" :id="todo.id" :key="idx" :value="todo.title" />
+    <!-- <li v-for=" todo, idx in todosDueToday" :key="idx" :class="[todo.status === 'completed' ? 'line-through' : '']"
         @click="markTodo(todo)">
-        <span>
-          {{ todo.title }}
-        </span>
+                  <span>
+                    {{ todo.title }}
+                  </span>
 
-        <span v-if="todo?.dueDate">
-          it is Due today
-        </span>
-      </li>
+                  <span v-if="todo?.dueDate">
+                    it is Due today
+                  </span>
+                </li> -->
     </ul>
 
     <EmptyTodo v-if="todosDueToday.length < 1" message="Empty todo" />

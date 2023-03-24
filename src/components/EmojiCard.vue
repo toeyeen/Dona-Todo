@@ -126,8 +126,8 @@ onMounted(() => {
 
     <div class="utils-card__categories">
       <!-- <pre>
-                                                    {{ selectedType }}
-                                            </pre> -->
+                                                      {{ selectedType }}
+                                              </pre> -->
 
       <ul>
         <div v-for="item, idx in emojis" :key="idx" class="here">
@@ -289,7 +289,7 @@ onMounted(() => {
     backdrop-filter: blur(3px);
     position: sticky;
     top: 0;
-    z-index: 999;
+    z-index: 9;
   }
 
   &__button {

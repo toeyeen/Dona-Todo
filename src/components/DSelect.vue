@@ -238,12 +238,13 @@ onMounted(() => {
     <input v-if="searchable" ref="search" :value="searchValue" :style="inputStyle" :placeholder="placeholder"
       class="betaselect__input" autocomplete="off" :spellcheck="false" type="text" @input="updateValue" @focus="activate"
       @blur="deactivate" @keyup.esc="deactivate">
+
     <transition name="betaselect">
-      <div v-show="isOpen" ref="list" tabindex="-1" class="betaselect__content-wrapper"
+      <div v-show="isOpen" ref="list" class="betaselect__content-wrapper"
         :style="objectToStyle({ ...dropdownStyle, minHeight: `${maxHeight}px` })" @mousedown.prevent>
-        <ul role="listbox">
+        <ul>
           <li v-for="option, idx in filteredOptions" :id="`null-${idx}`" :key="idx" class="betaselect__element"
-            role="option" @click.stop="select(option)">
+            @click.stop="select(option)">
             <span class="betaselect__option">
               {{ getOptionLabel(option) }}
             </span>
@@ -345,13 +346,38 @@ onMounted(() => {
 
   &__content-wrapper {
     overflow-y: scroll;
-    z-index: 6;
+    z-index: 10;
     border-radius: 5px;
     margin-top: 8px;
     background: #fff;
     position: absolute;
     width: 100%;
     right: 0;
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+    color: #000000d9;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    font-feature-settings: "tnum";
+    outline: none;
+
+    // margin: 0;
+    // color: #000000d9;
+    // font-variant: tabular-nums;
+    // line-height: 1.5715;
+    // list-style: none;
+    // font-feature-settings: "tnum";
+    // position: absolute;
+    // z-index: 1050;
+    // box-sizing: border-box;
+    // padding: 4px 0;
+    // overflow: hidden;
+    // font-size: 14px;
+    // font-variant: initial;
+    // background-color: #fff;
+    // border-radius: 2px;
+    // outline: none;
+    // box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
 
     &>ul {
       list-style: none;
