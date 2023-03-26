@@ -8,8 +8,10 @@ const { triggers } = withDefaults(defineProps<{
 })
 
 const showPopup = ref(false)
-const dropdownElement = ref<HTMLDivElement | null>(null)
-onClickOutside(dropdownElement, (event: Event) => showPopup.value = false)
+const dropdownRef = ref<HTMLDivElement | null>(null)
+const activatorRef = ref<HTMLDivElement | null>(null)
+onClickOutside(dropdownRef, (event: Event) => showPopup.value = false)
+const overlayPosition = ref(null)
 
 function toggle() {
   showPopup.value = !showPopup.value
@@ -33,20 +35,67 @@ function isFocusAction() {
 
   return false
 }
+
+watchEffect(() => {
+  window.addEventListener('resize', getPosition)
+  getPosition()
+  return () => {
+    window.removeEventListener('resize', getPosition)
+  }
+})
+
+function getPosition() {
+  if (activatorRef.value) {
+    const divRect = activatorRef.value.getBoundingClientRect()
+
+    for (const key in divRect) {
+      // console.log(`${key}: ${divRect[key]}`)
+    }
+
+    const x = divRect.left + activatorRef.value.offsetWidth
+    const y = divRect.top + activatorRef.value.offsetHeight
+
+    overlayPosition.value = {
+      position: 'absolute',
+      left: `${x}px`,
+      top: `${y}px`,
+    }
+    return {
+      position: 'absolute',
+      left: `${x}px`,
+      top: `${y}px`,
+    }
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('resize', getPosition)
+  getPosition()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', getPosition)
+})
 </script>
 
 <template>
-  <div ref="dropdownElement" class="dropdown">
+  <div ref="dropdownRef" class="dropdown">
     <div v-if="showPopup" class="overlay">
-      <slot name="overlay" />
+      <Teleport to="#app">
+        <div class="dropdown" :style="objectToStyle(overlayPosition)">
+          <slot name="overlay" />
+        </div>
+      </Teleport>
     </div>
 
-    <slot name="activator" :toggle="toggle" />
+    <div ref="activatorRef">
+      <slot name="activator" :toggle="toggle" />
+    </div>
     <div />
   </div>
 </template>
 
-<style scoped>
+<style>
 .dropdown {
   position: relative;
 }

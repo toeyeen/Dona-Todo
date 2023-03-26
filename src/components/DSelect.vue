@@ -14,7 +14,7 @@ interface SelectProps<T> {
   customLabel?: (a, b) => string
   label?: string
   trackBy?: string
-  disabled: boolean
+  disabled?: boolean
   searchable?: boolean
   dropdownStyle?: object
 }
@@ -348,7 +348,7 @@ onMounted(() => {
     overflow-y: scroll;
     z-index: 10;
     border-radius: 5px;
-    margin-top: 8px;
+    margin-top: 4px;
     background: #fff;
     position: absolute;
     width: 100%;

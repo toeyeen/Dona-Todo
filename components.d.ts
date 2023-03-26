@@ -19,6 +19,7 @@ declare module '@vue/runtime-core' {
     LayoutBlur: typeof import('./src/components/LayoutBlur.vue')['default']
     LeftPanel: typeof import('./src/components/LeftPanel.vue')['default']
     Lottie: typeof import('./src/components/Lottie.vue')['default']
+    NotFound: typeof import('./src/pages/NotFound.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubtleBg: typeof import('./src/components/SubtleBg.vue')['default']

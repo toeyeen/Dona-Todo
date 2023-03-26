@@ -131,8 +131,8 @@ function nameWithNum({ name, language }) {
 <template>
   <div ref="inputArea">
     <div :class="textAreaBg"
-      class="z-5 relative rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2 max-h-12">
-      <div class="left-input flex flex-[1_1_70%]">
+      class="z-5 relative rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2 min-h-12">
+      <div class="left-input items-center flex flex-[1_1_70%]">
         <DCheckBox v-if="taskFocused === true" />
         <textarea ref="taskRef" v-model="todo" rows="1" placeholder="Write a new task" type="text" name="todo"
           :class="textAreaBg" class="px-2 text-black w-full focus:outline-none " @input="adjustTextAreaHeight"
@@ -150,8 +150,8 @@ function nameWithNum({ name, language }) {
           <li class="i-carbon-calendar w-5 h-5" />
         </div>
         <span class="flex">
-          <DSelect v-model="value" track-by="name" label="name" :custom-label="nameWithNum" :close-on-select="false"
-            :options="options" :max-height="200" style="width: 100px" :dropdown-style="{ width: '140px' }">
+          <DSelect v-model="value" track-by="name" label="name" :custom-label="nameWithNum" :options="options"
+            :max-height="200" style="width: 100px" :dropdown-style="{ width: '140px' }">
             <template #icon="{ toggle }">
               <span class=" betaselect__caret i-ph:caret-down text-lg text-black" @click="toggle" />
             </template>
@@ -170,18 +170,18 @@ function nameWithNum({ name, language }) {
     </div>
 
     <!-- <span class="mx-2 ">
-                                                                                                                      <input v-if="showDate" id="" ref="dueDateRef" v-model="dueDate" type="date">
-                                                                                                                    </span>
+                                                                                                                            <input v-if="showDate" id="" ref="dueDateRef" v-model="dueDate" type="date">
+                                                                                                                          </span>
 
-                                                                                                                    <button class="bg-green text-white px-2 mx-1" @click="submit({
-                                                                                                                      id: uuidv4(),
-                                                                                                                      title: todo,
-                                                                                                                      status: 'inProgress',
-                                                                                                                      dueDate: formatInputDate(dueDate),
-                                                                                                                      category: vCat ? [vCat] : unComputedCategory,
-                                                                                                                    })">
-                                                                                                                      Add
-                                                                                                                    </button> -->
+                                                                                                                          <button class="bg-green text-white px-2 mx-1" @click="submit({
+                                                                                                                            id: uuidv4(),
+                                                                                                                            title: todo,
+                                                                                                                            status: 'inProgress',
+                                                                                                                            dueDate: formatInputDate(dueDate),
+                                                                                                                            category: vCat ? [vCat] : unComputedCategory,
+                                                                                                                          })">
+                                                                                                                            Add
+                                                                                                                          </button> -->
   </div>
 </template>
 

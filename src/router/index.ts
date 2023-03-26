@@ -27,6 +27,17 @@ const routes = [
     component: () => import('@/pages/Groups.vue'),
   },
 
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/pages/NotFound.vue'),
+  },
+
+  {
+    path: '/groups/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/pages/NotFound.vue'),
+  },
 ]
 
 const router = createRouter({

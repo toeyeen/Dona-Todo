@@ -10,15 +10,15 @@ const props = withDefaults(defineProps<{
   completed: false,
 })
 
-const emits = defineEmits(['duplicate'])
-
+const emits = defineEmits(['duplicate', 'delete', 'edit'])
+const initDone = ref(false)
 const optionLists = ref([
   {
     id: 1,
     slug: 'edit',
     name: 'Edit',
     function: () => {
-      console.log('edit')
+      emits('edit', props.id)
     },
     icon: EditIcon,
   },
@@ -27,7 +27,6 @@ const optionLists = ref([
     slug: 'duplicate',
     name: 'Duplicate',
     function: () => {
-      console.log(props.id)
       emits('duplicate', props.id)
     },
     icon: CopyIcon,
@@ -37,23 +36,30 @@ const optionLists = ref([
     slug: 'delete',
     name: 'Delete',
     function: () => {
-      console.log('delete')
+      emits('delete', props.id)
     },
     icon: TrashIcon,
   },
 ])
+
+function clicker() {
+  initDone.value = !initDone.value
+}
 </script>
 
 <template>
   <div>
     <div class="relative bg-gray-50 rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2">
-      <div class="left-input flex flex-[1_1_70%]">
+      <button @click="clicker">
+        Toggle
+      </button>
+      <div class="left-input flex items-center flex-[1_1_70%]">
         <DCheckBox />
         <textarea :value="props.value" readonly rows="1" placeholder="Write a new task" type="text" name="todo"
           class="px-2 text-black w-full focus:outline-none bg-gray-50" />
       </div>
 
-      <div class="right-input items-center flex justify-end flex-auto ">
+      <div id="teleport" class=" right-input items-center flex justify-end flex-auto ">
         <div>
           <DDropDown triggers="click">
             <template #overlay>
@@ -64,13 +70,12 @@ const optionLists = ref([
                     <span :class="[props.completed ? 'line-through' : '']" class=" betaselect__option">
                       {{ option.name }}
                     </span>
-                    <component :is="shallowRef(option.icon)" class="w-4 h-4 fill-current text-black cursor-pointer"
-                      aria-hidden="true" />
+                    <component :is="shallowRef(option.icon)" :key="idx"
+                      class="w-4 h-4 fill-current text-black cursor-pointer" aria-hidden="true" />
                   </li>
                 </ul>
               </div>
             </template>
-
             <template #activator="{ toggle }">
               <SubtleBg @click="toggle">
                 <li class="i-ph:dots-three-outline-vertical-thin w-4 h-4" />
@@ -88,10 +93,97 @@ const optionLists = ref([
     <li class="i-beta:copy" />
     <li class="i-beta:trash" />
   </div>
+
+  <DDrawer :visible="initDone" />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 textarea {
   resize: none
+}
+
+.ant-dropdown {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  z-index: 1070;
+  display: block;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.5;
+  padding-top: 4px;
+
+  &-wrap {
+    position: relative;
+  }
+
+  &-hidden {
+    display: none;
+  }
+
+  &-menu {
+    outline: none;
+    position: relative;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d9d9d9;
+    overflow: hidden;
+
+    >li {
+      margin: 0;
+      padding: 0;
+    }
+
+    &>&-item {
+      padding: 7px 16px;
+      clear: both;
+      font-size: 12px;
+      font-weight: normal;
+      color: #666;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      >a {
+        color: #666;
+        display: block;
+        padding: 7px 16px;
+        margin: -7px -16px;
+      }
+
+      &-disabled {
+        color: #ccc;
+        cursor: not-allowed;
+        pointer-events: none;
+
+        &:hover {
+          color: #ccc;
+          background-color: #fff;
+          cursor: not-allowed;
+        }
+      }
+
+      &:last-child {
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+
+      &:first-child {
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+      }
+
+      &-divider {
+        height: 1px;
+        overflow: hidden;
+        background-color: #e5e5e5;
+        line-height: 0;
+      }
+    }
+  }
 }
 </style>
