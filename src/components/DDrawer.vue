@@ -1,53 +1,67 @@
 <script setup lang="ts">
+import { onClickOutside } from '@vueuse/core'
+import { tuple } from '../types'
+
 const props = withDefaults(defineProps<{
   visible: boolean
-  closable: boolean
+  closable?: boolean
 }>(
 
 ), {
   visible: false,
-  closable: true,
+  closable: false,
 })
-
 const emits = defineEmits<
   {
-    (e: 'close',): void
+    (e: 'close', event: Event): void
+    (e: 'update:visible', visible: false): void
   }
 >()
+const slotTupleNames = tuple('header', 'footer')
+type slotNames = 'header' | 'footer'
+
+const slots = useSlots()
+const maskRef = ref<HTMLDivElement | null>(null)
+const drawerRef = ref<HTMLDivElement | null>(null)
+function closeDrawer(e) {
+  emits('update:visible', false)
+  emits('close', e)
+}
+
+onClickOutside(drawerRef, (event: Event) => closeDrawer(event),
+)
 
 const localVisible = ref(props.visible)
 
-function closeDrawer() {
-  updateLocalValue()
-  emits('close')
-}
-
 function updateLocalValue() {
   localVisible.value = false
+}
+
+const isSlotUsed = (slotName: slotNames) => {
+  return !!slots[slotName]
 }
 </script>
 
 <template>
   <Teleport to="#app">
     <div class="drawer" :class="[props.visible ? 'beta-drawer-true' : '']">
-      <div class="beta-drawer-mask" />
-      <div class="beta-drawer" :class="[props.visible ? 'beta-drawer-opened' : '']">
+      <div ref="maskRef" class="beta-drawer-mask" />
+      <div ref="drawerRef" class="beta-drawer" :class="[props.visible ? 'beta-drawer-opened' : '']">
         <div class="beta-drawer-content-wrapper">
           <div class="beta-drawer-content">
             <div class="beta-drawer-wrapper-body">
-              <p> {{ localVisible }} </p>
-              <div class="beta-drawer-header">
-                I am the header
+              <div v-if="isSlotUsed('header')" class="beta-drawer-header">
+                <slot name="header" />
+                <span v-if="props.closable"
+                  class="i-carbon:close cursor-pointer inline-block w-4 h-4 text-black fill-current"
+                  @click="closeDrawer" />
               </div>
-
-              <span class="i-carbon:close cursor-pointer inline-block w-4 h-4 text-black fill-current"
-                @click="closeDrawer" />
-
               <div class="beta-drawer-body">
-                I am the footer
+                <slot />
               </div>
-              <div class="beta-drawer-footer">
-                I am the footer
+
+              <div v-if="isSlotUsed('footer')" class="beta-drawer-footer">
+                <slot name="footer" />
               </div>
             </div>
           </div>
@@ -58,88 +72,6 @@ function updateLocalValue() {
 </template>
 
 <style lang="scss">
-// .beta-drawer {
-//   position: absolute;
-//   top: 0px;
-//   right: 0px;
-//   width: 500px;
-//   height: 100%;
-//   max-width: 100%;
-//   transform: translateX(100%);
-
-//   &-opened {
-//     transform: translateX(0%);
-//   }
-
-//   &-content-wrapper {
-//     height: 100%;
-//     width: 100%;
-//     background-color: #fff;
-//     box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d, -12px 0 48px 16px #00000008;
-//     ;
-//   }
-
-//   // &-right,
-//   // &-left {
-//   //   height: 100%;
-//   //   top: 0px;
-
-//   //   &.beta-drawer-open {
-//   //     // width: 100%;
-
-//   //     // .beta-drawer-content-wrapper {
-//   //     //   box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d, -12px 0 48px 16px #00000008;
-//   //     // }
-//   //   }
-
-//   // }
-
-//   // &-right {
-//   //   right: 0px;
-
-//   //   // .beta-drawer-content-wrapper {
-//   //   //   height: 100%;
-//   //   // }
-
-//   //   // &.beta-drawer-open {}
-
-//   //   // .beta-drawer-content-wrapper {}
-//   // }
-
-//   &-mask {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     height: 100%;
-//     background-color: #00000073;
-//     transition: opacity .3s linear, height 0s ease .3s;
-//     pointer-events: none;
-//     opacity: 0;
-
-//     &~.beta-drawer.beta-drawer-opened {
-//       opacity: 1;
-//     }
-//   }
-
-//   // &-content {
-//   //   position: relative;
-//   //   z-index: 1;
-//   //   overflow: auto;
-//   //   background-color: #fff;
-//   //   border: 0;
-//   //   width: 500px;
-//   //   height: 100%
-//   // }
-
-//   // &.beta-drawer-open {
-//   //   .beta-drawer-mask {
-//   //     height: 100%;
-//   //     opacity: 1;
-//   //   }
-//   // }
-// }
-
 .beta-drawer {
   position: absolute;
   top: 0px;
@@ -148,17 +80,24 @@ function updateLocalValue() {
   height: 100%;
   max-width: 100%;
   transform: translateX(100%);
+  z-index: 100;
+  transition: transform .4s cubic-bezier(.23, 1, .32, 1);
 
   &-opened {
     transform: translateX(0%);
   }
 
-  &-content-wrapper {
+  &-content {
+
     height: 100%;
-    width: 100%;
-    background-color: #fff;
-    box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d, -12px 0 48px 16px #00000008;
-    ;
+
+    &-wrapper {
+      height: 100%;
+      width: 100%;
+      background-color: #fff;
+      box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d, -12px 0 48px 16px #00000008;
+      ;
+    }
   }
 
   &-mask {
@@ -171,7 +110,42 @@ function updateLocalValue() {
     transition: opacity .3s linear, height 0s ease .3s;
     pointer-events: none;
     opacity: 0;
+  }
 
+  &-wrapper-body {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    width: 100%;
+  }
+
+  &-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    color: #000000d9;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 2px 2px 0 0;
+  }
+
+  &-body {
+    // position: fixed;
+    flex-grow: 1;
+    padding: 24px;
+    overflow: auto;
+    font-size: 14px;
+    line-height: 1.5715;
+    word-wrap: break-word;
+  }
+
+  &-footer {
+    flex-shrink: 0;
+    padding: 10px 16px;
+    border-top: 1px solid #f0f0f0;
+    // position: fixed;
   }
 
 }

@@ -72,6 +72,9 @@ export const useState = () => {
   function deleteTodo(id: string) {
     state.todos = state.todos.filter(todo => todo.id !== id)
   }
+  function getTodo(id: string) {
+    return state.todos.find(todo => todo.id === id)
+  }
 
   function markTodo(value: Todo) {
     if (value.status === 'due' || value.status === 'inProgress') {
@@ -140,5 +143,6 @@ export const useState = () => {
     getCategorySymbol,
     duplicateTodo,
     deleteTodo,
+    getTodo,
   }
 }

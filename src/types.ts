@@ -71,3 +71,5 @@ export const skinTonesNamed = Object.entries(SkinTones).reduce(
 export type SelectOption<T = {}> = {
   id?: string | number
 } & T
+
+export const tuple = <T extends string[]>(...args: T) => args

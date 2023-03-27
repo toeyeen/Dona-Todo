@@ -11,7 +11,6 @@ const props = withDefaults(defineProps<{
 })
 
 const emits = defineEmits(['duplicate', 'delete', 'edit'])
-const initDone = ref(false)
 const optionLists = ref([
   {
     id: 1,
@@ -41,18 +40,11 @@ const optionLists = ref([
     icon: TrashIcon,
   },
 ])
-
-function clicker() {
-  initDone.value = !initDone.value
-}
 </script>
 
 <template>
   <div>
     <div class="relative bg-gray-50 rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2">
-      <button @click="clicker">
-        Toggle
-      </button>
       <div class="left-input flex items-center flex-[1_1_70%]">
         <DCheckBox />
         <textarea :value="props.value" readonly rows="1" placeholder="Write a new task" type="text" name="todo"
@@ -93,8 +85,6 @@ function clicker() {
     <li class="i-beta:copy" />
     <li class="i-beta:trash" />
   </div>
-
-  <DDrawer :visible="initDone" />
 </template>
 
 <style lang="scss" scoped>
