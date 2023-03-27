@@ -48,12 +48,12 @@ function openEditDrawer(id: string) {
 
   <EmptyTodo v-if="todos.length < 1" message="Empty todo" />
 
-  <DDrawer v-if="todoToEdit" :visible="isEditDrawer" :closable="true" @close="isEditDrawer = false">
+  <DDrawer :visible="isEditDrawer" :closable="true" @close="isEditDrawer = false">
     <template #header>
-      {{ todoToEdit.id }}
+      {{ todoToEdit?.id }}
     </template>
 
-    {{ todoToEdit.title }}
+    {{ todoToEdit?.title }}
 
     <template #footer>
       <button> Delete todo </button>
