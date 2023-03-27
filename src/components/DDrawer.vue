@@ -5,11 +5,13 @@ import { tuple } from '../types'
 const props = withDefaults(defineProps<{
   visible: boolean
   closable?: boolean
+  width: number | string
 }>(
 
 ), {
   visible: false,
   closable: false,
+  width: 420,
 })
 const emits = defineEmits<
   {
@@ -46,14 +48,15 @@ const isSlotUsed = (slotName: slotNames) => {
   <Teleport to="#app">
     <div class="drawer" :class="[props.visible ? 'beta-drawer-true' : '']">
       <div ref="maskRef" class="beta-drawer-mask" />
-      <div ref="drawerRef" class="beta-drawer" :class="[props.visible ? 'beta-drawer-opened' : '']">
+      <div ref="drawerRef" class="beta-drawer" :style="props.width ? `width: ${props.width}px` : ''"
+        :class="[props.visible ? 'beta-drawer-opened' : '']">
         <div class="beta-drawer-content-wrapper">
           <div class="beta-drawer-content">
             <div class="beta-drawer-wrapper-body">
               <div v-if="isSlotUsed('header')" class="beta-drawer-header">
                 <slot name="header" />
                 <span v-if="props.closable"
-                  class="i-carbon:close cursor-pointer inline-block w-4 h-4 text-black fill-current"
+                  class="i-carbon:close close-drawer cursor-pointer inline-block w-6 h-6 text-black fill-current"
                   @click="closeDrawer" />
               </div>
               <div class="beta-drawer-body">
@@ -76,7 +79,6 @@ const isSlotUsed = (slotName: slotNames) => {
   position: absolute;
   top: 0px;
   right: 0px;
-  width: 500px;
   height: 100%;
   max-width: 100%;
   transform: translateX(100%);
@@ -127,7 +129,7 @@ const isSlotUsed = (slotName: slotNames) => {
     padding: 16px 24px;
     color: #000000d9;
     background: #fff;
-    border-bottom: 1px solid #f0f0f0;
+    // border-bottom: 1px solid #f0f0f0;
     border-radius: 2px 2px 0 0;
   }
 
@@ -152,5 +154,11 @@ const isSlotUsed = (slotName: slotNames) => {
 
 .beta-drawer-true>.beta-drawer-mask {
   opacity: 1;
+}
+
+.close-drawer {
+  position: absolute;
+  right: 22px;
+  top: 20px;
 }
 </style>

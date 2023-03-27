@@ -1,0 +1,98 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "title": "Learn about Polymer",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repellendus, recusandae, accusantium voluptas deleniti provident quisquam fugiat nisi obcaecati impedit, ipsum odit voluptatibus cupiditate. Ad quam voluptatem error nostrum, earum quibusdam facilis vitae cumque sequi iste possimus, aperiam labore fugit? Veniam atque voluptas sequi! Nulla tempore dicta odio ratione veniam beatae perferendis magni molestiae autem! Dolor minus eum expedita quisquam nostrum numquam rerum possimus dignissimos quas ut tempora, iure commodi maiores quibusdam quaerat error optio perferendis placeat officia fugit? Quisquam natus ipsum sit nesciunt veritatis expedita, accusamus aliquam autem laborum culpa libero minima perferendis nemo obcaecati numquam dolorum asperiores delectus.",
+      "subTodo": [
+        {
+          "id": 1,
+          "title": "Learn about Polymer",
+          "created_at": "Mon Apr 26 06:01:55 +0000 2015"
+        }
+      ],
+      "created_at": "Mon Apr 26 06:01:55 +0000 2015",
+      "color": {
+        "hex": "#fcb331"
+      },
+      "Tags": [
+        "Web Development",
+        "Web Components"
+      ],
+      "is_complete": true,
+      "dueDate": "Mon Apr 26 06:01:55 +0000 2015"
+    },
+    {
+      "id": 2,
+      "text": "Watch Pluralsight course on Docker",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repellendus, recusandae, accusantium voluptas deleniti provident quisquam fugiat nisi obcaecati impedit, ipsum odit voluptatibus cupiditate. Ad quam voluptatem error nostrum, earum quibusdam facilis vitae cumque sequi iste possimus, aperiam labore fugit? Veniam atque voluptas sequi! Nulla tempore dicta odio ratione veniam beatae perferendis magni molestiae autem! Dolor minus eum expedita quisquam nostrum numquam rerum possimus dignissimos quas ut tempora, iure commodi maiores quibusdam quaerat error optio perferendis placeat officia fugit? Quisquam natus ipsum sit nesciunt veritatis expedita, accusamus aliquam autem laborum culpa libero minima perferendis nemo obcaecati numquam dolorum asperiores delectus.",
+      "subTodo": [
+        {
+          "id": 1,
+          "title": "Learn about Polymer",
+          "created_at": "Mon Apr 26 06:01:55 +0000 2015"
+        }
+      ],
+      "created_at": "Tue Mar 02 07:01:55 +0000 2015",
+      "Tags": [
+        "Devops",
+        "Docker"
+      ],
+      "is_complete": true
+    },
+    {
+      "id": 3,
+      "text": "Complete presentation prep for Aurelia presentation",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repellendus, recusandae, accusantium voluptas deleniti provident quisquam fugiat nisi obcaecati impedit, ipsum odit voluptatibus cupiditate. Ad quam voluptatem error nostrum, earum quibusdam facilis vitae cumque sequi iste possimus, aperiam labore fugit? Veniam atque voluptas sequi! Nulla tempore dicta odio ratione veniam beatae perferendis magni molestiae autem! Dolor minus eum expedita quisquam nostrum numquam rerum possimus dignissimos quas ut tempora, iure commodi maiores quibusdam quaerat error optio perferendis placeat officia fugit? Quisquam natus ipsum sit nesciunt veritatis expedita, accusamus aliquam autem laborum culpa libero minima perferendis nemo obcaecati numquam dolorum asperiores delectus.",
+      "subTodo": [
+        {
+          "id": 1,
+          "title": "Learn about Polymer",
+          "created_at": "Mon Apr 26 06:01:55 +0000 2015"
+        }
+      ],
+      "created_at": "Wed Mar 05 10:01:55 +0000 2015",
+      "Tags": [
+        "Presentation",
+        "Aureia"
+      ],
+      "is_complete": false
+    },
+    {
+      "id": 4,
+      "text": "Instrument creation of development environment with Puppet",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repellendus, recusandae, accusantium voluptas deleniti provident quisquam fugiat nisi obcaecati impedit, ipsum odit voluptatibus cupiditate. Ad quam voluptatem error nostrum, earum quibusdam facilis vitae cumque sequi iste possimus, aperiam labore fugit? Veniam atque voluptas sequi! Nulla tempore dicta odio ratione veniam beatae perferendis magni molestiae autem! Dolor minus eum expedita quisquam nostrum numquam rerum possimus dignissimos quas ut tempora, iure commodi maiores quibusdam quaerat error optio perferendis placeat officia fugit? Quisquam natus ipsum sit nesciunt veritatis expedita, accusamus aliquam autem laborum culpa libero minima perferendis nemo obcaecati numquam dolorum asperiores delectus.",
+      "subTodo": [
+        {
+          "id": 1,
+          "title": "Learn about Polymer",
+          "created_at": "Mon Apr 26 06:01:55 +0000 2015"
+        }
+      ],
+      "created_at": "Fri June 30 13:00:00 +0000 2015",
+      "Tags": [
+        "Devops",
+        "Puppet"
+      ],
+      "is_complete": false
+    },
+    {
+      "id": 5,
+      "text": "Transition code base to ES6",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam repellendus, recusandae, accusantium voluptas deleniti provident quisquam fugiat nisi obcaecati impedit, ipsum odit voluptatibus cupiditate. Ad quam voluptatem error nostrum, earum quibusdam facilis vitae cumque sequi iste possimus, aperiam labore fugit? Veniam atque voluptas sequi! Nulla tempore dicta odio ratione veniam beatae perferendis magni molestiae autem! Dolor minus eum expedita quisquam nostrum numquam rerum possimus dignissimos quas ut tempora, iure commodi maiores quibusdam quaerat error optio perferendis placeat officia fugit? Quisquam natus ipsum sit nesciunt veritatis expedita, accusamus aliquam autem laborum culpa libero minima perferendis nemo obcaecati numquam dolorum asperiores delectus.",
+      "subTodo": [
+        {
+          "id": 1,
+          "title": "Learn about Polymer",
+          "created_at": "Mon Apr 26 06:01:55 +0000 2015"
+        }
+      ],
+      "created_at": "Mon Aug 01 10:00:00 +0000 2015",
+      "Tags": [
+        "ES6",
+        "Web Development"
+      ],
+      "is_complete": false
+    }
+  ]
+}
