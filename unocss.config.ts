@@ -15,7 +15,6 @@ export default defineConfig({
           // do not apply fill to this icons on this collection
           if (collection === 'custom')
             return svg.replace(/#FCB331/, 'currentColor')
-          return svg.replace(/#fff/, 'currentColor')
         },
       },
     }),
