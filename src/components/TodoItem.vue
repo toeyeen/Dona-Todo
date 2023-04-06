@@ -1,23 +1,25 @@
 <script setup lang="ts">
+import type { Todo } from '../types'
 import TrashIcon from '~icons/ph/trash'
 import EditIcon from '~icons/ph/pencil-simple'
 import CopyIcon from '~icons/ph/copy'
 const props = withDefaults(defineProps<{
-  value: string
-  id: string
-  completed?: boolean
+  todo: Todo
 }>(), {
-  completed: false,
 })
 
 const emits = defineEmits(['duplicate', 'delete', 'edit'])
+
+const paraRef = ref<HTMLParagraphElement | null>(null)
+
+const { markTodo } = useState()
 const optionLists = ref([
   {
     id: 1,
     slug: 'edit',
     name: 'Edit',
     function: () => {
-      emits('edit', props.id)
+      emits('edit', props.todo.id)
     },
     icon: EditIcon,
   },
@@ -26,7 +28,7 @@ const optionLists = ref([
     slug: 'duplicate',
     name: 'Duplicate',
     function: () => {
-      emits('duplicate', props.id)
+      emits('duplicate', props.todo.id)
     },
     icon: CopyIcon,
   },
@@ -35,23 +37,58 @@ const optionLists = ref([
     slug: 'delete',
     name: 'Delete',
     function: () => {
-      emits('delete', props.id)
+      emits('delete', props.todo.id)
     },
     icon: TrashIcon,
   },
 ])
+
+const onChange = (val) => {
+  if (props.todo.status !== 'completed')
+    paraRef.value.classList.add('strike')
+
+  setTimeout(() => {
+    markTodo(props.todo)
+  }, 1000)
+}
+
+const paraStrike = computed(() => {
+  return {
+    'strike-through': true,
+  }
+})
+
+const isCompleted = computed(() => {
+  if (props.todo.status === 'completed')
+    return true
+  else
+    return false
+})
+
+// function isCompleted2 = () => {
+
+// }
 </script>
 
 <template>
   <div>
     <div class="relative bg-gray-50 rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2">
       <div class="left-input flex items-center flex-[1_1_70%]">
-        <DCheckBox />
-        <textarea :value="props.value" readonly rows="1" placeholder="Write a new task" type="text" name="todo"
-          class="px-2 text-black w-full focus:outline-none bg-gray-50" />
+        <DCheckBox :id="props.todo.id" v-model:model-value="isCompleted" class="Jolaoao" @on-change="onChange" />
+        <p ref="paraRef">
+          {{ props.todo.title }}
+        </p>
       </div>
 
       <div id="teleport" class=" right-input items-center flex justify-end flex-auto ">
+        <button v-if="props.todo.category[0].color.unified" class=" emoji-category__button panel mr-2"
+          :data-unified="parseNativeEmoji(props.todo.category[0].color.unified)">
+          <img style="width: 24px;" :src="emojiURLByUnified(props.todo.category[0].color.unified, 'apple')" alt=""
+            loading="lazy">
+        </button>
+
+        <span v-if="props.todo.category[0].color.hex" class="i-custom:logo fill-current text-[#008FFD] mr-2"
+          :style="{ color: props.todo.category[0].color.hex }" />
         <div>
           <DDropDown triggers="click">
             <template #overlay>
@@ -59,9 +96,10 @@ const optionLists = ref([
                 <ul role="listbox">
                   <li v-for="option, idx in optionLists" :id="`null-${idx}`" :key="idx" class="betaselect__element"
                     role="option" @click="option.function()">
-                    <span :class="[props.completed ? 'line-through' : '']" class=" betaselect__option">
+                    <span class=" betaselect__option">
                       {{ option.name }}
                     </span>
+
                     <component :is="shallowRef(option.icon)" :key="idx"
                       class="w-4 h-4 fill-current text-black cursor-pointer" aria-hidden="true" />
                   </li>
@@ -78,12 +116,12 @@ const optionLists = ref([
         <span class="flex" />
       </div>
     </div>
-  </div>
 
-  <div v-if="1 < 0">
-    <li class="i-beta:edit" />
-    <li class="i-beta:copy" />
-    <li class="i-beta:trash" />
+    <div v-if="1 < 0">
+      <li class="i-beta:edit" />
+      <li class="i-beta:copy" />
+      <li class="i-beta:trash" />
+    </div>
   </div>
 </template>
 
@@ -175,5 +213,74 @@ textarea {
       }
     }
   }
+}
+
+.strike-through {
+  position: relative;
+  display: inline-block;
+  // transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.strike-through::after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  box-shadow: 0 1px rgba(255, 255, 255, 0.6);
+  top: 50%;
+  background: black;
+  transform-origin: center left;
+  animation: strikethrough 1s 0.5s cubic-bezier(.55, 0, .1, 1) 1;
+  transition: transform 0.5s cubic-bezier(.55, 0, .1, 1);
+}
+
+@keyframes strikethrough {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.strike-through:hover {
+  color: rgba(200, 0, 0, 1);
+  background: rgba(255, 189, 182, 0.3);
+}
+
+.strike-through:hover:after {
+  transform: scaleX(0);
+  transform-origin: center right;
+}
+
+@keyframes strike {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+.strike {
+  position: relative;
+}
+
+.strike::after {
+  content: ' ';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: black;
+  animation-name: strike;
+  animation-duration: .7s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 </style>

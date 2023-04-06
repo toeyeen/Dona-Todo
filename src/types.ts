@@ -1,19 +1,37 @@
+export interface Color {
+  hex: string
+}
 export interface Category {
   id: string
   title: string
-  color?: string
+  color?: Color
   icon?: Emoji
 }
 
-export interface Todo {
-  id: number | string
-  title: string
-  status: status
-  dueDate?: string
-  category?: Category[]
+export interface ReactiveState {
+  category: Category
+  categories: Category[] | []
+  todos: Todo[]
+  auth?: Object
+  categorySymbol: Color | EmojiStyle
 }
 
-type status = 'completed' | 'inProgress' | 'due'
+export type statusState = 'inProgress' | 'due' | 'completed'
+
+export interface BasicTodo {
+  id: string
+  title: string
+  createdAt?: string
+}
+
+export interface Todo extends BasicTodo {
+  status?: statusState
+  dueDate?: string
+  category?: Category[]
+  subTodo?: BasicTodo[]
+  tags?: string[]
+  description: string
+}
 
 export interface HyphenOptions {
   /**

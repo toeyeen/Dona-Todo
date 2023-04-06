@@ -2,19 +2,13 @@
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const { setCurrentCategory, state, markTodo, duplicateTodo, deleteTodo, getTodo } = useState()
+const { setCurrentCategory, state } = useState()
+const { deleteTodo, duplicateTodo, openEditDrawer, isEditDrawer, todoToEdit } = useSelector()
 
 let currentCategory = ref(null)
-const isEditDrawer = ref(false)
-const todoToEdit = ref(null)
+
 const value = ref({ name: 'No List', language: 'JavaScript' })
 
-// let todos = ref(null)
-
-// const currentCategory = computed(() => {
-//   categories.value.filter(cat => cat.title == routeDynamicId)
-//   // return categories.value.find(cat => cat.title)
-// })
 const todos = computed(() => {
   return state.todos.value.filter(todo => todo.category[0].title === route.params.id && todo.status !== 'completed')
 })
@@ -29,12 +23,6 @@ onMounted(() => {
   currentCategory = state.categories.value.filter(cat => cat.title === route.params.id)
   setCurrentCategory(currentCategory[0])
 })
-
-function openEditDrawer(id: string) {
-  isEditDrawer.value = !isEditDrawer.value
-
-  todoToEdit.value = getTodo(id)
-}
 </script>
 
 <template>
@@ -42,63 +30,18 @@ function openEditDrawer(id: string) {
 
   <TodoInput />
 
-  <ul class="flex flex-col gap-y-1">
-    <TodoItem v-for="todo, idx in todos" :id="todo.id" :key="idx" :value="todo.title" @duplicate="duplicateTodo"
-      @delete="deleteTodo" @edit="openEditDrawer" />
+  <ul class="flex flex-col gap-y-1 overflow-y-scroll">
+    <TodoItem v-for="todo, idx in todos" :id="todo.id" :key="idx" :todo="todo" :status="todo.status" :value="todo.title"
+      @duplicate="duplicateTodo" @delete="deleteTodo" @edit="openEditDrawer" />
   </ul>
 
   <EmptyTodo v-if="todos.length < 1" message="Empty todo" />
 
-  <DDrawer :visible="isEditDrawer" :closable="true" @close="isEditDrawer = false">
-    <template #header>
-      <!-- {{ todoToEdit?.id }} -->
-    </template>
-
-    <div class="todo--details">
-      <div class="todo--details_title">
-        <DCheckBox /> {{ todoToEdit?.title }}
-      </div>
-
-      <div class="todo--details_information">
-        <div class="todo--details_lists">
-          <span>
-            List
-          </span>
-          <span>
-            <DSelect v-model="value" track-by="name" label="name" :options="[
-              { id: 1, name: 'No List', language: 'JavaScript' },
-              { id: 2, name: 'Rails', language: 'Ruby' },
-              { id: 3, name: 'Sinatra', language: 'Ruby' }]" :max-height="200" style="width: 100px"
-              :dropdown-style="{ width: '140px' }">
-              <template #icon="{ toggle }">
-                <span class=" betaselect__caret i-ph:caret-down text-lg text-black" @click="toggle" />
-              </template>
-            </DSelect>
-          </span>
-        </div>
-        <div class="todo--details_date">
-          <span>
-            Due Date
-          </span>
-          <span>
-            <input id="" type="date" name="">
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="todo--description">
-      <textarea rows="6" placeholder="Write a note..." class="todo--description_notepad" />
-    </div>
-
-    <template #footer>
-      <button class="todo--delete">
-        Delete
-      </button>
-    </template>
-  </DDrawer>
+  <TodoDrawer :is-edit-drawer="isEditDrawer" :todo="todoToEdit" @close-todo-drawer="isEditDrawer = false"
+    @delete="deleteTodo" />
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .todo {
   &--delete {
     all: unset;
@@ -150,6 +93,7 @@ function openEditDrawer(id: string) {
     &_title {
       display: flex;
       column-gap: .5rem;
+      align-items: center;
     }
 
     &_information {

@@ -157,8 +157,10 @@ export function isEmpty(opt) {
 
 export function getLabel(option, label) {
   // console.log(isEmpty(option, 'basecase'))
+
   if (isEmpty(option))
     return ''
+  // return label ? option[label].toLowerCase() : null
   return label ? option[label].toLowerCase() : option.toLowerCase()
 }
 

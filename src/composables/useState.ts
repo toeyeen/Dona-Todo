@@ -1,15 +1,15 @@
 import { v4 as uuidv4 } from 'uuid'
-import type { Category, EmojiStyle, Todo } from '../types'
-
-export const defaultcategory = {
+import type { Category, Color, EmojiStyle, ReactiveState, Todo } from '../types'
+import { todos } from '../data/todo.json'
+export const defaultcategory: Category = {
   id: '1',
   title: 'Personal',
   color: {
-    hex: '#f34123',
+    hex: '#008FFD',
   },
 }
 
-const state = reactive({
+const state: ReactiveState = reactive({
   category: defaultcategory,
   categories: [defaultcategory],
   todos: [],
@@ -24,6 +24,10 @@ const state = reactive({
 })
 
 export const useState = () => {
+  const categories = computed(() => {
+    return state?.categories
+  })
+
   const localVariables = reactive({
     firstName: 'Toyin',
     lastName: 'Jolaoso',
@@ -33,7 +37,7 @@ export const useState = () => {
     state.category = (payload)
   }
 
-  function setCategorySymbol(payload: { hex: string } | EmojiStyle) {
+  function setCategorySymbol(payload: Color | EmojiStyle) {
     state.categorySymbol = (payload)
   }
 
@@ -62,7 +66,6 @@ export const useState = () => {
   function duplicateTodo(id: string) {
     const todoindex = state.todos.findIndex(todo => todo.id === id)
 
-    console.log(todoindex, 'todoindex')
     if (todoindex !== -1) {
       const sameTodo = state.todos[todoindex]
       state.todos.splice(todoindex + 1, 0, { ...sameTodo, id: `${uuidv4()}`, title: `${sameTodo.title} Duplicate` })
@@ -70,34 +73,48 @@ export const useState = () => {
   }
 
   function deleteTodo(id: string) {
-    state.todos = state.todos.filter(todo => todo.id !== id)
+    const todoindex = state.todos.findIndex(todo => todo.id === id)
+
+    if (todoindex !== -1)
+      state.todos.splice(todoindex, 1)
   }
+
   function getTodo(id: string) {
     return state.todos.find(todo => todo.id === id)
   }
 
-  function markTodo(value: Todo) {
-    if (value.status === 'due' || value.status === 'inProgress') {
-      value.status = 'completed'
+  function markTodo(payload: Todo) {
+    if (payload.status === 'due' || payload.status === 'inProgress') {
+      payload.status = 'completed'
     }
     else {
-      if (value.dueDate) {
-        const dueDate = Date.parse(value.dueDate.split('/').reverse().join('/'))
+      if (payload.dueDate) {
+        const dueDate = Date.parse(payload.dueDate.split('/').reverse().join('/'))
 
         const endofDueDate = new Date(dueDate).setUTCHours(23, 59, 59, 999)
 
         endofDueDate < Date.now()
-          ? value.status = 'due'
-          : value.status = 'inProgress'
+          ? payload.status = 'due'
+          : payload.status = 'inProgress'
       }
       else {
-        value.status = 'inProgress'
+        payload.status = 'inProgress'
       }
     }
   }
 
+  function updateTodo(todo: Todo) {
+    // markTodo(payload)
+
+    const todoIdToUpdate = todo.id
+
+    const todoindex = state.todos.findIndex(todo => todo.id === todoIdToUpdate)
+
+    state.todos.splice(todoindex, 1, todo)
+  }
+
   function getCategoryLength(title: string) {
-    return state.todos.filter(todo => todo.category[0].title === title && todo.status !== 'completed').length
+    return state?.todos?.filter(todo => todo?.category[0]?.title === title && todo.status !== 'completed').length
   }
 
   const totalTodos = computed(() => {
@@ -109,6 +126,7 @@ export const useState = () => {
   })
 
   const todosDueToday = computed(() => {
+    formatInputDate(1)
     return state.todos.filter((todo) => {
       return todo.dueDate === formatInputDate(new Date().toISOString().split('T')[0])
     },
@@ -125,6 +143,12 @@ export const useState = () => {
   const user = computed(() => {
     return state.auth.user
   })
+
+  function seedTodo(todos: Todo[]) {
+    return state.todos = todos
+  }
+
+  seedTodo(todos)
 
   return {
     state: toRefs(state),
@@ -144,5 +168,8 @@ export const useState = () => {
     duplicateTodo,
     deleteTodo,
     getTodo,
+    seedTodo,
+    categories,
+    updateTodo,
   }
 }

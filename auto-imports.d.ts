@@ -72,6 +72,7 @@ declare global {
   const useColors: typeof import('./src/composables/useColors')['useColors']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
+  const useSelector: typeof import('./src/composables/useSelector')['useSelector']
   const useSlots: typeof import('vue')['useSlots']
   const useState: typeof import('./src/composables/useState')['useState']
   const validHex: typeof import('./src/utils/index')['validHex']
@@ -155,6 +156,7 @@ declare module 'vue' {
     readonly useColors: UnwrapRef<typeof import('./src/composables/useColors')['useColors']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
+    readonly useSelector: UnwrapRef<typeof import('./src/composables/useSelector')['useSelector']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useState: UnwrapRef<typeof import('./src/composables/useState')['useState']>
     readonly validHex: UnwrapRef<typeof import('./src/utils/index')['validHex']>

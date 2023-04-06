@@ -7,7 +7,7 @@ const { state } = useState()
     class="md:grid-cols-[320px_1fr] border gap-8 px-5 py-4 text-rubik  rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border bg-[#EEEFF2]">
     <LayoutBlur :background="state.category.value.color.hex" />
     <LeftPanel class="md:block hidden overflow-y-scroll" />
-    <div py-2>
+    <div class="py-2">
       <div class="border border-blue mx-auto max-w-3xl">
         <router-view />
       </div>

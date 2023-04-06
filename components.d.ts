@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     DDropDown: typeof import('./src/components/DDropDown.vue')['default']
     DLottie: typeof import('./src/components/DLottie.vue')['default']
     DSelect: typeof import('./src/components/DSelect.vue')['default']
+    ElbetTicket: typeof import('./src/components/ElbetTicket.vue')['default']
     EmojiCard: typeof import('./src/components/EmojiCard.vue')['default']
     EmptyTodo: typeof import('./src/components/EmptyTodo.vue')['default']
     GhostInput: typeof import('./src/components/GhostInput.vue')['default']
@@ -23,6 +24,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubtleBg: typeof import('./src/components/SubtleBg.vue')['default']
+    TodoDrawer: typeof import('./src/components/TodoDrawer.vue')['default']
     TodoInput: typeof import('./src/components/TodoInput.vue')['default']
     TodoItem: typeof import('./src/components/TodoItem.vue')['default']
   }

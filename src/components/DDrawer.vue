@@ -5,7 +5,7 @@ import { tuple } from '../types'
 const props = withDefaults(defineProps<{
   visible: boolean
   closable?: boolean
-  width: number | string
+  width?: number | string
 }>(
 
 ), {
@@ -15,10 +15,11 @@ const props = withDefaults(defineProps<{
 })
 const emits = defineEmits<
   {
-    (e: 'close', event: Event): void
-    (e: 'update:visible', visible: false): void
+    (e: 'close', event: boolean): void
+    (e: 'update:visible', visible: boolean): void
   }
 >()
+
 const slotTupleNames = tuple('header', 'footer')
 type slotNames = 'header' | 'footer'
 
@@ -27,7 +28,7 @@ const maskRef = ref<HTMLDivElement | null>(null)
 const drawerRef = ref<HTMLDivElement | null>(null)
 function closeDrawer(e) {
   emits('update:visible', false)
-  emits('close', e)
+  emits('close', false)
 }
 
 onClickOutside(drawerRef, (event: Event) => closeDrawer(event),
@@ -42,36 +43,38 @@ function updateLocalValue() {
 const isSlotUsed = (slotName: slotNames) => {
   return !!slots[slotName]
 }
+
+watch(() => props.visible, (newValue) => {
+  // document.body.style.
+})
 </script>
 
 <template>
-  <Teleport to="#app">
-    <div class="drawer" :class="[props.visible ? 'beta-drawer-true' : '']">
-      <div ref="maskRef" class="beta-drawer-mask" />
-      <div ref="drawerRef" class="beta-drawer" :style="props.width ? `width: ${props.width}px` : ''"
-        :class="[props.visible ? 'beta-drawer-opened' : '']">
-        <div class="beta-drawer-content-wrapper">
-          <div class="beta-drawer-content">
-            <div class="beta-drawer-wrapper-body">
-              <div v-if="isSlotUsed('header')" class="beta-drawer-header">
-                <slot name="header" />
-                <span v-if="props.closable"
-                  class="i-carbon:close close-drawer cursor-pointer inline-block w-6 h-6 text-black fill-current"
-                  @click="closeDrawer" />
-              </div>
-              <div class="beta-drawer-body">
-                <slot />
-              </div>
+  <div class="drawer" :class="[props.visible ? 'beta-drawer-true' : '']">
+    <div ref="maskRef" class="beta-drawer-mask" />
+    <div ref="drawerRef" class="beta-drawer" :style="props.width ? `width: ${props.width}px` : ''"
+      :class="[props.visible ? 'beta-drawer-opened' : '']">
+      <div class="beta-drawer-content-wrapper">
+        <div class="beta-drawer-content">
+          <div class="beta-drawer-wrapper-body">
+            <div v-if="isSlotUsed('header')" class="beta-drawer-header">
+              <slot name="header" />
+              <span v-if="props.closable"
+                class="i-carbon:close close-drawer cursor-pointer inline-block w-6 h-6 text-black fill-current"
+                @click="closeDrawer" />
+            </div>
+            <div class="beta-drawer-body">
+              <slot />
+            </div>
 
-              <div v-if="isSlotUsed('footer')" class="beta-drawer-footer">
-                <slot name="footer" />
-              </div>
+            <div v-if="isSlotUsed('footer')" class="beta-drawer-footer">
+              <slot name="footer" />
             </div>
           </div>
         </div>
       </div>
     </div>
-  </Teleport>
+  </div>
 </template>
 
 <style lang="scss">

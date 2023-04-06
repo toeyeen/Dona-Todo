@@ -3,7 +3,6 @@ import { onClickOutside, useMagicKeys } from '@vueuse/core'
 import { v4 as uuidv4 } from 'uuid'
 import type { Category } from '../types'
 import { hyphen } from '../utils/index'
-import EmojiCard from './EmojiCard.vue'
 
 const category = ref('')
 const placeholder = ref('Create new list')
@@ -47,7 +46,6 @@ watch(state.todos, () => {
 
 function onFocus() {
   focusMode.value = true
-  console.log(newCategory)
   placeholder.value = 'List name'
 }
 
@@ -69,6 +67,8 @@ const myElement = computed(() => {
   else
     return getCategorySymbol().unified
 })
+
+onMounted(() => { })
 </script>
 
 <template>
@@ -108,7 +108,8 @@ const myElement = computed(() => {
     <router-link v-for="cat, idx in state.categories.value" :key="idx" :to="{ path: `/groups/${cat.title}` }"
       class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
       <span class="flex items-center gap-2">
-        <div v-if="cat.color.hex" class="i-carbon-checkbox w-5 h-5" :style="{ background: cat.color.hex }" />
+        <div v-if="cat.color.hex" class="i-custom:logo w-4 h-4 fill-current text-[#008FFD]"
+          :style="{ color: cat.color.hex }" />
 
         <button v-if="cat.color.unified" class=" emoji-category__button panel"
           :data-unified="parseNativeEmoji(cat.color.unified)">
@@ -120,19 +121,20 @@ const myElement = computed(() => {
       </span>
 
       <span class="text-xs bg-gray-200 text-gray-500 rounded px-1"> {{
-        getCategoryLength(cat.title) }}
+        getCategoryLength(cat.title) ? getCategoryLength(cat.title) : 0 }}
       </span>
     </router-link>
     <div>
       <div
         class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
         <span class="flex items-center gap-2">
-          <li v-if="!focusMode" class="i-carbon-add w-5 h-5" @click="onFocus" />
+          <li v-if="!focusMode" class="i-carbon-add w-4 h-4" @click="onFocus" />
 
           <div v-else class="bg-gray-200 w-20 rounded-md h-6 flex justify-between items-center p-2">
 
             <span>
-              <div v-if="getCategorySymbol().hex" class="i-carbon-checkbox w-5 h-5" :style="{ background: myElement }" />
+              <div v-if="getCategorySymbol().hex" class="i-custom:logo w-4 h-4 fill-current text-[#008FFD]"
+                :style="{ color: myElement }" />
 
               <button v-if="getCategorySymbol().unified" class=" emoji-category__button panel"
                 :data-unified="parseNativeEmoji(myElement)">
@@ -140,7 +142,7 @@ const myElement = computed(() => {
               </button>
             </span>
 
-            <span class="i-carbon:caret-sort-down w-5 h-5 text-black" @click="showEmojiCard" />
+            <span class="i-carbon:caret-sort-down w-4 h-4 text-black" @click="showEmojiCard" />
           </div>
 
           <GhostInput ref="newCategory" v-model="category" :placeholder="placeholder" @keyup.enter="addCat({

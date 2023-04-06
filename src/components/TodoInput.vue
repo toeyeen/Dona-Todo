@@ -12,11 +12,12 @@ const dueDateRef = ref<HTMLInputElement>(null)
 const taskRef = ref<HTMLInputElement>(null)
 const inputArea = ref<HTMLInputElement>(null)
 const taskFocused = ref(false)
-const { addTodo, state } = useState()
+const { addTodo, state, categories } = useState()
 const route = useRoute()
 
 const vCat = ref(null)
-const value = ref({ name: 'No List', language: 'JavaScript' })
+const value = (categories)
+const value2 = ref({ id: 1, name: 'No List', language: 'JavaScript' })
 const options = ref(
   [
     { id: 1, name: 'No List', language: 'JavaScript' },
@@ -26,6 +27,7 @@ const options = ref(
     { id: 5, name: 'Phoenix', language: 'Elixir' },
   ])
 const dueDate = ref(null)
+const value3 = ref('')
 
 // Watcher
 whenever(shiftCtrlA, () => {
@@ -51,6 +53,10 @@ const category = computed(() => {
   return (route.path !== '/')
     ? state.categories.value.filter(cat => cat.title === route.params.id)
     : state.categories.value
+})
+
+const myComputed = computed(() => {
+  return categories
 })
 
 onClickOutside(inputArea, (event) => {
@@ -123,9 +129,12 @@ function checker() {
   return !route.path.includes('groups')
 }
 
-function nameWithNum({ name, language }) {
-  return `${name}`
+function nameWithNum({ title, language }) {
+  // return `${language}`
+  return `${title}`
 }
+
+const testVal = ref(false)
 </script>
 
 <template>
@@ -133,7 +142,7 @@ function nameWithNum({ name, language }) {
     <div :class="textAreaBg"
       class="z-5 relative rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2 min-h-12">
       <div class="left-input items-center flex flex-[1_1_70%]">
-        <DCheckBox v-if="taskFocused === true" />
+        <DCheckBox v-if="taskFocused === true" v-model="testVal" />
         <textarea ref="taskRef" v-model="todo" rows="1" placeholder="Write a new task" type="text" name="todo"
           :class="textAreaBg" class="px-2 text-black w-full focus:outline-none " @input="adjustTextAreaHeight"
           @keydown.enter="submit({
@@ -142,6 +151,7 @@ function nameWithNum({ name, language }) {
             status: 'inProgress',
             dueDate: formatInputDate(dueDate),
             category: vCat ? [vCat] : unComputedCategory,
+            description: '',
           }, $event)" @focus="taskFocused = true" />
       </div>
 
@@ -150,8 +160,9 @@ function nameWithNum({ name, language }) {
           <li class="i-carbon-calendar w-5 h-5" />
         </div>
         <span class="flex">
-          <DSelect v-model="value" track-by="name" label="name" :custom-label="nameWithNum" :options="options"
+          <DSelect v-model="vCat" track-by="title" label="title" :custom-label="nameWithNum" :options="categories"
             :max-height="200" style="width: 100px" :dropdown-style="{ width: '140px' }">
+
             <template #icon="{ toggle }">
               <span class=" betaselect__caret i-ph:caret-down text-lg text-black" @click="toggle" />
             </template>
@@ -168,20 +179,6 @@ function nameWithNum({ name, language }) {
         </SubtleBg>
       </div>
     </div>
-
-    <!-- <span class="mx-2 ">
-                                                                                                                            <input v-if="showDate" id="" ref="dueDateRef" v-model="dueDate" type="date">
-                                                                                                                          </span>
-
-                                                                                                                          <button class="bg-green text-white px-2 mx-1" @click="submit({
-                                                                                                                            id: uuidv4(),
-                                                                                                                            title: todo,
-                                                                                                                            status: 'inProgress',
-                                                                                                                            dueDate: formatInputDate(dueDate),
-                                                                                                                            category: vCat ? [vCat] : unComputedCategory,
-                                                                                                                          })">
-                                                                                                                            Add
-                                                                                                                          </button> -->
   </div>
 </template>
 

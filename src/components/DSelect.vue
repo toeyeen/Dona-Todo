@@ -177,6 +177,9 @@ const select = (option, key?) => {
     internalValue.value.push(option)
   }
 
+  console.log(selected)
+  console.log(internalValue, 'innetrnal')
+
   if (closeOnSelect)
     deactivate()
 
