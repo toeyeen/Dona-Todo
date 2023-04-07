@@ -11,7 +11,9 @@ const showPopup = ref(false)
 const dropdownRef = ref<HTMLDivElement | null>(null)
 const activatorRef = ref<HTMLDivElement | null>(null)
 onClickOutside(dropdownRef, (event: Event) => showPopup.value = false)
+
 const overlayPosition = ref(null)
+const preferredOpenDirection1 = ref(null)
 
 function toggle() {
   showPopup.value = !showPopup.value
@@ -88,7 +90,7 @@ onUnmounted(() => {
       </Teleport>
     </div>
 
-    <div ref="activatorRef">
+    <div ref="activatorRef" class="see it">
       <slot name="activator" :toggle="toggle" />
     </div>
     <div />

@@ -91,3 +91,5 @@ export type SelectOption<T = {}> = {
 } & T
 
 export const tuple = <T extends string[]>(...args: T) => args
+
+export type Direction = 'above' | 'below' | 'bottom' | 'top'

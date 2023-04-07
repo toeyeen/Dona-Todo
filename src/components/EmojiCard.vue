@@ -126,8 +126,8 @@ onMounted(() => {
 
     <div class="utils-card__categories">
       <!-- <pre>
-                                                      {{ selectedType }}
-                                              </pre> -->
+                                                        {{ selectedType }}
+                                                </pre> -->
 
       <ul>
         <div v-for="item, idx in emojis" :key="idx" class="here">
@@ -147,7 +147,6 @@ onMounted(() => {
   padding: .5rem;
   cursor: pointer;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  position: relative;
   background-color: #fff;
   opacity: .8;
   width: 350px;
@@ -155,6 +154,7 @@ onMounted(() => {
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+  position: absolute;
 
   &__headers {
     &-title {

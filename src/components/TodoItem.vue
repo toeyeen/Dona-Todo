@@ -11,6 +11,8 @@ const props = withDefaults(defineProps<{
 const emits = defineEmits(['duplicate', 'delete', 'edit'])
 
 const paraRef = ref<HTMLParagraphElement | null>(null)
+const dropdownRef = ref<HTMLDivElement | null>(null)
+const position = ref(null)
 
 const { markTodo } = useState()
 const optionLists = ref([
@@ -65,6 +67,16 @@ const isCompleted = computed(() => {
     return false
 })
 
+onMounted(() => {
+  const {
+    isAbove,
+  } = useAdjustPosition(dropdownRef, {
+    maxHeight: 40,
+  })
+
+  position.value = isAbove
+})
+
 // function isCompleted2 = () => {
 
 // }
@@ -90,18 +102,20 @@ const isCompleted = computed(() => {
         <span v-if="props.todo.category[0].color.hex" class="i-custom:logo fill-current text-[#008FFD] mr-2"
           :style="{ color: props.todo.category[0].color.hex }" />
         <div>
-          <DDropDown triggers="click">
+          <DDropDown ref="dropdownRef" triggers="click">
             <template #overlay>
-              <div ref="list" tabindex="-1" class="betaselect__content-wrapper" style="width: 140px;">
+              <div ref="list" tabindex="-1" class="betaselect__content-wrapper"
+                :class="[position ? 'betaselect--above' : null]" style="width: 140px;">
                 <ul role="listbox">
+                  {{ position }}
                   <li v-for="option, idx in optionLists" :id="`null-${idx}`" :key="idx" class="betaselect__element"
                     role="option" @click="option.function()">
                     <span class=" betaselect__option">
                       {{ option.name }}
                     </span>
 
-                    <component :is="shallowRef(option.icon)" :key="idx"
-                      class="w-4 h-4 fill-current text-black cursor-pointer" aria-hidden="true" />
+                    <component :is="option.icon" :key="idx" class="w-4 h-4 fill-current text-black cursor-pointer"
+                      aria-hidden="true" />
                   </li>
                 </ul>
               </div>

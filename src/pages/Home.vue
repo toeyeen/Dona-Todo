@@ -75,29 +75,29 @@ onBeforeMount(() => {
               <template #icon="{ toggle }">
                 <span class=" betaselect__caret i-ph:caret-down text-lg text-black" @click="toggle" />
               </template>
-                                                                    </DSelect>
-                                                                  </span>
+                                                                        </DSelect>
+                                                                      </span>
+                                                                    </div>
+                                                                    <div class="todo--details_date">
+                                                                      <span>
+                                                                        Due Date
+                                                                      </span>
+                                                                      <span>
+                                                                        <input id="" type="date" name="">
+                                                                      </span>
+                                                                    </div>
+                                                                  </div>
                                                                 </div>
-                                                                <div class="todo--details_date">
-                                                                  <span>
-                                                                    Due Date
-                                                                  </span>
-                                                                  <span>
-                                                                    <input id="" type="date" name="">
-                                                                  </span>
+                                                                <div class="todo--description">
+                                                                  <textarea rows="6" placeholder="Write a note..." class="todo--description_notepad" />
                                                                 </div>
-                                                              </div>
-                                                            </div>
-                                                            <div class="todo--description">
-                                                              <textarea rows="6" placeholder="Write a note..." class="todo--description_notepad" />
-                                                            </div>
 
-                                                            <template #footer>
-                                                              <button class="todo--delete">
-                                                                Delete
-                                                              </button>
-                                                            </template>
-                                                          </DDrawer> -->
+                                                                <template #footer>
+                                                                  <button class="todo--delete">
+                                                                    Delete
+                                                                  </button>
+                                                                </template>
+                                                              </DDrawer> -->
 </template>
 
 <style scoped>

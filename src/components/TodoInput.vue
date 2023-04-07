@@ -157,7 +157,8 @@ const testVal = ref(false)
 
       <div v-if="taskFocused === true" class="right-input items-center flex justify-end flex-auto ">
         <div>
-          <li class="i-carbon-calendar w-5 h-5" />
+          <li class="i-carbon-calendar w-5 h-5" @click="showDate" />
+          <input id="" type="date" name="">
         </div>
         <span class="flex">
           <DSelect v-model="vCat" track-by="title" label="title" :custom-label="nameWithNum" :options="categories"

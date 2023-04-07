@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { watch } from 'vue'
 
-import type { SelectOption } from '../types'
+import type { Direction, SelectOption } from '../types'
 
 interface SelectProps<T> {
   options: SelectOption<T>[]
@@ -17,9 +17,10 @@ interface SelectProps<T> {
   disabled?: boolean
   searchable?: boolean
   dropdownStyle?: object
+  openDirection?: Direction
 }
 
-const { options, tabindex, defaultValue, closeOnSelect, placeholder, customLabel, label, trackBy, searchable, modelValue, dropdownStyle } = withDefaults(defineProps<SelectProps<SelectOption>>(), {
+const { options, tabindex, defaultValue, closeOnSelect, placeholder, customLabel, label, trackBy, searchable, modelValue, dropdownStyle, maxHeight, openDirection } = withDefaults(defineProps<SelectProps<SelectOption>>(), {
   defaultValue: null,
   tabindex: 0,
   closeOnSelect: true,
@@ -38,12 +39,14 @@ const { options, tabindex, defaultValue, closeOnSelect, placeholder, customLabel
 
 const emit = defineEmits(['update:model-value', 'select', 'input'])
 
-const el = ref<HTMLElement>(null)
+const root = ref<HTMLElement>(null)
 const search = ref<HTMLElement>(null)
 
 const isOpen = ref(false)
 const selectedValue = ref([])
 const searchValue = ref('')
+const preferredOpenDirection = ref<Direction>('below')
+const optimizedHeight = ref(maxHeight)
 
 // const open = ref(false)
 
@@ -61,8 +64,22 @@ const selected = computed(() => {
     : placeholder
 })
 
-const optimizedHeight = computed(() => {
-  return 300
+// const optimizedHeight = computed(() => {
+//   return 300
+// })
+
+const isAbove = computed(() => {
+  if (openDirection === 'above' || openDirection === 'top')
+    return true
+
+  else if (
+    openDirection === 'below'
+    || openDirection === 'bottom'
+  )
+    return false
+
+  else
+    return preferredOpenDirection.value === 'above'
 })
 
 const betaStyle = computed(() => {
@@ -138,6 +155,7 @@ function deactivate() {
   }
 }
 function activate() {
+  adjustPosition()
   if (searchable)
     search.value.focus()
 
@@ -177,9 +195,6 @@ const select = (option, key?) => {
     internalValue.value.push(option)
   }
 
-  console.log(selected)
-  console.log(internalValue, 'innetrnal')
-
   if (closeOnSelect)
     deactivate()
 
@@ -218,6 +233,24 @@ function addSelectStyle(index: number, option: string) {
   }
 }
 
+function adjustPosition() {
+  if (typeof window == 'undefined')
+    return
+
+  const spaceAbove = root.value.getBoundingClientRect().top
+  const spaceBelow = window.innerHeight - root.value.getBoundingClientRect().bottom
+
+  const hasEnoughSpaceBelow = spaceBelow > +maxHeight
+
+  if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || openDirection === 'below' || openDirection === 'bottom') {
+    preferredOpenDirection.value = 'below'
+    optimizedHeight.value = Math.min(spaceBelow - 40, +maxHeight)
+  }
+  else {
+    preferredOpenDirection.value = 'above'
+    optimizedHeight.value = Math.min(spaceAbove - 40, +maxHeight)
+  }
+}
 /** Mounted */
 
 onMounted(() => {
@@ -226,7 +259,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="betaselect" :class="betaStyle">
+  <div ref="root" class="betaselect" :class="betaStyle">
     <slot name="icon" :toggle="toggle">
       <!-- <div class="betaselect__caret" @click="toggle()" /> -->
       <span class=" betaselect__caret i-carbon:caret-sort-down w-5 h-5 text-black" @click="toggle()" />
@@ -243,7 +276,7 @@ onMounted(() => {
       @blur="deactivate" @keyup.esc="deactivate">
 
     <transition name="betaselect">
-      <div v-show="isOpen" ref="list" class="betaselect__content-wrapper"
+      <div v-show="isOpen" ref="list" class="betaselect__content-wrapper" :class="{ 'betaselect--above': isAbove }"
         :style="objectToStyle({ ...dropdownStyle, minHeight: `${maxHeight}px` })" @mousedown.prevent>
         <ul>
           <li v-for="option, idx in filteredOptions" :id="`null-${idx}`" :key="idx" class="betaselect__element"
@@ -363,6 +396,10 @@ onMounted(() => {
     list-style: none;
     font-feature-settings: "tnum";
     outline: none;
+
+    &.betaselect--above {
+      bottom: 110% !important;
+    }
 
     // margin: 0;
     // color: #000000d9;

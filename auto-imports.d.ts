@@ -68,6 +68,7 @@ declare global {
   const todaysDate: typeof import('./src/utils/index')['todaysDate']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
+  const useAdjustPosition: typeof import('./src/composables/useAdjustPosition')['useAdjustPosition']
   const useAttrs: typeof import('vue')['useAttrs']
   const useColors: typeof import('./src/composables/useColors')['useColors']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -152,6 +153,7 @@ declare module 'vue' {
     readonly todaysDate: UnwrapRef<typeof import('./src/utils/index')['todaysDate']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
+    readonly useAdjustPosition: UnwrapRef<typeof import('./src/composables/useAdjustPosition')['useAdjustPosition']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useColors: UnwrapRef<typeof import('./src/composables/useColors')['useColors']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
