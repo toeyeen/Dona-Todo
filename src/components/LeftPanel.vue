@@ -130,7 +130,8 @@ onMounted(() => { })
         <span class="flex items-center gap-2">
           <li v-if="!focusMode" class="i-carbon-add w-4 h-4" @click="onFocus" />
 
-          <div v-else class="bg-gray-200 w-20 rounded-md h-8 flex justify-between items-center p-2 relative">
+          <div v-else class="bg-gray-200 w-20 rounded-md h-8 flex justify-between items-center p-2 relative"
+            @click="showEmojiCard">
 
             <span>
               <div v-if="getCategorySymbol().hex" class="i-custom:logo w-4 h-4 fill-current text-[#008FFD]"
@@ -142,8 +143,7 @@ onMounted(() => { })
               </button>
             </span>
 
-            <span class="i-carbon:caret-sort-down w-4 h-4 text-black  absolute right-[2px] top-[10%] "
-              @click="showEmojiCard" />
+            <span class="i-carbon:caret-sort-down w-4 h-4 text-black  absolute right-[2px] top-[10%] " />
           </div>
 
           <GhostInput ref="newCategory" v-model="category" :placeholder="placeholder" @keyup.enter="addCat({

@@ -125,13 +125,9 @@ onMounted(() => {
     </div>
 
     <div class="utils-card__categories">
-      <!-- <pre>
-                                                        {{ selectedType }}
-                                                </pre> -->
-
       <ul>
         <div v-for="item, idx in emojis" :key="idx" class="here">
-          {{ item.name }}
+          <!-- {{ item.name }} -->
         </div>
       </ul>
 

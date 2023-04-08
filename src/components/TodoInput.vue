@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { v4 as uuidv4 } from 'uuid'
 import { onClickOutside, useMagicKeys, whenever } from '@vueuse/core'
+import { v4 as uuidv4 } from 'uuid'
 import type { Todo } from '../types'
-import { formatInputDate } from '../utils/index'
 
 const keys = useMagicKeys()
 const shiftCtrlA = keys['Meta+e']
@@ -14,9 +13,9 @@ const inputArea = ref<HTMLInputElement>(null)
 const taskFocused = ref(false)
 const { addTodo, state, categories } = useState()
 const route = useRoute()
+const suffix = ref('')
 
 const vCat = ref(null)
-const value = (categories)
 const value2 = ref({ id: 1, name: 'No List', language: 'JavaScript' })
 const options = ref(
   [
@@ -27,13 +26,13 @@ const options = ref(
     { id: 5, name: 'Phoenix', language: 'Elixir' },
   ])
 const dueDate = ref(null)
-const value3 = ref('')
+const showDateInput = ref(false)
 
 // Watcher
 whenever(shiftCtrlA, () => {
   if (!taskFocused.value) {
     taskFocused.value = true
-    taskRef.value.focus()
+    taskRef.value.$el.focus()
   }
   else {
     removeFocus()
@@ -41,7 +40,7 @@ whenever(shiftCtrlA, () => {
 })
 
 function removeFocus() {
-  taskRef.value.blur()
+  taskRef.value.$el.blur()
   taskFocused.value = false
 }
 
@@ -53,10 +52,6 @@ const category = computed(() => {
   return (route.path !== '/')
     ? state.categories.value.filter(cat => cat.title === route.params.id)
     : state.categories.value
-})
-
-const myComputed = computed(() => {
-  return categories
 })
 
 onClickOutside(inputArea, (event) => {
@@ -87,18 +82,46 @@ onMounted(() => {
 })
 
 const todo = ref('')
+const description = ref('')
 const submit = (value: Todo, evt?: KeyboardEvent) => {
   evt.preventDefault()
 
-  if (todo.value && vCat.value) {
-    addTodo(value)
+  if (todo.value.includes('//')) {
+    const index = todo.value.indexOf('//')
+    const title = todo.value.substring(0, index)
+    addTodo({
+      ...value,
+      title,
+      description: description.value,
+    })
     todo.value = ''
-    // dueDateRef.value = null
+    description.value = ''
+    taskRef.value.$el.innerText = ''
   }
+  else {
+    if (todo.value && vCat.value) {
+      addTodo(value)
+      todo.value = ''
+      taskRef.value.$el.innerText = ''
 
-  if (!route.path.includes('/Today'))
-    dueDate.value = null
+      // dueDateRef.value = null
+    }
+
+    if (!route.path.includes('/Today'))
+      dueDate.value = null
+  }
 }
+
+watch(todo, (oldText, newText) => {
+  if (todo.value.includes('//')) {
+    const index = oldText.indexOf('//')
+    // const matches = todo.value.match(/\/\/(.*)/)
+    // suffix.value = matches ? matches[1] : ''
+
+    if (index >= 0)
+      description.value = oldText.substring(index + 2).trim()
+  }
+})
 
 const now = computed(() => {
   return todaysDate().split(',')[0].trim()
@@ -110,19 +133,19 @@ const textAreaBg = computed(() => {
   }
 })
 
-// function selectDueDate(e: Event) {
-// const target = e.target as HTMLInputElement
-//   dueDate = target.value
-// }
+const updateSuffix = computed(() => {
+  const matches = todo.value.match(/\/\/(.*)/)
+  suffix.value = matches ? matches[1] : ''
+})
 
 const adjustTextAreaHeight = () => {
-  // console.log(taskRef.value.scrollHeight), 'scroll'
+  // console.log(taskRef.value.$el.scrollHeight), 'scroll'
 
-  // taskRef.value.style.height = '0px'
-  // taskRef.value.style.height = `${25 + taskRef.value.scrollHeight}px`
+  // taskRef.value.$el.style.height = '0px'
+  // taskRef.value.$el.style.height = `${25 + taskRef.value.$el.scrollHeight}px`
 
-  taskRef.value.style.height = 'auto' // reset height
-  taskRef.value.style.height = `${taskRef.value.scrollHeight}px` // adjust heigh
+  taskRef.value.$el.style.height = 'auto' // reset height
+  taskRef.value.$el.style.height = `${taskRef.value.$el.scrollHeight}px` // adjust heigh
 }
 
 function checker() {
@@ -134,6 +157,10 @@ function nameWithNum({ title, language }) {
   return `${title}`
 }
 
+function showDateBtn() {
+  showDateInput.value = !showDateInput.value
+}
+
 const testVal = ref(false)
 </script>
 
@@ -143,8 +170,8 @@ const testVal = ref(false)
       class="z-5 relative rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2 min-h-12">
       <div class="left-input items-center flex flex-[1_1_70%]">
         <DCheckBox v-if="taskFocused === true" v-model="testVal" />
-        <textarea ref="taskRef" v-model="todo" rows="1" placeholder="Write a new task" type="text" name="todo"
-          :class="textAreaBg" class="px-2 text-black w-full focus:outline-none " @input="adjustTextAreaHeight"
+        <ContentEditable ref="taskRef" v-model="todo" placeholder="Enter Todo here" :class="textAreaBg"
+          class="px-2 text-black w-full focus:outline-none " :data-suffix="suffix" @input="adjustTextAreaHeight"
           @keydown.enter="submit({
             id: uuidv4(),
             title: todo,
@@ -153,12 +180,22 @@ const testVal = ref(false)
             category: vCat ? [vCat] : unComputedCategory,
             description: '',
           }, $event)" @focus="taskFocused = true" />
+        <!-- <textarea ref="taskRef" v-model="todo" rows="1" placeholder="Write a new task" type="text" name="todo"
+                                                                                                  :class="textAreaBg" class="px-2 text-black w-full focus:outline-none " @input="adjustTextAreaHeight"
+                                                                                                  @keydown.enter="submit({
+                                                                                                    id: uuidv4(),
+                                                                                                    title: todo,
+                                                                                                    status: 'inProgress',
+                                                                                                    dueDate: formatInputDate(dueDate),
+                                                                                                    category: vCat ? [vCat] : unComputedCategory,
+                                                                                                    description: '',
+                                                                                                  }, $event)" @focus="taskFocused = true" /> -->
       </div>
 
       <div v-if="taskFocused === true" class="right-input items-center flex justify-end flex-auto ">
         <div>
-          <li class="i-carbon-calendar w-5 h-5" @click="showDate" />
-          <input id="" type="date" name="">
+          <li v-if="!showDateInput" class="i-carbon-calendar w-5 h-5" @click="showDateBtn" />
+          <input v-if="showDateInput" id="" type="date" name="">
         </div>
         <span class="flex">
           <DSelect v-model="vCat" track-by="title" label="title" :custom-label="nameWithNum" :options="categories"
@@ -189,5 +226,10 @@ textarea {
   overflow-y: scroll;
   word-wrap: break-word;
   resize: none
+}
+
+[contenteditable]::after {
+  content: attr(data-suffix);
+  color: yellow;
 }
 </style>

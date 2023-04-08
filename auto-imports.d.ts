@@ -71,6 +71,7 @@ declare global {
   const useAdjustPosition: typeof import('./src/composables/useAdjustPosition')['useAdjustPosition']
   const useAttrs: typeof import('vue')['useAttrs']
   const useColors: typeof import('./src/composables/useColors')['useColors']
+  const useContentEdittable: typeof import('./src/composables/useContentEditable')['useContentEdittable']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useSelector: typeof import('./src/composables/useSelector')['useSelector']
@@ -156,6 +157,7 @@ declare module 'vue' {
     readonly useAdjustPosition: UnwrapRef<typeof import('./src/composables/useAdjustPosition')['useAdjustPosition']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useColors: UnwrapRef<typeof import('./src/composables/useColors')['useColors']>
+    readonly useContentEdittable: UnwrapRef<typeof import('./src/composables/useContentEditable')['useContentEdittable']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useSelector: UnwrapRef<typeof import('./src/composables/useSelector')['useSelector']>

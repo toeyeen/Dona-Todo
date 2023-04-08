@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CheckBox: typeof import('./src/components/DCheckBox.vue')['default']
+    ContentEditable: typeof import('./src/components/ContentEditable.vue')['default']
     DCheckBox: typeof import('./src/components/DCheckBox.vue')['default']
     DDrawer: typeof import('./src/components/DDrawer.vue')['default']
     DDropDown: typeof import('./src/components/DDropDown.vue')['default']
@@ -24,6 +25,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubtleBg: typeof import('./src/components/SubtleBg.vue')['default']
+    TextArea: typeof import('./src/components/ContentEditable.vue')['default']
     TodoDrawer: typeof import('./src/components/TodoDrawer.vue')['default']
     TodoInput: typeof import('./src/components/TodoInput.vue')['default']
     TodoItem: typeof import('./src/components/TodoItem.vue')['default']

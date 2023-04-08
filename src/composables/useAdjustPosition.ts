@@ -54,7 +54,6 @@ export const useAdjustPosition = <T extends adjustPositionOptions>(
       return preferredOpenDirection.value === 'above'
   })
 
-  console.log(isAbove)
   return {
     spaceAbove,
     spaceBelow,

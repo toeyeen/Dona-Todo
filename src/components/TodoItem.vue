@@ -12,7 +12,7 @@ const emits = defineEmits(['duplicate', 'delete', 'edit'])
 
 const paraRef = ref<HTMLParagraphElement | null>(null)
 const dropdownRef = ref<HTMLDivElement | null>(null)
-const position = ref(null)
+const ddPosition = ref(null)
 
 const { markTodo } = useState()
 const optionLists = ref([
@@ -74,7 +74,7 @@ onMounted(() => {
     maxHeight: 40,
   })
 
-  position.value = isAbove
+  ddPosition.value = isAbove
 })
 
 // function isCompleted2 = () => {
@@ -104,10 +104,9 @@ onMounted(() => {
         <div>
           <DDropDown ref="dropdownRef" triggers="click">
             <template #overlay>
-              <div ref="list" tabindex="-1" class="betaselect__content-wrapper"
-                :class="[position ? 'betaselect--above' : null]" style="width: 140px;">
+              <!--  :class="[ddPosition ? 'betaselect--above' : null]" -->
+              <div ref="list" tabindex="-1" class="betaselect__content-wrapper" style=" width: 140px;">
                 <ul role="listbox">
-                  {{ position }}
                   <li v-for="option, idx in optionLists" :id="`null-${idx}`" :key="idx" class="betaselect__element"
                     role="option" @click="option.function()">
                     <span class=" betaselect__option">

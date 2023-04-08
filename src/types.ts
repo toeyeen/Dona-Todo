@@ -1,6 +1,7 @@
 export interface Color {
   hex: string
 }
+
 export interface Category {
   id: string
   title: string
@@ -45,6 +46,7 @@ export interface Emoji {
   names: string[]
   unified: string
   added_in: string
+  category: string
 }
 
 export type Theme = 'dark' | 'light' | 'auto'
