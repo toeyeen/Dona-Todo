@@ -11,7 +11,7 @@
     "@iconify-json/ph": "^1.1.5",
     "@vueuse/head": "^1.1.15",
     "fuse.js": "^6.6.2",
-    "gsap": "^3.11.4",
+    "gsap": "^3.11.5",
     "sass": "^1.58.1",
     "sass-loader": "^13.2.0",
     "uuid": "^9.0.0",

@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SubtleBg: typeof import('./src/components/SubtleBg.vue')['default']
     TextArea: typeof import('./src/components/ContentEditable.vue')['default']
+    ThemeSwitcher: typeof import('./src/components/ThemeSwitcher.vue')['default']
     TodoDrawer: typeof import('./src/components/TodoDrawer.vue')['default']
     TodoInput: typeof import('./src/components/TodoInput.vue')['default']
     TodoItem: typeof import('./src/components/TodoItem.vue')['default']

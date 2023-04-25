@@ -10,6 +10,15 @@
   --d-o: .3s;
   --d-t: .6s;
   --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+  // --primary: '#EEEFF2'
+  --primary: 'yellow'
+}
+
+:root[theme="dark"] {
+  --primary:  0, 0, 0;
+}
+:root[theme="black"] {
+  --primary: 0, 255, 0;
 }
 
 $primary-color : red;

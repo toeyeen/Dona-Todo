@@ -34,6 +34,21 @@ const routes = [
   },
 
   {
+    path: '/Feedback',
+    name: 'Feedback',
+    component: () => import('@/pages/Feedback.vue'),
+  },
+  {
+    path: '/About',
+    name: 'About',
+    component: () => import('@/pages/About.vue'),
+  },
+  {
+    path: '/Legal',
+    name: 'Legal',
+    component: () => import('@/pages/Legal.vue'),
+  },
+  {
     path: '/groups/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/pages/NotFound.vue'),

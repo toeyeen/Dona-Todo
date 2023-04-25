@@ -42,4 +42,18 @@ export default defineConfig({
   transformers: [
     transformerDirectives(),
   ],
+  rules: [
+    [/^(text|bg)-(.*)$/, ([, c], { theme }) => {
+      if (theme.colors[c]) {
+        return {
+          color: theme.colors[c],
+        }
+      }
+    }],
+  ],
+  theme: {
+    colors: {
+      primary: 'rgb(var(--primary))',
+    },
+  },
 })

@@ -15,6 +15,7 @@ const dropdownRef = ref<HTMLDivElement | null>(null)
 const ddPosition = ref(null)
 
 const { markTodo } = useState()
+
 const optionLists = ref([
   {
     id: 1,
@@ -107,7 +108,7 @@ onMounted(() => {
               <!--  :class="[ddPosition ? 'betaselect--above' : null]" -->
               <div ref="list" tabindex="-1" class="betaselect__content-wrapper" style=" width: 140px;">
                 <ul role="listbox">
-                  <li v-for="option, idx in optionLists" :id="`null-${idx}`" :key="idx" class="betaselect__element"
+                  <li v-for="option, idx in optionLists" :id="`null-${idx}`" :key="idx" class="betaselect__element right"
                     role="option" @click="option.function()">
                     <span class=" betaselect__option">
                       {{ option.name }}

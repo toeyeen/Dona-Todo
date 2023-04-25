@@ -273,7 +273,7 @@ onMounted(() => {
       <div v-show="isOpen" ref="list" class="betaselect__content-wrapper" :class="{ 'betaselect--above': isAbove }"
         :style="objectToStyle({ ...dropdownStyle, minHeight: `${maxHeight}px` })" @mousedown.prevent>
         <ul>
-          <li v-for="option, idx in filteredOptions" :id="`null-${idx}`" :key="idx" class="betaselect__element"
+          <li v-for="option, idx in filteredOptions" :id="`null-${idx}`" :key="idx" class="betaselect__element right"
             @click.stop="select(option)">
             <span class="betaselect__option">
               {{ getOptionLabel(option) }}
@@ -423,8 +423,15 @@ onMounted(() => {
     cursor: pointer;
     padding: 10px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+
+    &.left {
+      column-gap: 8px;
+    }
+
+    &.right {
+      justify-content: space-between;
+    }
 
     &:hover {
       background-color: green;

@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
 
-const { triggers } = withDefaults(defineProps<{
+const { triggers, closeOnClick } = withDefaults(defineProps<{
   triggers?: 'click' | 'hover' | 'focus'
+  closeOnClick?: boolean
+
 }>(), {
   triggers: 'click',
+  closeOnClick: false,
 })
 
 const showPopup = ref(false)
 const dropdownRef = ref<HTMLDivElement | null>(null)
 const activatorRef = ref<HTMLDivElement | null>(null)
-onClickOutside(dropdownRef, (event: Event) => showPopup.value = false)
+onClickOutside(dropdownRef, (event: Event) => {
+  if (closeOnClick)
+    showPopup.value = false
+})
 
 const overlayPosition = ref(null)
 const preferredOpenDirection1 = ref(null)

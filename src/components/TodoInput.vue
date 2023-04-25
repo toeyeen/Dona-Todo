@@ -16,6 +16,7 @@ const route = useRoute()
 const suffix = ref('')
 const rawText = ref('')
 const hasStyle = ref(false)
+const checkBoxRef = ref<HTMLDivElement>(null)
 
 const vCat = ref(null)
 const value2 = ref({ id: 1, name: 'No List', language: 'JavaScript' })
@@ -49,6 +50,28 @@ function removeFocus() {
 watch(taskRef, (old) => {
   document.activeElement !== taskRef.value ? taskFocused.value = false : taskFocused.value = true
 })
+
+// Animation
+// watch(taskFocused, (old, nu) => {
+//   console.log(old, nu)
+
+//   if (old) {
+//     gsap.fromTo(checkBoxRef.value.$el, {
+//       autoAlpha: 0,
+//       display: 'none',
+//     }, {
+//       animationDuration: 5,
+//       x: '20',
+//       autoAlpha: 1,
+//       display: 'block',
+//     })
+//   }
+//   else {
+//     gsap.to(checkBoxRef.value.$el, {
+//       x: '0',
+//     })
+//   }
+// })
 
 const category = computed(() => {
   return (route.path !== '/')
@@ -143,7 +166,7 @@ watch(todo, (oldText, newText) => {
     // If the marker is found, add the style to the text
     const styledText = text.replace(
       /\/\/(.*)/g,
-      '<span id="myNote" style="color: red;">//$1</span>',
+      '<span id="myNote" style="color: #8C6A2F; background: #fefbe6">//$1</span>',
     )
     contentEditable.innerHTML = styledText
 
@@ -181,6 +204,7 @@ function addRedText(e: Event) {
   const contentEditable = taskRef.value.$el
   const text = contentEditable.textContent
   const styleIndex = text.indexOf('//')
+
   if (styleIndex >= 0) {
     // If the marker is found, add the style to the text
     const styledText = text.replace(
@@ -216,6 +240,9 @@ function addRedText(e: Event) {
 const now = computed(() => {
   return todaysDate().split(',')[0].trim()
 })
+const wordCount = computed(() => {
+  return todo.value.length
+})
 const textAreaBg = computed(() => {
   return {
     'bg-white': taskFocused.value,
@@ -228,9 +255,23 @@ const updateSuffix = computed(() => {
   suffix.value = matches ? matches[1] : ''
 })
 
-const adjustTextAreaHeight = () => {
+const adjustTextAreaHeight = (e: Event) => {
   // taskRef.value.$el.style.height = '0px'
   // taskRef.value.$el.style.height = `${25 + taskRef.value.$el.scrollHeight}px`
+
+  // const target = (e.target as HTMLDivElement)
+  // const text = target.textContent
+
+  // if (text.length > 65) {
+  //   const overflowText = text.slice(65)
+  //   const spanEL = document.createElement('span')
+  //   spanEL.style.color = 'red'
+  //   spanEL.id = 'myNote'
+  //   spanEL.textContent = overflowText
+
+  //   target.innerHTML = text.slice(0, 65)
+  //   target.appendChild(spanEL)
+  // }
 
   taskRef.value.$el.style.height = 'auto' // reset height
   taskRef.value.$el.style.height = `${taskRef.value.$el.scrollHeight}px` // adjust heigh
@@ -249,6 +290,18 @@ function showDateBtn() {
   showDateInput.value = !showDateInput.value
 }
 
+function adjustCursor(element: HTMLElement) {
+  if (element) {
+    const range = document.createRange()
+    const sel = window.getSelection()
+    range.setStart(element, 1)
+    range.collapse(true)
+    sel.removeAllRanges()
+    sel.addRange(range)
+    element.focus()
+  }
+}
+
 const testVal = ref(false)
 </script>
 
@@ -257,7 +310,7 @@ const testVal = ref(false)
     <div :class="textAreaBg"
       class="z-5 relative rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2 min-h-12">
       <div class="left-input items-center flex flex-[1_1_70%]">
-        <DCheckBox v-if="taskFocused === true" v-model="testVal" class="checkbox-animate" />
+        <DCheckBox ref="checkBoxRef" v-model="testVal" class="checkbox-animate" />
         <ContentEditable ref="taskRef" v-model="todo" placeholder="Enter Todo here" :class="textAreaBg"
           class="px-2 text-black w-full focus:outline-none " :data-suffix="suffix" @input="adjustTextAreaHeight"
           @keydown.enter="submit({
@@ -296,6 +349,8 @@ const testVal = ref(false)
       </div>
     </div>
   </div>
+
+  <p> {{ wordCount }} / 70 </p>
 </template>
 
 <style lang="scss" scoped>

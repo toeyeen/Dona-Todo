@@ -4,7 +4,7 @@ const props = defineProps({
   placeholder: String,
 })
 
-const emits = defineEmits(['update:modelValue', 'clear'])
+const emits = defineEmits(['update:modelValue', 'clear', 'submit'])
 
 const textAreaRef = ref<HTMLDivElement | null>(null)
 const isEditable = ref(false)
@@ -27,8 +27,8 @@ function makeEditable() {
 
   const doc = textAreaRef.value
 
-  textAreaRef.value.innerText = props.modelValue || ''
-  inputText.value = props.modelValue || ''
+  textAreaRef.value.innerText = props.modelValue.trim() || ''
+  inputText.value = props.modelValue.trim() || ''
 
   if (textAreaRef.value.innerText && doc) {
     const range = document.createRange()
@@ -43,9 +43,9 @@ function makeEditable() {
 
 function makeNormal() {
   isEditable.value = false
-  inputText.value = props.modelValue === '' ? props.placeholder : props.modelValue
+  inputText.value = props.modelValue.trim() === '' ? props.placeholder : props.modelValue.trim()
 
-  textAreaRef.value.innerText = props.modelValue === '' ? props.placeholder : props.modelValue
+  textAreaRef.value.innerText = props.modelValue.trim() === '' ? props.placeholder : props.modelValue.trim()
 }
 
 function callMe() {
@@ -66,5 +66,7 @@ function callMe() {
 
   width: 100%;
   min-height: 25px;
+  max-height: 140px;
+  overflow-y: scroll;
 }
 </style>
