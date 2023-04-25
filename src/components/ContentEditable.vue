@@ -25,27 +25,45 @@ function makeEditable() {
     textAreaRef.value?.focus()
   }, 100)
 
+  const doc = textAreaRef.value
+
   textAreaRef.value.innerText = props.modelValue || ''
   inputText.value = props.modelValue || ''
+
+  if (textAreaRef.value.innerText && doc) {
+    const range = document.createRange()
+    const sel = window.getSelection()
+    range.setStart(doc, 1)
+    range.collapse(true)
+    sel.removeAllRanges()
+    sel.addRange(range)
+    doc.focus()
+  }
 }
 
 function makeNormal() {
   isEditable.value = false
   inputText.value = props.modelValue === '' ? props.placeholder : props.modelValue
+
+  textAreaRef.value.innerText = props.modelValue === '' ? props.placeholder : props.modelValue
 }
 
 function callMe() {
-  console.log('ABCDD')
 }
 </script>
 
 <template>
-  <div ref="textAreaRef" :contenteditable="isEditable" class="contenteditable" :value="props.modelValue"
+  <div id="textAreaId" ref="textAreaRef" :contenteditable="isEditable" class="contenteditable" :value="props.modelValue"
     @input="updateContent" @click="makeEditable" @blur="makeNormal" v-text="props.placeholder" />
 </template>
 
 <style lang="scss"  scoped>
 .contenteditable {
+
+  &_container {
+    display: inline-block;
+  }
+
   width: 100%;
   min-height: 25px;
 }

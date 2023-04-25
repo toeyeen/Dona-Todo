@@ -3,7 +3,7 @@ import { colors, emojis } from '../data/data'
 import type { EmojiStyle } from '../types'
 import { formatArray, removeHash } from '../utils/index'
 
-const { setCategorySymbol } = useState()
+const { setCategorySymbol, getCategorySymbol } = useState()
 
 function searchNestedArray(arr, term) {
   const searchedData = arr.reduce((acc, curr) => {
@@ -30,12 +30,24 @@ const searchedResult = computed(() => {
 const selectedColor = ref(removeHash(colors[0].hex))
 const typeToShow = ref('colors')
 const renderImage = ref(emojis[0])
+const typedColor = ref('')
 
 const selectColor = (color: string) => {
   selectedColor.value = removeHash(color)
   selectedType.value = selectedColor.value
   setCategorySymbol({ hex: color })
 }
+
+watch(selectedColor, (oldColor, newColor) => {
+  if (typedColor.value.length === 6)
+    setCategorySymbol({ hex: `#${newColor}` })
+})
+
+const setColor = (value) => {
+  if (value.length === 6)
+    selectColor(value)
+}
+
 const selectEmoji = (emoji: EmojiStyle) => {
   selectedType.value = emoji
   setCategorySymbol(emoji)

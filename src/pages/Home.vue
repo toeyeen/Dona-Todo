@@ -16,7 +16,6 @@ const formattedTodaysDate = computed(() => {
 })
 
 onBeforeMount(() => {
-  // console.log(todos, '123')
   // seedTodo(todos)
 })
 </script>
@@ -30,29 +29,29 @@ onBeforeMount(() => {
 
       <div class="text-3xl font-300">
         <span>
-        {{ formattedTodaysDate }}
-      </span>
+          {{ formattedTodaysDate }}
+        </span>
 
-      <span v-if="activeTodos.length > 0">
-        - {{ activeTodos.length }} task
-      </span>
+        <span v-if="activeTodos.length > 0">
+          - {{ activeTodos.length }} task
+        </span>
+      </div>
     </div>
+
+    <TodoInput />
+
+    <div class="py-2" />
+
+    <EmptyTodo v-if="activeTodos.length < 1" message="Empty todo" />
+    <ul class="flex flex-col gap-y-1 overflow-y-scroll">
+      <TodoItem v-for="todo, idx in activeTodos" :id="todo.id" :key="idx" :todo="todo" :status="todo.status"
+        :value="todo.title" @duplicate="duplicateTodo" @delete="deleteTodo" @edit="openEditDrawer" />
+    </ul>
   </div>
 
-  <TodoInput />
-
-  <div class="py-2" />
-
-  <EmptyTodo v-if="activeTodos.length < 1" message="Empty todo" />
-  <ul class="flex flex-col gap-y-1 overflow-y-scroll">
-    <TodoItem v-for="todo, idx in activeTodos" :id="todo.id" :key="idx" :todo="todo" :status="todo.status"
-      :value="todo.title" @duplicate="duplicateTodo" @delete="deleteTodo" @edit="openEditDrawer" />
-  </ul>
-</div>
-
-<TodoDrawer :is-edit-drawer="isEditDrawer" :todo="todoToEdit" @close-todo-drawer="isEditDrawer = false"
-  @delete="deleteTodo" @update="updateTodo" />
-<!-- <DDrawer :visible="isEditDrawer" :closable="true" @close="isEditDrawer = false">
+  <TodoDrawer :is-edit-drawer="isEditDrawer" :todo="todoToEdit" @close-todo-drawer="isEditDrawer = false"
+    @delete="deleteTodo" @update="updateTodo" />
+  <!-- <DDrawer :visible="isEditDrawer" :closable="true" @close="isEditDrawer = false">
     <template #header>
     </template>
 

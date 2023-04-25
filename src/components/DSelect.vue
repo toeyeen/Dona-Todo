@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { watch } from 'vue'
-
 import type { Direction, SelectOption } from '../types'
 
 interface SelectProps<T> {
@@ -132,10 +130,6 @@ const filteredOptions = computed(() => {
 })
 
 /** Watcher **/
-
-watch(internalValue, (newValue) => {
-  console.log(newValue, 'watcher')
-})
 
 /** Methods  */
 

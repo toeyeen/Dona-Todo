@@ -14,6 +14,8 @@ const taskFocused = ref(false)
 const { addTodo, state, categories } = useState()
 const route = useRoute()
 const suffix = ref('')
+const rawText = ref('')
+const hasStyle = ref(false)
 
 const vCat = ref(null)
 const value2 = ref({ id: 1, name: 'No List', language: 'JavaScript' })
@@ -89,6 +91,7 @@ const submit = (value: Todo, evt?: KeyboardEvent) => {
   if (todo.value.includes('//')) {
     const index = todo.value.indexOf('//')
     const title = todo.value.substring(0, index)
+
     addTodo({
       ...value,
       title,
@@ -113,15 +116,102 @@ const submit = (value: Todo, evt?: KeyboardEvent) => {
 }
 
 watch(todo, (oldText, newText) => {
-  if (todo.value.includes('//')) {
-    const index = oldText.indexOf('//')
-    // const matches = todo.value.match(/\/\/(.*)/)
-    // suffix.value = matches ? matches[1] : ''
+  // if (todo.value.includes('//')) {
+  //   const index = oldText.indexOf('//')
+  //   // const matches = todo.value.match(/\/\/(.*)/)
+  //   // suffix.value = matches ? matches[1] : ''
 
-    if (index >= 0)
-      description.value = oldText.substring(index + 2).trim()
+  //   if (index >= 0)
+  //     description.value = oldText.substring(index + 2).trim()
+
+  // }
+
+  // let range = document.createRange();
+  // let sel = window.getSelection();
+  // range.setStart(contentEditable, 1);
+  // range.collapse(true);
+  // sel.removeAllRanges();
+  // sel.addRange(range);
+  // doc.focus();
+
+  const contentEditable = taskRef.value.$el
+  const text = contentEditable.textContent
+
+  // Check if the text contains the style marker //
+  const styleIndex = text.indexOf('//')
+  if (styleIndex >= 0) {
+    // If the marker is found, add the style to the text
+    const styledText = text.replace(
+      /\/\/(.*)/g,
+      '<span id="myNote" style="color: red;">//$1</span>',
+    )
+    contentEditable.innerHTML = styledText
+
+    hasStyle.value = true
+
+    const doc = document.getElementById('myNote')
+    if (doc) {
+      const range = document.createRange()
+      const sel = window.getSelection()
+      range.setStart(doc, 1)
+      range.collapse(true)
+      sel.removeAllRanges()
+      sel.addRange(range)
+      doc.focus()
+
+      const regex = /(?<=\/\/)(.*)/g
+      const matches = doc.textContent.match(regex)
+      description.value = matches[0]
+    }
+  }
+  else if (hasStyle.value) {
+    // If the marker is removed, remove the style from the text
+    contentEditable.innerHTML = text
+    hasStyle.value = false
+  }
+  else {
+    // If no changes are needed, just update the raw text
+    rawText.value = text
   }
 })
+
+function addRedText(e: Event) {
+  const value = (e.target) as HTMLDivElement
+
+  const contentEditable = taskRef.value.$el
+  const text = contentEditable.textContent
+  const styleIndex = text.indexOf('//')
+  if (styleIndex >= 0) {
+    // If the marker is found, add the style to the text
+    const styledText = text.replace(
+      /\/\/(.*)/g,
+      '<span id="myNote" style="color: red;">//$1</span>',
+    )
+    contentEditable.innerHTML = styledText
+
+    hasStyle.value = true
+    const selection = window.getSelection()
+    const range = selection.getRangeAt(0)
+    const startPosition = range.startOffset
+
+    // Restore the selection
+    range.setStart(contentEditable.firstChild, startPosition)
+    range.collapse(true)
+    selection.removeAllRanges()
+    selection.addRange(range)
+    contentEditable.focus()
+  }
+
+  else if (hasStyle.value) {
+    // If the marker is removed, remove the style from the text
+    contentEditable.innerHTML = text
+    hasStyle.value = false
+  }
+  else {
+    // If no changes are needed, just update the raw text
+    // rawText.value = text
+  }
+}
 
 const now = computed(() => {
   return todaysDate().split(',')[0].trim()
@@ -139,8 +229,6 @@ const updateSuffix = computed(() => {
 })
 
 const adjustTextAreaHeight = () => {
-  // console.log(taskRef.value.$el.scrollHeight), 'scroll'
-
   // taskRef.value.$el.style.height = '0px'
   // taskRef.value.$el.style.height = `${25 + taskRef.value.$el.scrollHeight}px`
 
@@ -169,27 +257,17 @@ const testVal = ref(false)
     <div :class="textAreaBg"
       class="z-5 relative rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2 min-h-12">
       <div class="left-input items-center flex flex-[1_1_70%]">
-        <DCheckBox v-if="taskFocused === true" v-model="testVal" />
+        <DCheckBox v-if="taskFocused === true" v-model="testVal" class="checkbox-animate" />
         <ContentEditable ref="taskRef" v-model="todo" placeholder="Enter Todo here" :class="textAreaBg"
           class="px-2 text-black w-full focus:outline-none " :data-suffix="suffix" @input="adjustTextAreaHeight"
           @keydown.enter="submit({
-            id: uuidv4(),
-            title: todo,
-            status: 'inProgress',
-            dueDate: formatInputDate(dueDate),
-            category: vCat ? [vCat] : unComputedCategory,
-            description: '',
-          }, $event)" @focus="taskFocused = true" />
-        <!-- <textarea ref="taskRef" v-model="todo" rows="1" placeholder="Write a new task" type="text" name="todo"
-                                                                                                  :class="textAreaBg" class="px-2 text-black w-full focus:outline-none " @input="adjustTextAreaHeight"
-                                                                                                  @keydown.enter="submit({
-                                                                                                    id: uuidv4(),
-                                                                                                    title: todo,
-                                                                                                    status: 'inProgress',
-                                                                                                    dueDate: formatInputDate(dueDate),
-                                                                                                    category: vCat ? [vCat] : unComputedCategory,
-                                                                                                    description: '',
-                                                                                                  }, $event)" @focus="taskFocused = true" /> -->
+              id: uuidv4(),
+              title: todo,
+              status: 'inProgress',
+              dueDate: formatInputDate(dueDate),
+              category: vCat ? [vCat] : unComputedCategory,
+              description: '',
+            }, $event)" @focus="taskFocused = true" />
       </div>
 
       <div v-if="taskFocused === true" class="right-input items-center flex justify-end flex-auto ">
@@ -231,5 +309,10 @@ textarea {
 [contenteditable]::after {
   content: attr(data-suffix);
   color: yellow;
+}
+
+.checkbox-animate {
+  // transform: translateX(0px);
+  transition: all 3s ease-in;
 }
 </style>
