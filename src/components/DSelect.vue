@@ -379,7 +379,6 @@ onMounted(() => {
     z-index: 10;
     border-radius: 5px;
     margin-top: 4px;
-    background: #fff;
     position: absolute;
     width: 100%;
     right: 0;
@@ -391,27 +390,11 @@ onMounted(() => {
     font-feature-settings: "tnum";
     outline: none;
 
+    @apply bg-secondary text-grey;
+
     &.betaselect--above {
       bottom: 110% !important;
     }
-
-    // margin: 0;
-    // color: #000000d9;
-    // font-variant: tabular-nums;
-    // line-height: 1.5715;
-    // list-style: none;
-    // font-feature-settings: "tnum";
-    // position: absolute;
-    // z-index: 1050;
-    // box-sizing: border-box;
-    // padding: 4px 0;
-    // overflow: hidden;
-    // font-size: 14px;
-    // font-variant: initial;
-    // background-color: #fff;
-    // border-radius: 2px;
-    // outline: none;
-    // box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
 
     &>ul {
       list-style: none;
@@ -434,8 +417,8 @@ onMounted(() => {
     }
 
     &:hover {
-      background-color: green;
-      color: #fff;
+      // color: #fff;
+      @apply bg-tertiary;
     }
 
     &--selected {

@@ -43,7 +43,7 @@ export default defineConfig({
     transformerDirectives(),
   ],
   rules: [
-    [/^(text|bg)-(.*)$/, ([, c], { theme }) => {
+    [/^(text|bg)-\w+$/, ([, c], { theme }) => {
       if (theme.colors[c]) {
         return {
           color: theme.colors[c],
@@ -53,7 +53,21 @@ export default defineConfig({
   ],
   theme: {
     colors: {
-      primary: 'rgb(var(--primary))',
+      primary: 'var(--primary)',
+      secondary: 'var(--secondary)',
+      tertiary: 'var(--tertiary)',
+      notepad: 'var(--notepad)',
+      notepadSecondary: 'var(--notepadSecondary)',
+      danger: 'var(--danger)',
+      dangerDark: 'var(--dangerDark)',
+      upload: 'var(--upload)',
+      checkbox: 'var(--checkbox)',
+      grey: 'var(--grey)',
+      main: 'var(--main)',
+      card: 'var(--card)',
+      cardHover: 'var(--cardHover)',
+      input: 'var(--input)',
+      inputEmpty: 'var(--inputEmpty)',
     },
   },
 })

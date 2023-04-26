@@ -52,7 +52,6 @@ const optionLists = shallowRef([
 function setTheme(theme: BasicColorSchema | 'black') {
   isActive.value = theme
   mode.value = theme
-  console.log(theme)
 }
 </script>
 
@@ -61,9 +60,9 @@ function setTheme(theme: BasicColorSchema | 'black') {
  -->
   <div>
     <label for="">Theme</label>
-    <ul class="grid grid-cols-3 border py-1 bg-gray-300">
+    <ul class="grid grid-cols-3 border py-1 bg-primary">
       <li v-for=" item in optionLists" :key="item.id" class="cursor-pointer rounded-md"
-        :class="[isActive === item.slug ? 'is-active bg-white' : '']" @click="setTheme(item.slug)">
+        :class="[isActive === item.slug ? 'is-active bg-cardHover' : '']" @click="setTheme(item.slug)">
         <span class="rounded-md flex justify-center items-center gap-x-1">
           <component :is="item.icon" />
           <span>

@@ -12,7 +12,9 @@ const closeDrawer = ref(false)
 const colorInStorage = localStorage.getItem('vueuse-color-scheme')
 
 onMounted(() => {
+  const html = document.getElementsByTagName('html')
 
+  html[0].setAttribute('theme', colorInStorage)
 })
 
 const router = useRouter()
@@ -68,7 +70,7 @@ const optionLists = shallowRef([
 
 <template>
   <div id="main" my-auto of-hidden h-screen grid
-    class="md:grid-cols-[320px_1fr] border gap-8 px-5 py-4 text-rubik  rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border bg-primary">
+    class="md:grid-cols-[320px_1fr] border gap-8 px-5 py-4 text-rubik  rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-90 border bg-primary text-main">
     <LayoutBlur :background="state.category.value.color.hex" />
     <LeftPanel class="md:block hidden" />
     <div class="py-2 overflow-y-scroll">
@@ -91,7 +93,7 @@ const optionLists = shallowRef([
           <ul role="listbox">
             <li v-for="option, idx in optionLists" :id="`null-${idx}`" :key="idx" class="betaselect__element left"
               role="option" @click="option.function">
-              <component :is="option.icon" :key="idx" class="w-4 h-4 fill-current text-black cursor-pointer"
+              <component :is="option.icon" :key="idx" class="w-4 h-4 fill-current text-grey cursor-pointer"
                 aria-hidden="true" />
 
               <span class=" betaselect__option">
@@ -102,8 +104,8 @@ const optionLists = shallowRef([
         </div>
       </template>
       <template #activator="{ toggle }">
-        <SubtleBg @click="toggle">
-          <li class="i-ph:dots-three-outline-vertical-thin w-4 h-4" />
+        <SubtleBg color="bg-upload" class="px-2 py-3 rounded-lg" @click="toggle">
+          <li class="i-ph:dots-three-outline-vertical-thin w-4 h-4 text-main" />
         </SubtleBg>
       </template>
     </DDropDown>

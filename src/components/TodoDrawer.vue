@@ -135,12 +135,15 @@ function updateTodo() {
     display: flex;
     justify-content: center;
     outline: none;
-    color: #a77275;
     font-weight: 600;
     cursor: pointer;
 
+    @apply text-danger-dark;
+
     &.delete {
-      background-color: #fcefec;
+      @apply bg-danger;
+      ;
+
     }
 
     &.update {
@@ -153,13 +156,13 @@ function updateTodo() {
 
     &_notepad {
       outline: none;
-      background-color: #f8f5ea;
       width: 100%;
       border-radius: .5rem;
       padding: .75rem;
       color: #484848;
       // box-shadow: 1px 1px 1px #484848;
       box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 2px;
+      @apply bg-notepad text-main;
 
       &:focus {
         border-color: #eaecf2;
@@ -168,7 +171,7 @@ function updateTodo() {
       }
 
       &::placeholder {
-        color: #B8A460;
+        @apply text-notepad-secondary;
       }
     }
 
@@ -190,10 +193,10 @@ function updateTodo() {
       border-radius: .5rem;
       display: flex;
       flex-direction: column;
-      background-color: #eaecf2;
       padding: .75rem 1rem;
       color: #686872;
       row-gap: .5rem;
+      @apply bg-tertiary text-grey;
     }
 
     &_lists {

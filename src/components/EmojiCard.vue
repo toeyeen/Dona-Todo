@@ -155,7 +155,6 @@ onMounted(() => {
   padding: .5rem;
   cursor: pointer;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  background-color: #fff;
   opacity: .8;
   width: 350px;
   max-height: 380px;
@@ -163,6 +162,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   position: absolute;
+  @apply bg-secondary;
 
   &__headers {
     &-title {
@@ -174,8 +174,7 @@ onMounted(() => {
       }
 
       &>.active {
-        color: #000;
-        @apply bg-[#f8f5f9];
+        @apply bg-cardHover text-main;
       }
     }
 
@@ -200,9 +199,11 @@ onMounted(() => {
       & input {
         width: 100%;
         padding-left: 1.5rem;
-        background: #e8e8e8;
+        // background: #e8e8e8;
         border-radius: 6px;
         transition: background .3s;
+
+        @apply bg-cardHover;
 
         &:focus {
           border-color: #80bdff;

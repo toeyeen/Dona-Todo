@@ -72,10 +72,10 @@ onMounted(() => { })
 </script>
 
 <template>
-  <div bg="~ white" my-auto rounded-lg p-8 h-full font-rubik>
+  <div class="bg-secondary" my-auto rounded-lg p-8 h-full font-rubik>
     <ul>
       <router-link to="/"
-        class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+        class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-tertiary">
         <div class="flex items-center gap-2">
           <li class="i-carbon-home w-5 h-5" />
           <span>Home</span>
@@ -86,7 +86,7 @@ onMounted(() => { })
     </ul>
 
     <router-link to="/Today"
-      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-tertiary">
       <span class="flex items-center gap-2">
         <li class="i-carbon-checkmark w-5 h-5" />
         <span>Today</span>
@@ -96,7 +96,7 @@ onMounted(() => { })
     </router-link>
 
     <router-link to="/Completed"
-      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-tertiary">
       <span class="flex items-center gap-2">
         <li class="i-carbon-checkmark w-5 h-5" />
         <span>Completed</span>
@@ -106,7 +106,7 @@ onMounted(() => { })
     </router-link>
 
     <router-link v-for="cat, idx in state.categories.value" :key="idx" :to="{ path: `/groups/${cat.title}` }"
-      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+      class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-tertiary">
       <span class="flex items-center gap-2">
         <div v-if="cat.color.hex" class="i-custom:logo w-4 h-4 fill-current text-[#008FFD]"
           :style="{ color: cat.color.hex }" />
@@ -126,7 +126,7 @@ onMounted(() => { })
     </router-link>
     <div>
       <div
-        class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-gray-100">
+        class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-tertiary">
         <span class="flex items-center gap-2">
           <li v-if="!focusMode" class="i-carbon-add w-4 h-4" @click="onFocus" />
 
@@ -143,13 +143,13 @@ onMounted(() => { })
               </button>
             </span>
 
-            <span class="i-carbon:caret-sort-down w-4 h-4 text-black  absolute right-[2px] top-[10%] " />
+            <span class="i-carbon:caret-sort-down w-4 h-4 text-main  absolute right-[2px] top-[10%] " />
           </div>
 
           <GhostInput ref="newCategory" v-model="category" :placeholder="placeholder" @keyup.enter="addCat({
-            id: uuidv4(),
-            title: category,
-          })" @focus="onFocus" @blur="onBlur" />
+              id: uuidv4(),
+              title: category,
+            })" @focus="onFocus" @blur="onBlur" />
         </span>
       </div>
       <EmojiCard v-if="emojiCard" ref="emojiCardElement" />

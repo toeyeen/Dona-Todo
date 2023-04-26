@@ -60,7 +60,7 @@ watch(() => props.visible, (newValue) => {
             <div v-if="isSlotUsed('header')" class="beta-drawer-header">
               <slot name="header" />
               <span v-if="props.closable"
-                class="i-carbon:close close-drawer cursor-pointer inline-block w-6 h-6 text-black fill-current"
+                class="i-carbon:close close-drawer cursor-pointer inline-block w-6 h-6 text-gray fill-current"
                 @click="closeDrawer" />
             </div>
             <div class="beta-drawer-body">
@@ -99,9 +99,8 @@ watch(() => props.visible, (newValue) => {
     &-wrapper {
       height: 100%;
       width: 100%;
-      background-color: #fff;
       box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d, -12px 0 48px 16px #00000008;
-      ;
+      @apply bg-secondary text-main;
     }
   }
 
@@ -130,10 +129,9 @@ watch(() => props.visible, (newValue) => {
     align-items: center;
     justify-content: space-between;
     padding: 16px 24px;
-    color: #000000d9;
-    background: #fff;
     // border-bottom: 1px solid #f0f0f0;
     border-radius: 2px 2px 0 0;
+    @apply text-main bg-secondary;
   }
 
   &-body {

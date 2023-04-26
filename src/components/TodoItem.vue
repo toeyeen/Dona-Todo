@@ -114,7 +114,7 @@ onMounted(() => {
                       {{ option.name }}
                     </span>
 
-                    <component :is="option.icon" :key="idx" class="w-4 h-4 fill-current text-black cursor-pointer"
+                    <component :is="option.icon" :key="idx" class="w-4 h-4 fill-current text-grey cursor-pointer"
                       aria-hidden="true" />
                   </li>
                 </ul>

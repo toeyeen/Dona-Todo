@@ -245,8 +245,8 @@ const wordCount = computed(() => {
 })
 const textAreaBg = computed(() => {
   return {
+    'bg-gradient-to-r from-gray-200 to-inputEmpty': !taskFocused.value,
     'bg-white': taskFocused.value,
-    'bg-gray-300': !taskFocused.value,
   }
 })
 
