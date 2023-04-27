@@ -14,6 +14,12 @@ const showPopup = ref(false)
 const dropdownRef = ref<HTMLDivElement | null>(null)
 const activatorRef = ref<HTMLDivElement | null>(null)
 onClickOutside(dropdownRef, (event: Event) => {
+  // if (!closeOnClick && !(event.target.classList.contains('left') || event.target.parentElement.classList.contains('left')))
+  //   showPopup.value = false
+
+  // else
+  //   showPopup.value = true
+
   if (closeOnClick)
     showPopup.value = false
 })

@@ -58,7 +58,7 @@ function setTheme(theme: BasicColorSchema | 'black') {
 <template>
   <!--         :style="[isActive === item.slug ? `transform: translateX(${(item.id - 1) * 100}%)` : '']"
  -->
-  <div>
+  <div id="theme">
     <label for="">Theme</label>
     <ul class="grid grid-cols-3 border py-1 bg-primary">
       <li v-for=" item in optionLists" :key="item.id" class="cursor-pointer rounded-md"

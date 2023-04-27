@@ -47,12 +47,12 @@ onMounted(() => {
 
 <template>
   <input type="text" class="ghost" :placeholder="placeholder
-  " :value="modelValue" v-bind="{
-  ...$attrs,
-  onInput: updateValue,
-  onFocus,
-  onBlur,
-}">
+    " :value="modelValue" v-bind="{
+      ...$attrs,
+      onInput: updateValue,
+      onFocus,
+      onBlur,
+    }">
 </template>
 
 <style lang="scss" scoped>
@@ -77,13 +77,15 @@ onMounted(() => {
   transition: all .3s;
   // background-color: red;
 
+  @apply bg-input;
+
   &:focus,
   &:active {
     outline: none;
   }
 
   &:hover {
-    @apply hover: bg-gray-100;
+    @apply bg-inputEmpty;
   }
 
 }

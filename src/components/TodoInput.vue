@@ -35,6 +35,13 @@ const showDateInput = ref(false)
 whenever(shiftCtrlA, () => {
   if (!taskFocused.value) {
     taskFocused.value = true
+
+    const range = document.createRange()
+    const sel = window.getSelection()
+    range.setStart(taskRef.value.$el, 1)
+    range.collapse(true)
+    sel.removeAllRanges()
+    sel.addRange(range)
     taskRef.value.$el.focus()
   }
   else {

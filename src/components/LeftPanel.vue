@@ -48,14 +48,17 @@ function onFocus() {
   focusMode.value = true
   placeholder.value = 'List name'
 }
+function onBlurList() {
+  focusMode.value = false
+}
 
 function showEmojiCard() {
   emojiCard.value = true
 }
 
-function onBlur() {
-  // resetInput()
-}
+// function onBlur() {
+//   // resetInput()
+// }
 
 onClickOutside(emojiCardElement, (event: Event) => emojiCard.value = false)
 
@@ -125,8 +128,7 @@ onMounted(() => { })
       </span>
     </router-link>
     <div>
-      <div
-        class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-tertiary">
+      <div class="flex justify-between items-center px-4 py-3  rounded-lg cursor-pointer">
         <span class="flex items-center gap-2">
           <li v-if="!focusMode" class="i-carbon-add w-4 h-4" @click="onFocus" />
 

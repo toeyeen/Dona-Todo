@@ -85,7 +85,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="relative bg-gray-50 rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2">
+    <div class="relative bg-tertiary rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2">
       <div class="left-input flex items-center flex-[1_1_70%]">
         <DCheckBox :id="props.todo.id" v-model:model-value="isCompleted" class="Jolaoao" @on-change="onChange" />
         <p ref="paraRef">
@@ -103,7 +103,7 @@ onMounted(() => {
         <span v-if="props.todo.category[0].color.hex" class="i-custom:logo fill-current text-[#008FFD] mr-2"
           :style="{ color: props.todo.category[0].color.hex }" />
         <div>
-          <DDropDown ref="dropdownRef" triggers="click">
+          <DDropDown ref="dropdownRef" triggers="click" :close-on-click="true">
             <template #overlay>
               <!--  :class="[ddPosition ? 'betaselect--above' : null]" -->
               <div ref="list" tabindex="-1" class="betaselect__content-wrapper" style=" width: 140px;">
@@ -121,7 +121,7 @@ onMounted(() => {
               </div>
             </template>
             <template #activator="{ toggle }">
-              <SubtleBg @click="toggle">
+              <SubtleBg class="py-0.5" @click="toggle">
                 <li class="i-ph:dots-three-outline-vertical-thin w-4 h-4" />
               </SubtleBg>
             </template>
