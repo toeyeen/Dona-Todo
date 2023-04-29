@@ -17,6 +17,7 @@ const suffix = ref('')
 const rawText = ref('')
 const hasStyle = ref(false)
 const checkBoxRef = ref<HTMLDivElement>(null)
+const todoStatus = ref(false)
 
 const vCat = ref(null)
 const value2 = ref({ id: 1, name: 'No List', language: 'JavaScript' })
@@ -60,7 +61,6 @@ watch(taskRef, (old) => {
 
 // Animation
 // watch(taskFocused, (old, nu) => {
-//   console.log(old, nu)
 
 //   if (old) {
 //     gsap.fromTo(checkBoxRef.value.$el, {
@@ -143,6 +143,8 @@ const submit = (value: Todo, evt?: KeyboardEvent) => {
     if (!route.path.includes('/Today'))
       dueDate.value = null
   }
+
+  todoStatus.value = false
 }
 
 watch(todo, (oldText, newText) => {
@@ -309,7 +311,9 @@ function adjustCursor(element: HTMLElement) {
   }
 }
 
-const testVal = ref(false)
+function onChange(value) {
+  todoStatus.value = value
+}
 </script>
 
 <template>
@@ -317,13 +321,13 @@ const testVal = ref(false)
     <div :class="textAreaBg"
       class="z-5 relative rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2 min-h-12">
       <div class="left-input items-center flex flex-[1_1_70%]">
-        <DCheckBox ref="checkBoxRef" v-model="testVal" class="checkbox-animate" />
+        <DCheckBox ref="checkBoxRef" :model-value="todoStatus" class="checkbox-animate" @on-change="onChange" />
         <ContentEditable ref="taskRef" v-model="todo" placeholder="Enter Todo here" :class="textAreaBg"
           class="px-2 text-black w-full focus:outline-none " :data-suffix="suffix" @input="adjustTextAreaHeight"
           @keydown.enter="submit({
               id: uuidv4(),
               title: todo,
-              status: 'inProgress',
+              status: !todoStatus ? 'inProgress' : 'completed',
               dueDate: formatInputDate(dueDate),
               category: vCat ? [vCat] : unComputedCategory,
               description: '',
@@ -333,7 +337,7 @@ const testVal = ref(false)
       <div v-if="taskFocused === true" class="right-input items-center flex justify-end flex-auto ">
         <div>
           <li v-if="!showDateInput" class="i-carbon-calendar w-5 h-5" @click="showDateBtn" />
-          <input v-if="showDateInput" id="" type="date" name="">
+          <input v-if="showDateInput" id="" v-model="dueDate" type="date" name="">
         </div>
         <span class="flex">
           <DSelect v-model="vCat" track-by="title" label="title" :custom-label="nameWithNum" :options="categories"

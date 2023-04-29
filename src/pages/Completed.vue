@@ -12,7 +12,7 @@ const value = ref({ name: 'No List', language: 'JavaScript' })
   </div>
 
   <ul class="flex flex-col gap-y-1 overflow-y-scroll">
-    <TodoItem v-for="todo, idx in completed" :id="todo.id" :key="idx" :todo="todo" :value="todo.title"
+    <TodoItem v-for="todo in completed" :id="todo.id" :key="todo.id" :todo="todo" :value="todo.title"
       :status="todo.status" @edit="openEditDrawer" @duplicate="duplicateTodo" @delete="deleteTodo" />
   </ul>
 

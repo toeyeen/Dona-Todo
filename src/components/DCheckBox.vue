@@ -20,19 +20,18 @@ const updateValue = (event: Event) => {
   if (target.type === 'checkbox')
     val = target.checked
   emits('onChange', val)
-  emits('update:modelValue', val)
+
+  // emits('update:modelValue', val)
 }
 
-const slots = useSlots()
+// const slots = useSlots()
 </script>
 
 <template>
   <div>
-    <input id="c1" :aria-labelledby="`label-${props.id}`" type="checkbox" :checked="props.modelValue"
+    <input :id="props.id" :aria-labelledby="`label-${props.id}`" type="checkbox" :checked="props.modelValue"
       v-bind="{ ...$attrs, onChange: updateValue }">
-
     <slot />
-    <!-- <label for="c1">Checkbox</label> -->
   </div>
 </template>
 

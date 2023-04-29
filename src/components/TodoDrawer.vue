@@ -34,7 +34,7 @@ watch(() => props.isEditDrawer, (newValue) => {
   title.value = props?.todo?.title
 })
 
-const { categories } = useState()
+const { categories, updateTodo } = useState()
 
 const value = ref(categories)
 
@@ -53,14 +53,15 @@ function deleteTodo() {
   emits('delete', props.todo.id)
   closeDrawer(false)
 }
-function updateTodo() {
-  emits('update', {
+function updateLocalTodo() {
+  const updated = {
     ...props.todo,
     description: description.value,
     dueDate: dueDate.value,
     title: title.value,
-  },
-  )
+  }
+
+  updateTodo(updated)
 
   closeDrawer(false)
   // reset()
@@ -113,7 +114,7 @@ function updateTodo() {
       </div>
 
       <template #footer>
-        <button class="todo_btn update mt-4" @click="updateTodo">
+        <button class="todo_btn update mt-4" @click="updateLocalTodo">
           Update
         </button>
         <button class="todo_btn delete" @click="deleteTodo">

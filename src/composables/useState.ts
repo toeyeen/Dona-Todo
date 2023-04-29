@@ -84,8 +84,10 @@ export const useState = () => {
   }
 
   function markTodo(payload: Todo) {
+    const todoindex = state.todos.findIndex(todo => todo.id === payload.id)
+
     if (payload.status === 'due' || payload.status === 'inProgress') {
-      payload.status = 'completed'
+      state.todos[todoindex].status = 'completed'
     }
     else {
       if (payload.dueDate) {
@@ -94,17 +96,17 @@ export const useState = () => {
         const endofDueDate = new Date(dueDate).setUTCHours(23, 59, 59, 999)
 
         endofDueDate < Date.now()
-          ? payload.status = 'due'
-          : payload.status = 'inProgress'
+          ? state.todos[todoindex].status = 'due'
+          : state.todos[todoindex].status = 'inProgress'
       }
       else {
-        payload.status = 'inProgress'
+        state.todos[todoindex].status = 'inProgress'
       }
     }
   }
 
   function updateTodo(todo: Todo) {
-    // markTodo(payload)
+    console.log(todo, '1234')
 
     const todoIdToUpdate = todo.id
 
@@ -118,7 +120,8 @@ export const useState = () => {
   }
 
   const totalTodos = computed(() => {
-    return state.todos.filter(todo => todo.status !== 'completed').length
+    return state.todos.length
+    // return state.todos.filter(todo => todo.status !== 'completed').length
   })
 
   const completed = computed(() => {
@@ -126,7 +129,7 @@ export const useState = () => {
   })
 
   const todosDueToday = computed(() => {
-    formatInputDate(1)
+    // formatInputDate(1)
     return state.todos.filter((todo) => {
       return todo.dueDate === formatInputDate(new Date().toISOString().split('T')[0])
     },

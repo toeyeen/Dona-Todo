@@ -56,9 +56,9 @@ function showEmojiCard() {
   emojiCard.value = true
 }
 
-// function onBlur() {
-//   // resetInput()
-// }
+function onBlur() {
+  // resetInput()
+}
 
 onClickOutside(emojiCardElement, (event: Event) => emojiCard.value = false)
 

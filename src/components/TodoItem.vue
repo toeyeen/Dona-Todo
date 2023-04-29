@@ -13,6 +13,7 @@ const emits = defineEmits(['duplicate', 'delete', 'edit'])
 const paraRef = ref<HTMLParagraphElement | null>(null)
 const dropdownRef = ref<HTMLDivElement | null>(null)
 const ddPosition = ref(null)
+const isChecked = ref(props.todo.status === 'completed')
 
 const { markTodo } = useState()
 
@@ -50,6 +51,8 @@ const onChange = (val) => {
   if (props.todo.status !== 'completed')
     paraRef.value.classList.add('strike')
 
+  isChecked.value = val
+
   setTimeout(() => {
     markTodo(props.todo)
   }, 1000)
@@ -61,13 +64,6 @@ const paraStrike = computed(() => {
   }
 })
 
-const isCompleted = computed(() => {
-  if (props.todo.status === 'completed')
-    return true
-  else
-    return false
-})
-
 onMounted(() => {
   const {
     isAbove,
@@ -77,17 +73,13 @@ onMounted(() => {
 
   ddPosition.value = isAbove
 })
-
-// function isCompleted2 = () => {
-
-// }
 </script>
 
 <template>
   <div>
     <div class="relative bg-tertiary rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2">
-      <div class="left-input flex items-center flex-[1_1_70%]">
-        <DCheckBox :id="props.todo.id" v-model:model-value="isCompleted" class="Jolaoao" @on-change="onChange" />
+      <div class="left-input flex items-center str flex-[1_1_70%]">
+        <DCheckBox :id="props.todo.id" :model-value="isChecked" class="Jolaoao" @on-change="onChange" />
         <p ref="paraRef">
           {{ props.todo.title }}
         </p>

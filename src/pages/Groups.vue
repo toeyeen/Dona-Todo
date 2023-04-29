@@ -31,7 +31,7 @@ onMounted(() => {
   <TodoInput />
 
   <ul class="flex flex-col gap-y-1 overflow-y-scroll">
-    <TodoItem v-for="todo, idx in todos" :id="todo.id" :key="idx" :todo="todo" :status="todo.status" :value="todo.title"
+    <TodoItem v-for="todo in todos" :id="todo.id" :key="todo.id" :todo="todo" :status="todo.status" :value="todo.title"
       @duplicate="duplicateTodo" @delete="deleteTodo" @edit="openEditDrawer" />
   </ul>
 

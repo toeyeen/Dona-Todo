@@ -1,11 +1,12 @@
 <script setup lang="ts">
 const { state, user, categories } = useState()
-const { deleteTodo, duplicateTodo, openEditDrawer, isEditDrawer, todoToEdit, updateTodo } = useSelector()
+const { deleteTodo, duplicateTodo, openEditDrawer, isEditDrawer, todoToEdit } = useSelector()
 
 const value = ref({ name: 'No List', language: 'JavaScript' })
 
 const activeTodos = computed(() => {
-  return state.todos.value.filter(todo => todo.status !== 'completed')
+  return state.todos.value
+  // return state.todos.value.filter(todo => todo.status !== 'completed')
 })
 
 const formattedTodaysDate = computed(() => {
@@ -44,13 +45,13 @@ onBeforeMount(() => {
 
     <EmptyTodo v-if="activeTodos.length < 1" message="Empty todo" />
     <ul class="flex flex-col gap-y-1 overflow-y-scroll">
-      <TodoItem v-for="todo, idx in activeTodos" :id="todo.id" :key="idx" :todo="todo" :status="todo.status"
+      <TodoItem v-for="todo in activeTodos" :id="todo.id" :key="todo.id" :todo="todo" :status="todo.status"
         :value="todo.title" @duplicate="duplicateTodo" @delete="deleteTodo" @edit="openEditDrawer" />
     </ul>
   </div>
 
   <TodoDrawer :is-edit-drawer="isEditDrawer" :todo="todoToEdit" @close-todo-drawer="isEditDrawer = false"
-    @delete="deleteTodo" @update="updateTodo" />
+    @delete="deleteTodo" />
   <!-- <DDrawer :visible="isEditDrawer" :closable="true" @close="isEditDrawer = false">
     <template #header>
     </template>
