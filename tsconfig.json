@@ -3,12 +3,16 @@
     "baseUrl": ".",
     "jsx": "preserve",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": [
+        "./src/*"
+      ]
     },
     "module": "es2022",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "types": ["unplugin-icons/types/vue"]
+    "types": [
+      "unplugin-icons/types/vue"
+    ]
   },
   "exclude": [
     "**/dist/**"

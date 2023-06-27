@@ -6,13 +6,11 @@ const props = defineProps<{
   width?: number | string
 }>()
 
-const emits = defineEmits<
-  {
-    (e: 'closeTodoDrawer', visible: boolean): void
-    (e: 'delete', id: string): void
-    (e: 'update', todo: Todo): void
-  }
->()
+const emits = defineEmits<{
+  (e: 'closeTodoDrawer', visible: boolean): void
+  (e: 'delete', id: string): void
+  (e: 'update', todo: Todo): void
+}>()
 
 const today = new Date()
 const year = today.getFullYear()
@@ -21,10 +19,11 @@ const day = String(today.getDate()).padStart(2, '0')
 const formattedDate = `${year}-${month}-${day}`
 
 const localVariable = ref(props.isEditDrawer)
-const testVal = ref(false)
+const todoStatus = ref(props.todo.status === 'completed')
 const description = ref(props?.todo?.description)
 const dueDate = ref(props?.todo?.dueDate)
 const title = ref(props?.todo?.title)
+const todoCat = ref(props?.todo?.category)
 
 // Watch for changes to the "value" prop and update the local "value" ref accordingly
 watch(() => props.isEditDrawer, (newValue) => {
@@ -36,12 +35,13 @@ watch(() => props.isEditDrawer, (newValue) => {
 
 const { categories, updateTodo } = useState()
 
-const value = ref(categories)
+// const value = ref(categories)
 
 function reset() {
   description.value = ''
   dueDate.value = ''
   title.value = ''
+  todoCat.value = props?.todo?.category
 }
 
 function closeDrawer(value: boolean) {
@@ -53,12 +53,15 @@ function deleteTodo() {
   emits('delete', props.todo.id)
   closeDrawer(false)
 }
+
 function updateLocalTodo() {
   const updated = {
     ...props.todo,
     description: description.value,
     dueDate: dueDate.value,
     title: title.value,
+    category: todoCat.value,
+    status: props.todo.status === 'completed' ? 'inProgress' : 'completed',
   }
 
   updateTodo(updated)
@@ -67,6 +70,16 @@ function updateLocalTodo() {
   // reset()
   // closeDrawer(false)
 }
+
+function onChange(value) {
+  todoStatus.value = value
+}
+
+// onMounted(() => {
+//   todoCat.value = props.todo.category
+//   console.log(props.todo.category[0], '12234')
+//   console.log(todoCat.value, '2333')
+// })
 </script>
 
 <template>
@@ -76,7 +89,7 @@ function updateLocalTodo() {
 
       <div class="todo--details">
         <div class="todo--details_title">
-          <DCheckBox v-model="testVal" class="mr-2">
+          <DCheckBox :id="props.todo.id" :model-value="todoStatus" class="mr-2" @on-change="onChange">
             <input id="" class="edit-title" type="text" name="" :value="props?.todo?.title"
               @input="event => title = (event.target as HTMLInputElement).value">
           </DCheckBox>
@@ -88,9 +101,8 @@ function updateLocalTodo() {
               List
             </span>
             <span>
-              <DSelect v-model="value[0]" track-by="title" label="title" :options="categories" :max-height="200"
+              <DSelect v-model="todoCat" track-by="title" label="title" :options="categories" :max-height="200"
                 style="width: 100px" :dropdown-style="{ width: '140px' }">
-                {{ categories[0].title }}
                 <template #icon="{ toggle }">
                   <span class=" betaselect__caret i-ph:caret-down text-lg text-black" @click="toggle" />
                 </template>
@@ -148,7 +160,7 @@ function updateLocalTodo() {
     }
 
     &.update {
-      background: #FEFBE6;
+      background: var(--);
     }
   }
 

@@ -74,7 +74,7 @@ const optionLists = shallowRef([
     <LayoutBlur :background="state.category.value.color.hex" />
     <LeftPanel class="md:block hidden" />
     <div class="py-2 overflow-y-scroll">
-      <div class="border border-blue mx-auto max-w-2xl">
+      <div class="mx-auto max-w-2xl">
         <router-view />
       </div>
     </div>

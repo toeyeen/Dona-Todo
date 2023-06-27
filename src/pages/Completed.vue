@@ -18,8 +18,8 @@ const value = ref({ name: 'No List', language: 'JavaScript' })
 
   <EmptyTodo v-if="completed.length < 1" message="Empty todo" />
 
-  <TodoDrawer :is-edit-drawer="isEditDrawer" :todo="todoToEdit" @close-todo-drawer="isEditDrawer = false"
-    @delete="deleteTodo" />
+  <TodoDrawer v-if="isEditDrawer" :is-edit-drawer="isEditDrawer" :todo="todoToEdit"
+    @close-todo-drawer="isEditDrawer = false" @delete="deleteTodo" />
 </template>
 
 <style scoped>

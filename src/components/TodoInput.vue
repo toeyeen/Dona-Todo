@@ -317,51 +317,55 @@ function onChange(value) {
 </script>
 
 <template>
-  <div ref="inputArea">
-    <div :class="textAreaBg"
-      class="z-5 relative rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2 min-h-12">
-      <div class="left-input items-center flex flex-[1_1_70%]">
-        <DCheckBox ref="checkBoxRef" :model-value="todoStatus" class="checkbox-animate" @on-change="onChange" />
-        <ContentEditable ref="taskRef" v-model="todo" placeholder="Enter Todo here" :class="textAreaBg"
-          class="px-2 text-black w-full focus:outline-none " :data-suffix="suffix" @input="adjustTextAreaHeight"
-          @keydown.enter="submit({
-              id: uuidv4(),
-              title: todo,
-              status: !todoStatus ? 'inProgress' : 'completed',
-              dueDate: formatInputDate(dueDate),
-              category: vCat ? [vCat] : unComputedCategory,
-              description: '',
-            }, $event)" @focus="taskFocused = true" />
-      </div>
-
-      <div v-if="taskFocused === true" class="right-input items-center flex justify-end flex-auto ">
-        <div>
-          <li v-if="!showDateInput" class="i-carbon-calendar w-5 h-5" @click="showDateBtn" />
-          <input v-if="showDateInput" id="" v-model="dueDate" type="date" name="">
+  <div>
+    <div ref="inputArea">
+      <div :class="textAreaBg"
+        class="z-5 relative rounded-xl drop-shadow w-full flex items-center justify-between px-2  py-2 min-h-12">
+        <div class="left-input items-center flex flex-[1_1_70%]">
+          <DCheckBox ref="checkBoxRef" :model-value="todoStatus" class="checkbox-animate" @on-change="onChange" />
+          <ContentEditable ref="taskRef" v-model="todo" placeholder="Enter Todo here" :class="textAreaBg"
+            class="px-2 text-black w-full focus:outline-none " :data-suffix="suffix" @input="adjustTextAreaHeight"
+            @keydown.enter="submit({
+                id: uuidv4(),
+                title: todo,
+                status: !todoStatus ? 'inProgress' : 'completed',
+                dueDate: formatInputDate(dueDate),
+                category: vCat ? [vCat] : unComputedCategory,
+                description: '',
+              }, $event)" @focus="taskFocused = true" />
         </div>
-        <span class="flex">
-          <DSelect v-model="vCat" track-by="title" label="title" :custom-label="nameWithNum" :options="categories"
-            :max-height="200" style="width: 100px" :dropdown-style="{ width: '140px' }">
 
-            <template #icon="{ toggle }">
-              <span class=" betaselect__caret i-ph:caret-down text-lg text-black" @click="toggle" />
-            </template>
-          </DSelect>
-        </span>
-      </div>
+        <div v-if="taskFocused === true" class="right-input items-center flex justify-end flex-auto ">
+          <div>
+            <li v-if="!showDateInput" class="i-carbon-calendar w-5 h-5" @click="showDateBtn" />
+            <input v-if="showDateInput" id="" v-model="dueDate" type="date" name="">
+          </div>
+          <span class="flex">
+            <DSelect v-model="vCat" track-by="title" label="title" :custom-label="nameWithNum" :options="categories"
+              :max-height="200" style="width: 160px" :dropdown-style="{ width: '180px' }">
 
-      <div v-else class="flex gap-x-1">
-        <SubtleBg>
-          <span class="text-base">⌘</span>
-        </SubtleBg>
-        <SubtleBg>
-          <span class="text-base">E</span>
-        </SubtleBg>
+              <template #icon="{ toggle }">
+                <span class=" betaselect__caret i-ph:caret-down text-lg text-black" @click="toggle" />
+              </template>
+            </DSelect>
+          </span>
+        </div>
+
+        <div v-else class="flex gap-x-1">
+          <SubtleBg>
+            <span class="text-base">⌘</span>
+          </SubtleBg>
+          <SubtleBg>
+            <span class="text-base">E</span>
+          </SubtleBg>
+        </div>
       </div>
     </div>
-  </div>
 
-  <p> {{ wordCount }} / 70 </p>
+    <div class="flex justify-end mt-2">
+      {{ wordCount }} / 70
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>

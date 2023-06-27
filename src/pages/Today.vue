@@ -21,8 +21,8 @@ const route = useRoute()
     </ul>
 
     <EmptyTodo v-if="todosDueToday.length < 1" message="Empty todo" />
-    <TodoDrawer :is-edit-drawer="isEditDrawer" :todo="todoToEdit" @close-todo-drawer="isEditDrawer = false"
-      @delete="deleteTodo" />
+    <TodoDrawer v-if="isEditDrawer" :is-edit-drawer="isEditDrawer" :todo="todoToEdit"
+      @close-todo-drawer="isEditDrawer = false" @delete="deleteTodo" />
   </div>
 </template>
 

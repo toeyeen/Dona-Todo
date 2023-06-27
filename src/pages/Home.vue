@@ -49,9 +49,9 @@ onBeforeMount(() => {
         :value="todo.title" @duplicate="duplicateTodo" @delete="deleteTodo" @edit="openEditDrawer" />
     </ul>
   </div>
+  <TodoDrawer v-if="isEditDrawer" :is-edit-drawer="isEditDrawer" :todo="todoToEdit"
+    @close-todo-drawer="isEditDrawer = false" @delete="deleteTodo" />
 
-  <TodoDrawer :is-edit-drawer="isEditDrawer" :todo="todoToEdit" @close-todo-drawer="isEditDrawer = false"
-    @delete="deleteTodo" />
   <!-- <DDrawer :visible="isEditDrawer" :closable="true" @close="isEditDrawer = false">
     <template #header>
     </template>

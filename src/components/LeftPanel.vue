@@ -84,7 +84,7 @@ onMounted(() => { })
           <span>Home</span>
         </div>
 
-        <span class="text-xs "> {{ totalTodos }} </span>
+        <span class="text-xs bg-gray-200 text-gray-500 rounded-md px-1"> {{ totalTodos }} </span>
       </router-link>
     </ul>
 
@@ -95,7 +95,7 @@ onMounted(() => { })
         <span>Today</span>
       </span>
 
-      <span class="text-xs "> {{ totalDueTodayTodos }} </span>
+      <span class="text-xs bg-gray-200 text-gray-500 rounded-md px-1"> {{ totalDueTodayTodos }} </span>
     </router-link>
 
     <router-link to="/Completed"
@@ -105,13 +105,13 @@ onMounted(() => { })
         <span>Completed</span>
       </span>
 
-      <span class="text-xs "> {{ completed.length }} </span>
+      <span class="text-xs bg-gray-200 text-gray-500 rounded-md px-1"> {{ completed.length }} </span>
     </router-link>
 
     <router-link v-for="cat, idx in state.categories.value" :key="idx" :to="{ path: `/groups/${cat.title}` }"
       class="flex justify-between items-center px-4 py-3  rounded-lg hover: cursor-pointer hover:shadow-sm hover:bg-tertiary">
       <span class="flex items-center gap-2">
-        <div v-if="cat.color.hex" class="i-custom:logo w-4 h-4 fill-current text-[#008FFD]"
+        <div v-if="cat.color.hex" class="i-custom:logo min-w-4 min-h-4 fill-current text-[#008FFD]"
           :style="{ color: cat.color.hex }" />
 
         <button v-if="cat.color.unified" class=" emoji-category__button panel"
@@ -123,7 +123,7 @@ onMounted(() => { })
         }) }} </span>
       </span>
 
-      <span class="text-xs bg-gray-200 text-gray-500 rounded px-1"> {{
+      <span class="text-xs bg-gray-200 text-gray-500 rounded-md px-1"> {{
         getCategoryLength(cat.title) ? getCategoryLength(cat.title) : 0 }}
       </span>
     </router-link>

@@ -222,7 +222,7 @@ function addSelectStyle(index: number, option: string) {
   return {
     // 'betaselect__option--highlight': index === this.pointer && this.showPointer,
     // 'betaselect__element--selected': this.isSelected(option),
-    'i-carbon:checkmark-filled text-green-500': this.isSelected(option),
+    'i-carbon:checkmark': this.isSelected(option),
     // 'betaselect--element--disabled': option.$isDisabled,
   }
 }
@@ -299,6 +299,9 @@ onMounted(() => {
   position: relative;
   display: block;
   min-height: 32px;
+  // text-overflow: ellipsis;
+  // white-space: nowrap;
+  // overflow: hidden;
 
   &__container {
     min-height: 32px;
@@ -308,6 +311,10 @@ onMounted(() => {
     background-color: #fff;
     display: block;
     font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
   }
 
   &,
@@ -399,6 +406,7 @@ onMounted(() => {
     &>ul {
       list-style: none;
       min-width: 100%;
+
     }
   }
 
@@ -407,6 +415,9 @@ onMounted(() => {
     padding: 10px;
     display: flex;
     align-items: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
 
     &.left {
       column-gap: 8px;

@@ -56,11 +56,10 @@ function setTheme(theme: BasicColorSchema | 'black') {
 </script>
 
 <template>
-  <!--         :style="[isActive === item.slug ? `transform: translateX(${(item.id - 1) * 100}%)` : '']"
- -->
+  <!--         :style="[isActive === item.slug ? `transform: translateX(${(item.id - 1) * 100}%)` : '']" -->
   <div id="theme">
-    <label for="">Theme</label>
-    <ul class="grid grid-cols-3 border py-1 bg-primary">
+    <label for="theme" class="text-xs">Theme</label>
+    <ul class="grid grid-cols-3  py-1 bg-primary">
       <li v-for=" item in optionLists" :key="item.id" class="cursor-pointer rounded-md"
         :class="[isActive === item.slug ? 'is-active bg-cardHover' : '']" @click="setTheme(item.slug)">
         <span class="rounded-md flex justify-center items-center gap-x-1">

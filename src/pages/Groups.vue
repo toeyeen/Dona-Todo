@@ -26,19 +26,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex gap-3 items-center mb-4" />
+  <div>
+    <div class="flex gap-3 items-center mb-4" />
 
-  <TodoInput />
+    <TodoInput />
 
-  <ul class="flex flex-col gap-y-1 overflow-y-scroll">
-    <TodoItem v-for="todo in todos" :id="todo.id" :key="todo.id" :todo="todo" :status="todo.status" :value="todo.title"
-      @duplicate="duplicateTodo" @delete="deleteTodo" @edit="openEditDrawer" />
-  </ul>
+    <ul class="flex flex-col gap-y-1 overflow-y-scroll">
+      <TodoItem v-for="todo in todos" :id="todo.id" :key="todo.id" :todo="todo" :status="todo.status" :value="todo.title"
+        @duplicate="duplicateTodo" @delete="deleteTodo" @edit="openEditDrawer" />
+    </ul>
 
-  <EmptyTodo v-if="todos.length < 1" message="Empty todo" />
+    <EmptyTodo v-if="todos.length < 1" message="Empty todo" />
 
-  <TodoDrawer :is-edit-drawer="isEditDrawer" :todo="todoToEdit" @close-todo-drawer="isEditDrawer = false"
-    @delete="deleteTodo" />
+    <TodoDrawer v-if="isEditDrawer" :is-edit-drawer="isEditDrawer" :todo="todoToEdit"
+      @close-todo-drawer="isEditDrawer = false" @delete="deleteTodo" />
+  </div>
 </template>
 
 <style lang="scss">
